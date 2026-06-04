@@ -1,0 +1,37 @@
+---
+title: "The Shifting Peak: Analyzing Diurnal Maximum Temperature Trends in Épinal (Grand Est, France)"
+author: "Rong Martin-Siebler ZHOU"
+date: last-modified
+format:
+  pdf:
+    documentclass: article
+    papersize: a4
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    cite-method: natbib
+    keep-tex: false
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+bibliography: bibliography.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/nature.csl
+lang: en
+---
+
+{{< include abstract.qmd >}}
+
+{{< include introduction.qmd >}}
+
+{{< include methods.qmd >}}
+
+{{< include results.qmd >}}
+
+{{< include discussion.qmd >}}
+
+{{< include conclusion.qmd >}}
+
+{{< include references.qmd >}}
+
+{{< include supplementary.qmd >}}

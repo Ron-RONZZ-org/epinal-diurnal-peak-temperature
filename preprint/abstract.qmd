@@ -1,0 +1,29 @@
+## Abstract
+
+**Background**: The diurnal temperature cycle is fundamental to ecology,
+agriculture, and human health. While changes in diurnal temperature
+*range* (DTR) are well documented, shifts in the *timing* (phase) of the
+daily maximum temperature remain poorly characterized at local scales.
+
+**Methods**: Using 40 years (1986--2025) of hourly temperature records
+from the M{\'e}t{\'e}o-France RADOME station at {\'E}pinal, France
+(48.21{\textdegree}N, 6.45{\textdegree}E), we extracted the clock hour
+of daily maximum temperature and modelled its long-term trend using a
+von Mises circular regression by direct maximum likelihood (Fisher \&
+Lee 1992). Confidence intervals were obtained from 1\,000 bootstrap
+resamples. We evaluated eight pre-registered sensitivity variants
+including alternative tie-breaking rules, subsampling schemes, and
+amplitude thresholds, as well as exploratory seasonal stratifications.
+
+**Results**: The primary analysis revealed a shift of [\beta] hours per
+decade (95 \% bootstrap CI: [lower], [upper]), indicating that the
+daily temperature peak at {\'E}pinal has occurred [later/earlier] over
+the study period. The trend was robust across most sensitivity variants.
+Seasonal sub-analyses suggested [summary of seasonal patterns].
+
+**Conclusions**: The clock hour of daily maximum temperature at
+{\'E}pinal has [shifted/not shifted] measurably over the past four
+decades. These results provide local-scale evidence consistent with
+recent global findings of a systematic shift in the diurnal temperature
+phase, with implications for heat-health预警 systems, crop modelling,
+and building energy demand forecasting.
