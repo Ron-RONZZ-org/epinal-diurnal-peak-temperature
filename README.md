@@ -33,6 +33,11 @@ This project is managed on the **Open Science Framework (OSF)**. The Git reposit
 
 ## License
 
-All project materials are released under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
+This repository is **dual-licensed** depending on the material type:
+
+| Component | License | File |
+|-----------|---------|------|
+| **Source code** (Python scripts, `code/`) | **MIT** | [`LICENSE`](LICENSE) |
+| **Non-software materials** (data, figures, report, documentation) | **Creative Commons Attribution 4.0 International (CC BY 4.0)** | [`LICENSE.content`](LICENSE.content) |
 
 [![CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
