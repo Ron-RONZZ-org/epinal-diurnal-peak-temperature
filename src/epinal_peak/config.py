@@ -55,6 +55,18 @@ class EpinalPeakConfig:
     """Minimum diurnal temperature range (°C) for a valid day.
     Days with peak minus minimum temperature below this threshold
     are excluded (common instrument or radiation-error flag)."""
+    physical_temp_min: float = -30.0
+    """Minimum physically plausible hourly temperature (°C).
+    Readings below this threshold are dropped as instrument errors."""
+    physical_temp_max: float = 50.0
+    """Maximum physically plausible hourly temperature (°C).
+    Readings above this threshold are dropped as instrument errors."""
+    flatline_consecutive_hours: int = 6
+    """Number of consecutive identical hourly temperature readings
+    that trigger a flatline flag.  Indicates a stuck sensor."""
+    temporal_gap_days: int = 30
+    """Number of consecutive missing days that triggers a temporal
+    gap flag on the subsequent available data."""
 
     # ── Analysis period ───────────────────────────────────────────────
     year_start: int = 1986
