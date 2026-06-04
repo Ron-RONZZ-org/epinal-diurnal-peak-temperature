@@ -26,11 +26,12 @@ class EpinalPeakConfig:
     """
 
     # ── Station metadata ──────────────────────────────────────────────
-    station_id: str = "07234"
-    """Metéo-France station identifier for Épinal."""
-    station_name: str = "Épinal"
-    latitude: float = 48.1833
-    longitude: float = 6.45
+    station_id: str = "88136001"
+    """Météo-France RADOME station identifier for Épinal."""
+    station_name: str = "EPINAL"
+    """Official Météo-France station name (uppercase)."""
+    latitude: float = 48.210833
+    longitude: float = 6.451667
     elevation_m: int = 317
     timezone: str = "Europe/Paris"
     """IANA timezone string.  CET/CEST handled by ``zoneinfo``."""
@@ -52,9 +53,12 @@ class EpinalPeakConfig:
     """Minimum years of data required for meaningful trend analysis."""
 
     # ── Analysis period ───────────────────────────────────────────────
-    year_start: int = 1950
-    """First calendar year to include in analysis."""
-    year_end: int = 2024
+    year_start: int = 1986
+    """First calendar year to include in analysis.
+    Station MF88136001 (Épinal) opened 1 June 1986 — no sub-daily data
+    exists before this date.
+    """
+    year_end: int = 2025
     """Last calendar year to include in analysis (inclusive)."""
 
     # ── Peak extraction ───────────────────────────────────────────────
