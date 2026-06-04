@@ -16,7 +16,7 @@ Whereas existing research has predominantly examined *regional warming trends*, 
    - Conversion of UTC timestamps to local time (CET/CEST).
    - Extraction, for each calendar day, of the hour corresponding to the highest recorded temperature.
 
-3. **Analysis & Visualization** — A **von Mises circular GLM** (via direct MLE with `scipy.optimize.minimize`) models the trend (β hours/decade) with bootstrap confidence intervals. A power analysis notebook determines the minimum detectable effect size from the real data.
+3. **Analysis & Visualization** — A **von Mises circular GLM** (via direct MLE with `scipy.optimize.minimize`) models the trend (β hours/decade) with bootstrap confidence intervals. A **year × season interaction test** (likelihood-ratio, χ² with 3 df) gates per-season inference, with Benjamini-Hochberg FDR correction across the four meteorological seasons. A power analysis notebook determines the minimum detectable effect size from the real data.
 
 ## Current Status
 
@@ -28,7 +28,7 @@ Whereas existing research has predominantly examined *regional warming trends*, 
 - **M4**: Power analysis — von Mises regression on real data, analytic power curves (this notebook)
 
 ### In progress
-- **M5**: Full analysis suite — bootstrap CIs, sensitivity analysis
+- **M5**: Full analysis suite — bootstrap CIs, sensitivity analysis, year × season interaction test (completed)
 - **M6**: Publication-quality figures
 - **M7**: Manuscript
 
