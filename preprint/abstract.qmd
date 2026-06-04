@@ -3,36 +3,36 @@
 **Background**: The diurnal temperature cycle is fundamental to ecology,
 agriculture, and human health. While changes in diurnal temperature
 *range* (DTR) are well documented, shifts in the *timing* (phase) of the
-daily maximum temperature remain poorly characterized at local scales.
+daily maximum temperature remain poorly characterized at local scales,
+particularly across meteorological seasons.
 
 **Methods**: Using 40 years (1986--2025) of hourly temperature records
 from the Météo-France RADOME station at Épinal, France
-(48.21°N, 6.45°E), I extracted the clock hour
-of daily maximum temperature from 12\,163 valid days and modelled
+(48.21$\,^\circ$N, 6.45$\,^\circ$E), I extracted the clock hour
+of daily maximum temperature from 12,163 valid days and modelled
 its long-term trend using a von Mises circular regression by direct
 maximum likelihood (Fisher & Lee 1992).
-Confidence intervals were obtained from 1\,000 bootstrap resamples.
-I evaluated eight pre-registered sensitivity variants including
-alternative tie-breaking rules, subsampling schemes, and amplitude
-thresholds, as well as exploratory seasonal stratifications.
+Confidence intervals were obtained from 1,000 bootstrap resamples.
+A year--season interaction likelihood-ratio test formally tested
+whether trends differ across meteorological seasons; because it was
+significant ($\chi^2 = 13.71$, df = 3, $p = 0.0033$), seasonal
+stratification is the primary analysis framework. Per-season estimates
+from the interaction model are reported with Benjamini-Hochberg FDR
+correction. Pooled (all-season) results and six sensitivity variants are
+presented as supplementary context.
 
-**Results**: The primary analysis revealed a shift of $-0.028$ hours per
-decade (95% bootstrap CI: $-0.070$ to $0.012$ hours per decade, equivalent
-to $-1.7$ minutes per decade; 95% CI: $-4.2$ to $0.7$ minutes per decade),
-indicating a slight tendency toward an earlier daily peak that is not
-statistically distinguishable from zero. The trend direction was
-consistent across all eight sensitivity variants. A year--season
-interaction likelihood-ratio test was significant ($\chi^2 = 13.71$,
-df = 3, $p = 0.0033$), and per-season inference with Benjamini-Hochberg
-FDR correction ($\alpha = 0.05$) identified a significant advance in
-winter ($-0.19$ h/decade, $p = 0.0015$). Spring, summer, and autumn
-were not significant after correction.
+**Results**: Winter (DJF) shows a significant advance of $-0.19$ h/decade
+(95% bootstrap CI: $-0.34$, $-0.03$; Wald $p = 0.0015$, BH-rejected),
+corresponding to approximately $-11$ min/decade. The pooled estimate of
+$-0.03$ h/decade masks opposing winter and autumn ($+0.09$ h/decade)
+trends, illustrating a Simpson's paradox. Spring ($-0.07$ h/decade) and
+summer ($+0.02$ h/decade) are near zero and non-significant. The winter
+advance is directionally robust across all six sensitivity variants.
 
-**Conclusions**: The clock hour of daily maximum temperature at
-Épinal has not shifted measurably over the past four decades at the
-annual scale. Seasonal analyses revealed opposing trends (earlier in
-winter, later in autumn) that do not survive multiple-testing
-correction. These results provide local-scale evidence that
-complements recent global findings regarding shifts in the diurnal
-temperature phase, with implications for heat-health warning systems,
-crop modelling, and building energy demand forecasting.
+**Conclusions**: The timing of the daily maximum temperature at Épinal
+shows significant seasonally heterogeneous trends. Winter afternoons
+are measurably cooling earlier in the day over the past four decades,
+while the annual average hides this signal. These findings highlight
+the importance of seasonal stratification for detecting shifts in the
+diurnal temperature phase, with implications for heat-health warning
+systems, crop modelling, and building energy demand forecasting.

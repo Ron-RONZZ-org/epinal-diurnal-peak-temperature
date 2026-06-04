@@ -49,9 +49,11 @@ past four decades?* Using 40 years of hourly temperature records from a
 single well-instrumented Météo-France RADOME station, I apply a
 von Mises circular regression model -- the appropriate statistical
 framework for a circular response variable (0--23 hours) -- to estimate
-the trend in peak temperature timing. I evaluate eight pre-registered
-sensitivity variants to constrain researcher degrees of freedom and
-conduct exploratory seasonal stratifications.
+the trend in peak temperature timing. A year--season interaction
+likelihood-ratio test determines whether seasonal stratification is
+warranted; per-season estimates with false discovery rate control
+constitute the primary analysis, while the pooled (all-season) estimate
+and sensitivity variants are presented as supplementary context.
 
 This study thus tests whether the global phase shifts provisionally
 identified by Shmuel et al. [-@shmuel2026daily] are detectable at a

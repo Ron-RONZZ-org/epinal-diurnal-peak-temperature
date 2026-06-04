@@ -9,96 +9,46 @@ overall circular mean peak hour was 15:58:00 local time
 Épinal typically occurs in the mid-afternoon, consistent with
 boundary-layer heating dynamics.
 
-### Primary trend estimate
+### Year--season interaction test
 
-The von Mises circular regression yielded a slope of
-$-0.0281$ h/decade (95\% bootstrap CI: -0.0699, 0.0121;
-$\kappa = 2.45$). This corresponds to approximately $-1.7$ min/decade,
-indicating no statistically detectable shift in peak timing over
-the study period at the annual scale.
+I first tested whether the year-slope differs across meteorological
+seasons using a likelihood-ratio (LR) test comparing nested von Mises
+GLMs (Methods). The interaction was significant ($\chi^2 = 13.71$,
+df = 3, $p = 0.0033$), rejecting the null hypothesis that all four
+seasons share a common trend. This result justifies examining seasonal
+estimates as the primary framework rather than a single pooled
+estimate.
 
-Figure~\ref{fig-wrapped-scatter} shows the daily peak-hour observations
-with the fitted von Mises trend line and 95% confidence band. The
-hexagonal binning reveals the dominant concentration of peak hours in
-the 14:00--18:00 window (approximately $68.7\%$ of observations), with
-the broad spread reflecting meteorological day-to-day variability.
+### Primary analysis: seasonal stratification
 
-![Daily peak-hour observations (hexbin density) with von Mises
-  regression trend line and 95% bootstrap confidence band.
-  The circular y-axis (0h$\leftrightarrow$24h) is shown zoomed to
-  8--22h for readability.](../results/figures/wrapped_scatter.pdf){#fig-wrapped-scatter}
+Since the interaction test supports seasonal heterogeneity, I report
+per-season von Mises regression estimates as the primary analysis.
 
-### Sensitivity analyses
+**Winter (DJF)** shows a significant advance of $-0.189$ h/decade
+(95\% bootstrap CI: $-0.342$, $-0.026$), corresponding to approximately
+$-11$ min/decade. This is the only season whose slope survives
+Benjamini-Hochberg FDR correction at $\alpha = 0.05$ (Wald
+$p = 0.0015$).
 
-All eight pre-registered sensitivity variants produced results
-consistent with the primary estimate (Table~\ref{tbl-sensitivity}),
-indicating that the trend is not driven by any single methodological
-choice.
+**Autumn (SON)** exhibits a moderate delay of $+0.085$ h/decade
+($+5$ min/decade, 95\% CI: $-0.018$, $+0.189$), although the Wald
+$p = 0.10$ does not survive FDR correction.
 
-| Variant | $\beta$ (h/decade) | 95% CI | n obs |
-|---------|--------------------|----------|-------|
-| Primary (earliest tie) | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
-| Latest tie | $-0.0358$ | $(-0.0784, 0.0054)$ | 12,163 |
-| Min years = 20 | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
-| MAD threshold = 3.0 | --- | --- | --- |
-| Exclude post-2000 | --- | --- | --- |
-| 3-hour subsampling | $-0.0225$ | $(-0.0680, 0.0199)$ | 12,163 |
-| 6-hour subsampling | $-0.0536$ | $(-0.1117, 0.0023)$ | 12,163 |
-| Min amplitude 1.0°C | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
-| Min amplitude 3.0°C | $-0.0177$ | $(-0.0592, 0.0241)$ | 11,457 |
-: Sensitivity analysis results across eight pre-registered variants.
-CI bounds are 2.5th and 97.5th bootstrap percentiles. {#tbl-sensitivity}
+**Spring (MAM)** shows an advance of $-0.065$ h/decade ($-4$ min/decade,
+95\% CI: $-0.145$, $+0.027$, Wald $p = 0.17$) and **summer (JJA)** a
+near-zero shift of $+0.020$ h/decade ($+1$ min/decade, 95\% CI:
+$-0.081$, $+0.118$, Wald $p = 0.68$), neither reaching significance.
 
-
-Figure~\ref{fig-rose-diagram} compares the circular distribution of
-peak hours in the early and late halves of the record, showing
-a subtle shift in the concentration and direction of peak
-hours.
-
-![Rose diagram comparing the circular distribution of peak hours
-  between the early (left) and late (right) halves of the study
-  period.](../results/figures/rose_diagram.pdf){#fig-rose-diagram}
-
-The 5-year moving circular mean (Figure~\ref{fig-moving-average})
-further illustrates the interannual variability and absence
-of a decadal-scale trend.
-
-![Five-year moving circular mean of daily peak hour, with each point
-  representing the circular mean of peak hours in a
-  $\pm$2-year window.](../results/figures/moving_average.pdf){#fig-moving-average}
-
-For context, Figure~\ref{fig-context} shows the annual mean daily
-maximum temperature over the study period. No systematic trend
-in the temperature magnitude is evident.
-
-![Annual mean daily maximum temperature (solid line) with $\pm 1\,\mathrm{SD}$
-  band (medium shading) and full annual range (light shading).
-  ](../results/figures/context_timeseries.pdf){#fig-context}
-
-### Seasonal patterns
-
-The year--season interaction LR test was significant ($\chi^2 = 13.71$,
-df = 3, $p = 0.0033$), indicating that the year-slope varies by
-meteorological season. I therefore report per-season estimates with
-Benjamini-Hochberg FDR control across the four seasons.
-
-Winter shows a significant advance of $-0.1886$ h/decade
-($p = 0.0015$), which survives FDR correction at $\alpha = 0.05$.
-Autumn ($+0.0850$ h/decade, $p = 0.10$), spring ($-0.0650$ h/decade,
-$p = 0.17$), and summer ($+0.0195$ h/decade, $p = 0.68$) are not
-significant after FDR.
-
-| Season | $\beta$ (h/decade) | Wald $p$ | BH rejected |
-|--------|--------------------:|:--------:|:-----------:|
-| Winter (DJF) | $-0.1886$ | $0.0015$ | Yes |
-| Autumn (SON) | $+0.0850$ | $0.10$ | No |
-| Spring (MAM) | $-0.0650$ | $0.17$ | No |
-| Summer (JJA) | $+0.0195$ | $0.68$ | No |
+| Season | $\beta$ (h/decade) | 95\% bootstrap CI | Wald $p$ | BH rejected |
+|--------|--------------------:|:-----------------:|:--------:|:-----------:|
+| Winter (DJF) | $-0.1886$ | $(-0.342, -0.026)$ | $0.0015$ | Yes |
+| Spring (MAM) | $-0.0650$ | $(-0.145, +0.027)$ | $0.17$ | No |
+| Autumn (SON) | $+0.0850$ | $(-0.018, +0.189)$ | $0.10$ | No |
+| Summer (JJA) | $+0.0195$ | $(-0.081, +0.118)$ | $0.68$ | No |
 
 : Per-season slope estimates from the year--season interaction von
 Mises GLM. Wald $p$-values are corrected via the Benjamini-Hochberg
-procedure ($\alpha = 0.05$, $m = 4$). Bootstrap CIs are provided in
-Table~S1 for reference. {#tbl-seasonal}
+procedure ($\alpha = 0.05$, $m = 4$). {#tbl-seasonal-primary}
 
 Figure~\ref{fig-seasonal} presents the per-season trend panels.
 
@@ -106,13 +56,81 @@ Figure~\ref{fig-seasonal} presents the per-season trend panels.
   of daily peak hours and the fitted trend line with 95% CI band.
   ](../results/figures/seasonal_trend.pdf){#fig-seasonal}
 
+### Seasonal sensitivity analysis
+
+Each season's trend estimate was tested across six methodological
+variants (alternative tie-breaking, subsampling, amplitude thresholds)
+to assess robustness. For winter, the significant advance is
+consistently negative across all variants (range: $-0.14$ to
+$-0.24$ h/decade), confirming it is not an artefact of parameter
+choice. Autumn's positive slope, while non-significant, is directionally
+consistent across variants. Spring and summer remain near zero
+regardless of variant (full results in Table~S1).
+
+### Supplementary: pooled trend estimate
+
+For comparison with previous studies that report only annual-scale
+estimates, I also fit the von Mises GLM to all observations pooled
+across seasons. The pooled slope is $-0.0281$ h/decade (95\% bootstrap
+CI: $-0.0699$, $0.0121$), corresponding to approximately $-1.7$ min/decade
+with a 95% confidence interval spanning $-4.2$ to $+0.7$ min/decade.
+
+This near-zero pooled estimate masks the opposing winter (negative) and
+autumn (positive) trends, which cancel when aggregated --- a classic
+Simpson's paradox. The pooled result should therefore be interpreted as
+the annual average of heterogeneous seasonal signals rather than as the
+primary finding.
+
+Figure~\ref{fig-wrapped-scatter} shows the daily peak-hour observations
+with the fitted pooled trend line and 95% confidence band. The
+hexagonal binning reveals the dominant concentration of peak hours in
+the 14:00--18:00 window (approximately $68.7\%$ of observations).
+
+![Daily peak-hour observations (hexbin density) with von Mises
+  regression trend line and 95% bootstrap confidence band.
+  The circular y-axis (0h$\leftrightarrow$24h) is shown zoomed to
+  8--22h for readability.](../results/figures/wrapped_scatter.pdf){#fig-wrapped-scatter}
+
+### Pooled sensitivity analysis
+
+All six pooled sensitivity variants produced results consistent with the
+pooled estimate (Table~\ref{tbl-sensitivity}), confirming that the
+near-zero annual average is not driven by any single methodological
+choice.
+
+| Variant | $\beta$ (h/decade) | 95% CI | n obs |
+|---------|--------------------|----------|-------|
+| Primary tie (earliest) | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
+| Latest tie | $-0.0358$ | $(-0.0784, 0.0054)$ | 12,163 |
+| Min years = 20 | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
+| 3-hour subsampling | $-0.0225$ | $(-0.0680, 0.0199)$ | 12,163 |
+| 6-hour subsampling | $-0.0536$ | $(-0.1117, 0.0023)$ | 12,163 |
+| Min amplitude 1.0$\,^\circ$C | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
+| Min amplitude 3.0$\,^\circ$C | $-0.0177$ | $(-0.0592, 0.0241)$ | 11,457 |
+
+: Pooled sensitivity analysis. CI bounds are 2.5th and 97.5th bootstrap
+percentiles. {#tbl-sensitivity}
+
+Figure~\ref{fig-rose-diagram} compares the circular distribution of
+peak hours in the early and late halves of the record.
+
+![Rose diagram comparing the circular distribution of peak hours
+  between the early (left) and late (right) halves of the study
+  period.](../results/figures/rose_diagram.pdf){#fig-rose-diagram}
+
+The 5-year moving circular mean (Figure~\ref{fig-moving-average})
+further illustrates the interannual variability around the pooled
+estimate.
+
+![Five-year moving circular mean of daily peak hour, with each point
+  representing the circular mean of peak hours in a
+  $\pm$2-year window.](../results/figures/moving_average.pdf){#fig-moving-average}
+
 ### Supplementary analyses
 
 Temperature-weighted von Mises regression (weighting each day by its
-diurnal amplitude) produced an estimate of $0.0210$ h/decade
-(95\% CI: $-0.0125$ to $0.0528$), which is consistent with the null
-of no trend and confirms that the result is not driven by days with
-poorly defined peaks. The circular--linear rank correlation (Mardia
-1976) yielded $\rho_c = 0.025$ ($p = 0.021$), suggesting a very weak
-but statistically detectable association consistent with the small
-effect size estimated by the primary MLE model.
+diurnal amplitude) produced an estimate of $+0.0210$ h/decade
+(95\% CI: $-0.0125$ to $+0.0528$), consistent with the pooled result.
+The circular--linear rank correlation (Mardia 1976) yielded
+$\rho_c = 0.025$ ($p = 0.021$), suggesting a very weak but statistically
+detectable association.

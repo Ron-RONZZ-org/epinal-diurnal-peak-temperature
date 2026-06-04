@@ -1,0 +1,35 @@
+## Literature Review: Global Shifts in Diurnal Temperature Timing
+
+A growing body of research has moved beyond simple diurnal temperature range (DTR) analyses to examine the *timing* (phase) of the diurnal temperature cycle. Two large‑scale studies provide the most directly relevant methodological precedents for the present investigation of diurnal peak temperature at Épinal.
+
+### Shmuel et al. (2026): Century‑scale shifts in the diurnal cycle (conference abstract)
+
+In a recent conference presentation, Shmuel et al. [1] analysed historical hourly temperature records spanning the 1980s to the near present, documenting systematic shifts in the timing of both morning warming and afternoon cooling periods. Their key reported findings include:
+
+- Morning warming‑period temperatures occurring approximately **15 minutes earlier per decade** on a global average.
+- Afternoon cooling‑period temperatures occurring **more than 20 minutes later per decade**.
+- Under a moderate emissions scenario (SSP2‑4.5), equivalent temperatures could shift by **over three hours** by 2100 relative to late‑20th‑century baselines.
+
+These results, while presented in a conference abstract and not yet peer‑reviewed as a full journal article, establish a strong global precedent for detecting diurnal timing shifts and suggest that the phase of the diurnal cycle is not stationary—an assumption that underlies many conventional temperature analyses.
+
+### Wang and Dillon (2014): Global diurnal and annual cycle changes from 7,906 stations
+
+In a peer‑reviewed study, Wang and Dillon [2] conducted a complementary global analysis using an exceptionally large dataset: over **1.4 billion hourly measurements** from **7,906 weather stations** worldwide, covering the period 1975–2013. Their principal findings include:
+
+- Diurnal temperature variation increased by approximately **1.0 °C** in temperate regions.
+- This increase was particularly pronounced in **Europe, including France**.
+- The authors additionally documented coherent changes in the phase of the *annual* temperature cycle, suggesting that both diurnal and seasonal timing shifts are occurring in response to radiative forcing.
+
+For the present study, Wang and Dillon [2] are directly relevant because they explicitly identify France as a region where diurnal temperature variation has already changed, and because they establish rigorous methodologies for extracting phase information from sub‑daily data.
+
+### Synthesis and research gap
+
+Together, the preliminary findings reported by Shmuel et al. [1] and the peer‑reviewed evidence from Wang and Dillon [2] suggest that the diurnal temperature cycle is undergoing systematic changes in both magnitude and phase at global and continental scales. However, neither study examines the **specific clock hour of daily maximum temperature** at a **local, station‑based scale**—and neither focuses on the **Grand Est region of France** or the city of **Épinal**.
+
+The present study therefore complements these global analyses by asking a narrower but complementary question: *Has the clock hour of the daily maximum temperature at Épinal changed over the past several decades?* In doing so, it tests whether the global phase shifts provisionally identified by Shmuel et al. [1] are detectable at a single, well‑instrumented station in eastern France, using the same methodological principle of identifying the daily peak hour.
+
+## References
+
+1. Shmuel A, Greenspoon L, Mankin J, Milo R. The daily timing of a given temperature has shifted by over an hour since 1980. In: EGU General Assembly 2026; 2026 May 3-8; Vienna, Austria. Abstract EGU26-16985. doi:10.5194/egusphere-egu26-16985
+
+2. Wang G, Dillon ME. Recent geographic convergence in diurnal and annual temperature cycling flattens global thermal profiles. Nat Clim Change. 2014;4(11):988-992. doi:10.1038/nclimate2378

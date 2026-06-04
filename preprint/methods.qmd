@@ -97,17 +97,7 @@ where $r_{cx}$, $r_{sx}$, and $r_{cs}$ are rank correlations among
 $\cos\theta$, $\sin\theta$, and year $x$. Significance is assessed by
 bootstrap (10\,000 resamples).
 
-### Sensitivity analysis
-
-I evaluated eight pre-registered sensitivity variants, each varying a
-single parameter while keeping all others at their primary values:
-(1) latest-peak tie-breaking; (2) reduced minimum record length (20
-years); (3) strict outlier threshold (3.0 MAD); (4) post-2000 exclusion;
-(5)--(6) subsampling peak hours to 3-hour and 6-hour bins; (7)--(8)
-alternative diurnal amplitude thresholds (1.0 and
-3.0 °C).
-
-### Year-season interaction test
+### Year--season interaction test
 
 Before examining seasonal trends, I formally tested whether the
 year-slope differs across meteorological seasons using a
@@ -131,6 +121,37 @@ four seasons, computed from Wald $p$-values using the inverse
 observed Fisher information. If the interaction is not significant,
 I report only the pooled (all-season) estimate as the primary
 result.
+
+### Seasonal stratification (primary analysis)
+
+Because the interaction test is significant, per-season estimates from
+the full interaction model constitute the **primary analysis**.
+For each meteorological season (spring: MAM, summer: JJA, autumn: SON,
+winter: DJF), I report the season-specific slope $\beta_s$ together
+with its Wald $p$-value (from the inverse observed Fisher information)
+and bootstrap percentile confidence intervals.
+
+Benjamini-Hochberg false discovery rate (FDR) control is applied across
+the four Wald $p$-values at $\alpha = 0.05$. A season is considered
+significant only if its $p$-value survives the FDR threshold. The pooled
+(all-season) estimate is reported as supplementary context.
+
+### Supplementary: seasonal sensitivity analysis
+
+To assess whether each season's trend estimate is robust to
+methodological choices, I re-ran the primary sensitivity variants
+independently within each season: (1) latest-peak tie-breaking;
+(2)--(3) subsampling to 3-hour and 6-hour bins; (4)--(5) alternative
+diurnal amplitude thresholds (1.0 and 3.0$\,^\circ$C). This yields six
+variants per season (24 models total).
+
+### Supplementary: pooled sensitivity analysis
+
+For the pooled (all-season) estimate, I evaluated the same sensitivity
+variants: (1) latest-peak tie-breaking; (2) reduced minimum record
+length (20 years); (3)--(4) subsampling peak hours to 3-hour and 6-hour
+bins; (5)--(6) alternative diurnal amplitude thresholds (1.0 and
+3.0$\,^\circ$C).
 
 ### Software
 

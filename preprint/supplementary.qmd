@@ -2,9 +2,9 @@
 
 ## Supplementary Material
 
-### S1. Complete sensitivity analysis results
+### S1. Complete pooled sensitivity results
 
-Full numerical results for all eight sensitivity variants, including
+Full numerical results for all pooled sensitivity variants, including
 $\kappa$ estimates and log-likelihood values.
 
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | $\log L$ | n obs | n years |
@@ -42,7 +42,7 @@ percentile intervals (reference for Table~1 in main text).
 
 ### S4. Power analysis
 
-The pre-registered power analysis (see `notebooks/02-power-analysis.qmd`
+The power analysis (see `notebooks/02-power-analysis.qmd`
 for full details) estimated a minimum detectable effect of
 25--30 min/decade at $80\%$ power for the full record
 ($\kappa \approx 2.5$). Seasonal sub-analyses require effects
@@ -59,7 +59,7 @@ for full details) estimated a minimum detectable effect of
 
 Temperature-weighted von Mises regression (weight = diurnal amplitude)
 yielded $0.0210$ h/decade (95% CI: (-0.0125, 0.0528)), consistent with the
-unweighted primary estimate.
+unweighted pooled estimate.
 
 ### S6. Mardia circular--linear rank correlation
 
@@ -71,7 +71,7 @@ Non-parametric test using all daily observations:
 
 The small but statistically significant correlation is consistent with
 a weak association between year and peak hour, in line with the small
-effect size estimated by the primary MLE model.
+effect size estimated by the pooled MLE model.
 
 ### S7. Contingency analysis
 

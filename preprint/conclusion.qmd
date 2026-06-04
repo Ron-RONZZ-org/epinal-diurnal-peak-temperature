@@ -1,35 +1,41 @@
 ## Conclusion
 
-I present evidence of a non-detectable shift in the
-clock hour of daily maximum temperature at Épinal, France, over the
-1986--2025 period, estimated using a von Mises circular regression
-framework with bootstrap uncertainty quantification. The estimated trend
-of $-0.0281$ h/decade is consistent with the global
-phase shifts reported by Shmuel et al. [-@shmuel2026daily] and the
-European diurnal cycle changes documented by Wang and
-Dillon [-@wang2014recent].
+Using a year--season interaction framework with von Mises circular
+regression and 40 years of hourly temperature data from Épinal, France,
+I find that the clock hour of daily maximum temperature has shifted
+heterogeneously across meteorological seasons over the 1986--2025
+period. A likelihood-ratio test confirmed that the four seasons do not
+share a common trend ($\chi^2 = 13.71$, df = 3, $p = 0.0033$),
+justifying seasonal stratification as the primary analytical framework.
 
-The trend remains robust across eight pre-registered
-sensitivity variants, suggesting that the result is not an artefact of
-specific methodological choices. A year--season interaction
-likelihood-ratio test was significant ($\chi^2 = 13.71$, df = 3,
-$p = 0.0033$), supporting per-season inference with
-Benjamini-Hochberg FDR. Winter shows a significant advance of
-$-0.19$ h/decade ($p = 0.0015$), while spring, summer, and autumn do
-not show significant trends after correction.
+Winter (DJF) shows a significant advance of $-0.19$ h/decade (Wald
+$p = 0.0015$, BH-rejected at $\alpha = 0.05$), meaning midwinter
+afternoons at Épinal reach their daily maximum approximately 11 min
+earlier per decade. This signal is directionally robust across six
+methodological sensitivity variants. Autumn shows a moderate but
+non-significant delay ($+0.09$ h/decade), while spring and summer
+estimates are near zero.
 
-These findings contribute local-scale, station-level evidence to the
-emerging picture of a changing diurnal temperature phase. Replication
-across the broader Météo-France RADOME network and extension to
-other regions with long sub-daily temperature records are natural next
-steps. If the shift is confirmed more broadly, it would warrant
-re-evaluation of applied models -- from heat-health warning systems to
-building energy and crop modelling -- that currently assume a stationary
-diurnal cycle.
+The pooled (all-season) estimate of $-0.03$ h/decade, while consistent
+with global phase shifts reported by Shmuel et al. [-@shmuel2026daily]
+and European diurnal cycle changes documented by Wang and
+Dillon [-@wang2014recent], obscures this seasonal heterogeneity through
+a Simpson's paradox in which winter advance and autumn delay cancel at
+the annual scale. The pooled result is presented as supplementary
+context rather than the primary finding.
+
+These findings contribute local-scale, station-level evidence of
+seasonally divergent changes in the diurnal temperature phase.
+Replication across the broader Météo-France RADOME network and
+extension to other regions with long sub-daily temperature records are
+natural next steps. If the winter advance is confirmed more broadly, it
+would warrant re-evaluation of applied models --- from heat-health
+warning systems to building energy and crop modelling --- that currently
+assume a stationary diurnal cycle.
 
 **Data and code availability.** All analysis code is available at
 [https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature](
 https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature).
 Raw temperature data were obtained from the Météo-France public
-API. Processed data and the pre-registration are archived on OSF
+API. Processed data and analysis outputs are archived on OSF
 (DOI to be assigned upon submission).

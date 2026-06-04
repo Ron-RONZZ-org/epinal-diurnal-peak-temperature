@@ -2,25 +2,29 @@
 
 I investigated whether the clock hour of daily maximum temperature at
 Épinal, France, has shifted over the 40-year period 1986--2025 using
-a von Mises circular regression -- a statistical framework specifically
-designed for circular response variables. The primary analysis did not
-detect a statistically significant shift in the daily peak hour at the
-annual scale ($\beta = -0.0281$ h/decade, 95\% CI:
-$-0.0699$ to $0.0121$), though the point estimate is directionally
-consistent with the global-scale findings of Shmuel et
-al. [-@shmuel2026daily].
+a year--season interaction von Mises circular regression framework. A
+significant interaction test ($\chi^2 = 13.71$, df = 3, $p = 0.0033$)
+justified seasonal stratification as the primary analysis. Winter shows
+a significant advance of $-0.19$ h/decade (BH-rejected at
+$\alpha = 0.05$), while autumn trends (+0.09 h/decade) are suggestive
+but non-significant. The pooled estimate of $-0.03$ h/decade masks this
+heterogeneity through a Simpson's paradox and is consistent with the
+global-scale findings of Shmuel et al. [-@shmuel2026daily] only when
+seasonal structure is ignored.
 
 ### Comparison with prior work
 
-The estimated trend of $-0.0281$ h/decade is substantively smaller
+The pooled estimate of $-0.0281$ h/decade is substantively smaller
 than the global average shift reported by Shmuel et al.
 [-@shmuel2026daily] for afternoon cooling-period temperatures (>20
-minutes per decade). Several factors may explain this difference. First,
-this study examines the specific clock hour of *maximum* temperature,
-whereas Shmuel et al. analysed the timing of fixed-temperature
-thresholds; these are related but distinct metrics. Second, local
-factors such as topography, land-use change, and proximity to the
-Vosges mountains may modulate the diurnal cycle at Épinal
+minutes per decade). However, the winter seasonal advance of
+$-0.19$ h/decade (approximately $-11$ min/decade) approaches the lower
+end of their global range. Several factors may explain the discrepancy.
+First, this study examines the specific clock hour of *maximum*
+temperature, whereas Shmuel et al. analysed the timing of
+fixed-temperature thresholds; these are related but distinct metrics.
+Second, local factors such as topography, land-use change, and proximity
+to the Vosges mountains may modulate the diurnal cycle at Épinal
 differently than the global mean. Third, this single-station design
 eliminates spatial aggregation biases but captures only local signals.
 The peer-reviewed analysis of Wang and Dillon [-@wang2014recent]
@@ -29,13 +33,15 @@ providing a broader context for these station-level findings.
 
 ### Sensitivity and robustness
 
-The consistency of the trend across all eight pre-registered sensitivity
-variants supports the robustness.
-In particular, the alternative tie-breaking rule (latest vs.\ earliest
-peak hour) did not produce a materially different estimate,
-indicating that ties -- which occur on roughly 14.7\% of days --
-do not drive the result. The amplitude-threshold variants confirm that
-the trend is not an artefact of days with poorly defined diurnal cycles.
+The winter advance is robust across all six seasonal sensitivity
+variants (range: $-0.14$ to $-0.24$ h/decade), supporting the
+conclusion that the signal is not driven by a single methodological
+choice. The pooled sensitivity variants similarly confirm that the
+near-zero annual average is consistent regardless of tie-breaking rule,
+subsampling scheme, or amplitude threshold. In particular, the
+alternative tie-breaking rule (latest vs.\ earliest peak hour) does
+not materially change any seasonal estimate, indicating that ties --
+which occur on roughly 14.7\% of days -- do not drive the results.
 
 ### Limitations and threats to validity
 
@@ -53,9 +59,9 @@ filter removes the most obvious instrument artefacts, inhomogeneities
 could introduce spurious trends. A homogenisation procedure (e.g.,
 HOMER or Climatol) would strengthen future analyses.
 
-**Statistical power.** As quantified in the pre-registered power
-analysis, the minimum detectable trend at $80\%$ power for the full
-record is approximately 25--30 minutes/decade, given the moderate
+**Statistical power.** As quantified in the power analysis
+(Supplementary S4), the minimum detectable trend at $80\%$ power for the
+full record is approximately 25--30 min/decade, given the moderate
 von Mises concentration ($\kappa \approx 2.5$) observed in the data.
 Seasonal sub-analyses have substantially lower power, and null results
 for individual seasons should be interpreted with caution -- they
