@@ -5,26 +5,26 @@
 After quality control filtering, 12,163 valid observation-days across
 35 calendar years (1986--2025) were available for analysis. The
 overall circular mean peak hour was 15:58:00 local time
-(circular~SD~ = 2.84~h~), confirming that the daily maximum at
+(circular SD = 2.84 h), confirming that the daily maximum at
 Épinal typically occurs in the mid-afternoon, consistent with
 boundary-layer heating dynamics.
 
 ### Primary trend estimate
 
 The von Mises circular regression yielded a slope of
--0.0281~h/decade~ (95\% bootstrap CI: -0.0699, 0.0121;
-$\kappa = 2.45$). This corresponds to approximately -1.7~min/decade~,
+$-0.0281$ h/decade (95\% bootstrap CI: -0.0699, 0.0121;
+$\kappa = 2.45$). This corresponds to approximately $-1.7$ min/decade,
 indicating no statistically detectable shift in peak timing over
 the study period at the annual scale.
 
 Figure~\ref{fig-wrapped-scatter} shows the daily peak-hour observations
-with the fitted von Mises trend line and 95~\% confidence band. The
+with the fitted von Mises trend line and 95% confidence band. The
 hexagonal binning reveals the dominant concentration of peak hours in
-the 14:00--18:00 window (approximately 68.7~\% of observations), with
+the 14:00--18:00 window (approximately $68.7\%$ of observations), with
 the broad spread reflecting meteorological day-to-day variability.
 
 ![Daily peak-hour observations (hexbin density) with von Mises
-  regression trend line and 95~\% bootstrap confidence band.
+  regression trend line and 95% bootstrap confidence band.
   The circular y-axis (0h$\leftrightarrow$24h) is shown zoomed to
   8--22h for readability.](../results/figures/wrapped_scatter.pdf){#fig-wrapped-scatter}
 
@@ -35,7 +35,7 @@ consistent with the primary estimate (Table~\ref{tbl-sensitivity}),
 indicating that the trend is not driven by any single methodological
 choice.
 
-| Variant | $\beta$ (h/decade) | 95~\% CI | n~obs |
+| Variant | $\beta$ (h/decade) | 95% CI | n obs |
 |---------|--------------------|----------|-------|
 | Primary (earliest tie) | $-0.0281$ | $(-0.0699, 0.0121)$ | 12,163 |
 | Latest tie | $-0.0358$ | $(-0.0784, 0.0054)$ | 12,163 |
@@ -71,19 +71,21 @@ For context, Figure~\ref{fig-context} shows the annual mean daily
 maximum temperature over the study period. No systematic trend
 in the temperature magnitude is evident.
 
-![Annual mean daily maximum temperature (solid line) with $\pm$1~SD
+![Annual mean daily maximum temperature (solid line) with $\pm 1\,\mathrm{SD}$
   band (medium shading) and full annual range (light shading).
   ](../results/figures/context_timeseries.pdf){#fig-context}
 
 ### Seasonal patterns
 
 The seasonal sub-analyses (Table~\ref{tbl-seasonal}) revealed
-heterogeneous trends across seasons. Autumn showed the largest
-estimated shift toward later peak timing at $+0.0850$~h/decade~, while
-winter showed the strongest signal toward earlier timing at
-$-0.1886$~h/decade~.
+heterogeneous trends across seasons. Autumn showed a significant
+shift toward later peak timing at $+0.0850$ h/decade (95% CI: 0.0113
+to 0.1652), while winter showed a significant shift toward earlier
+timing at $-0.1886$ h/decade (95% CI: $-0.3165$ to $-0.0588$).
+Spring and summer trends were not statistically distinguishable from
+zero.
 
-| Season | $\beta$ (h/decade) | 95~\% CI | n~obs |
+| Season | $\beta$ (h/decade) | 95% CI | n obs |
 |--------|--------------------|----------|-------|
 | Spring (MAM) | $-0.0650$ | $(-0.1350, 0.0051)$ | 3,168 |
 | Summer (JJA) | $0.0195$ | $(-0.0447, 0.0766)$ | 3,111 |
@@ -93,17 +95,19 @@ $-0.1886$~h/decade~.
   bootstrap percentiles. {#tbl-seasonal}
 
 Figure~\ref{fig-seasonal} presents the per-season trend panels.
-Note that the exploratory nature of these analyses (no multiple-testing
-correction) warrants cautious interpretation.
+Note that these seasonal analyses are exploratory and are presented
+without multiple-testing correction. With a Bonferroni adjustment for
+4 comparisons ($\alpha = 0.0125$), none of the seasonal trends would
+be considered statistically significant.
 
 ![Seasonal von Mises regression trends. Each panel shows hexbin density
-  of daily peak hours and the fitted trend line with 95~\% CI band.
+  of daily peak hours and the fitted trend line with 95% CI band.
   ](../results/figures/seasonal_trend.pdf){#fig-seasonal}
 
 ### Supplementary analyses
 
 Temperature-weighted von Mises regression (weighting each day by its
-diurnal amplitude) produced an estimate of 0.0210~h/decade~
+diurnal amplitude) produced an estimate of $0.0210$ h/decade
 (95\% CI: $-0.0125$ to $0.0528$), which is consistent with the null
 of no trend and confirms that the result is not driven by days with
 poorly defined peaks. The circular--linear rank correlation (Mardia

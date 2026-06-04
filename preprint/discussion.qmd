@@ -5,14 +5,14 @@ I investigated whether the clock hour of daily maximum temperature at
 a von Mises circular regression -- a statistical framework specifically
 designed for circular response variables. The primary analysis did not
 detect a statistically significant shift in the daily peak hour at the
-annual scale ($\beta = -0.0281$~h/decade~, 95\% CI:
+annual scale ($\beta = -0.0281$ h/decade, 95\% CI:
 $-0.0699$ to $0.0121$), though the point estimate is directionally
 consistent with the global-scale findings of Shmuel et
 al. [-@shmuel2026daily].
 
 ### Comparison with prior work
 
-The estimated trend of -0.0281~h/decade~ is substantively smaller
+The estimated trend of $-0.0281$ h/decade is substantively smaller
 than the global average shift reported by Shmuel et al.
 [-@shmuel2026daily] for afternoon cooling-period temperatures (>20
 minutes per decade). Several factors may explain this difference. First,
@@ -33,7 +33,7 @@ The consistency of the trend across all eight pre-registered sensitivity
 variants supports the robustness.
 In particular, the alternative tie-breaking rule (latest vs.\ earliest
 peak hour) did not produce a materially different estimate,
-indicating that ties -- which occur on roughly 14.7~\% of days --
+indicating that ties -- which occur on roughly 14.7\% of days --
 do not drive the result. The amplitude-threshold variants confirm that
 the trend is not an artefact of days with poorly defined diurnal cycles.
 
@@ -54,8 +54,8 @@ could introduce spurious trends. A homogenisation procedure (e.g.,
 HOMER or Climatol) would strengthen future analyses.
 
 **Statistical power.** As quantified in the pre-registered power
-analysis, the minimum detectable trend at 80~\% power for the full
-record is approximately 25--30~minutes/decade, given the moderate
+analysis, the minimum detectable trend at $80\%$ power for the full
+record is approximately 25--30 minutes/decade, given the moderate
 von Mises concentration ($\kappa \approx 2.5$) observed in the data.
 Seasonal sub-analyses have substantially lower power, and null results
 for individual seasons should be interpreted with caution -- they

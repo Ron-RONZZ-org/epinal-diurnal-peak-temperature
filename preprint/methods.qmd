@@ -13,7 +13,7 @@ using the `pooch` data registry and archived on OSF for reproducibility.
 
 ### Preprocessing and quality control
 
-All processing was performed in Python~$\geq$~3.10 using `numpy`,
+All processing was performed in Python $\geq$ 3.10 using `numpy`,
 `pandas`, and native `zoneinfo` for timezone handling (no `pytz`).
 
 **UTC to local time conversion.** Raw UTC timestamps were converted to
@@ -22,15 +22,15 @@ with correct handling of 23-hour (spring-forward) and 25-hour
 (autumn-back) daylight saving transition days via the `fold` attribute.
 
 **Missing data filter.** A calendar day was retained only if at least
-75~\% of hourly observations were non-null (i.e., $\leq$~6 missing hours
+$75\%$ of hourly observations were non-null (i.e., $\leq$ 6 missing hours
 out of 24).
 
 **Diurnal amplitude filter.** Days with a diurnal temperature range
-$T_{\max} - T_{\min} < 2.0$~°C were excluded as likely
+$T_{\max} - T_{\min} < 2.0\,^\circ\mathrm{C}$ were excluded as likely
 flat-trace instrument artefacts or radiation-error events.
 
 **Physical range check.** Hourly temperatures outside
-$[-30, 50]$~°C were dropped as instrument errors.
+$[-30, 50]\,^\circ\mathrm{C}$ were dropped as instrument errors.
 
 **Outlier flagging.** Observations exceeding 5.0 median absolute
 deviations (MAD) from the series median were flagged and the
@@ -49,7 +49,7 @@ that simple arithmetic averaging is inappropriate for circular data.
 ### Von Mises circular regression
 
 The peak hour $\theta_i$ (converted to radians as
-$\theta_i = 2\pi \times \text{peak\_hour}_i / 24$) is a circular
+$\theta_i = 2\pi \times \mathrm{peak\_hour}_i / 24$) is a circular
 response variable for which linear regression is inappropriate. I
 therefore model the trend using a von Mises GLM fitted by direct
 maximum likelihood estimation (MLE) via `scipy.optimize.minimize`,
@@ -64,8 +64,8 @@ $$
 
 where:
 - $\mu_i = \beta_0 + \beta_1 \, x_i$
-- $x_i = \text{year}_i - \text{year\_midpoint}$ (centred year)
-- $\kappa = \exp(\text{log\_kappa}) > 0$ is the concentration parameter
+- $x_i = \mathrm{year}_i - \mathrm{year\_midpoint}$ (centred year)
+- $\kappa = \exp(\mathrm{log\_kappa}) > 0$ is the concentration parameter
 - $I_0(\kappa)$ is the modified Bessel function of order 0
 
 Year centring at the midpoint of the data range reduces correlation
@@ -74,7 +74,7 @@ between the intercept $\beta_0$ and slope $\beta_1$ estimates.
 The primary endpoint is $\beta_1$ converted to **hours per decade**:
 
 $$
-\beta\ (\text{h/decade}) = \beta_1 \times \frac{24}{2\pi} \times 10
+\beta\ (\mathrm{h/decade}) = \beta_1 \times \frac{24}{2\pi} \times 10
 $$
 
 Confidence intervals were obtained from 1\,000 bootstrap resamples:
@@ -102,10 +102,10 @@ bootstrap (10\,000 resamples).
 I evaluated eight pre-registered sensitivity variants, each varying a
 single parameter while keeping all others at their primary values:
 (1) latest-peak tie-breaking; (2) reduced minimum record length (20
-years); (3) strict outlier threshold (3.0~MAD); (4) post-2000 exclusion;
+years); (3) strict outlier threshold (3.0 MAD); (4) post-2000 exclusion;
 (5)--(6) subsampling peak hours to 3-hour and 6-hour bins; (7)--(8)
 alternative diurnal amplitude thresholds (1.0 and
-3.0~°C).
+3.0 °C).
 
 ### Seasonal stratification
 
@@ -117,7 +117,7 @@ correction.
 
 ### Software
 
-All analyses used Python~$\geq$~3.10 with `numpy`, `pandas`, `scipy`,
+All analyses used Python $\geq$ 3.10 with `numpy`, `pandas`, `scipy`,
 `statsmodels`, `matplotlib`, `seaborn`, and `pooch`. Complete
 reproducibility is ensured via `pyproject.toml`-pinned dependencies and
 the pipeline `Makefile`.

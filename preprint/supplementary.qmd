@@ -5,21 +5,21 @@
 Full numerical results for all eight sensitivity variants, including
 $\kappa$ estimates and log-likelihood values.
 
-| Variant | $\beta$ (h/decade) | 95~\% CI | $\kappa$ | log~$L$ | n~obs | n~years |
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | $\log L$ | n obs | n years |
 |---------|--------------------|----------|----------|---------|-------|---------|
-| Primary (earliest tie) | $-0.0281$ | $(-0.0699, 0.0121)$ | 2.45 | $-13757$ | 12,163 | 35 |
-| Latest tie | $-0.0358$ | $(-0.0784, 0.0054)$ | 2.44 | $-13756$ | 12,163 | 35 |
-| Min years = 20 | $-0.0281$ | $(-0.0699, 0.0121)$ | 2.45 | $-13757$ | 12,163 | 35 |
+| Primary (earliest tie) | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
+| Latest tie | $-0.0358$ | $(-0.078, 0.005)$ | 2.44 | $-13756$ | 12,163 | 35 |
+| Min years = 20 | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
 | MAD = 3.0 | --- | --- | --- | --- | --- | --- |
 | Exclude post-2000 | --- | --- | --- | --- | --- | --- |
-| 3-hour bin | $-0.0225$ | $(-0.0680, 0.0199)$ | 2.46 | $-13761$ | 12,163 | 35 |
-| 6-hour bin | $-0.0536$ | $(-0.1117, 0.0023)$ | 2.48 | $-13768$ | 12,163 | 35 |
-| Amp 1.0°C | $-0.0281$ | $(-0.0699, 0.0121)$ | 2.45 | $-13757$ | 12,163 | 35 |
-| Amp 3.0°C | $-0.0177$ | $(-0.0592, 0.0241)$ | 2.49 | $-12943$ | 11,457 | 35 |
+| 3-hour bin | $-0.0225$ | $(-0.068, 0.020)$ | 2.46 | $-13761$ | 12,163 | 35 |
+| 6-hour bin | $-0.0536$ | $(-0.112, 0.002)$ | 2.48 | $-13768$ | 12,163 | 35 |
+| Amp 1.0°C | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
+| Amp 3.0°C | $-0.0177$ | $(-0.059, 0.024)$ | 2.49 | $-12943$ | 11,457 | 35 |
 
 ### S2. Descriptive statistics by decade
 
-| Period | n~obs | Circular mean (h) | Circular SD (h) |
+| Period | n obs | Circular mean (h) | Circular SD (h) |
 |--------|-------|-------------------|-----------------|
 | 1986--1995 | 1,374 | 16.03 | 2.97 |
 | 1996--2005 | 3,551 | 16.00 | 2.86 |
@@ -30,9 +30,9 @@ $\kappa$ estimates and log-likelihood values.
 
 The pre-registered power analysis (see `notebooks/02-power-analysis.qmd`
 for full details) estimated a minimum detectable effect of
-25--30~min/decade at 80~\% power for the full record
+25--30 min/decade at $80\%$ power for the full record
 ($\kappa \approx 2.5$). Seasonal sub-analyses require effects
-45--60~min/decade to achieve the same power.
+45--60 min/decade to achieve the same power.
 
 ![Power curves for the full record, single-season, and half-season
   sample sizes at the observed concentration
@@ -44,7 +44,7 @@ for full details) estimated a minimum detectable effect of
 ### S4. Supplementary analysis: temperature-weighted regression
 
 Temperature-weighted von Mises regression (weight = diurnal amplitude)
-yielded 0.0210~h/decade~ (95~\% CI: (-0.0125, 0.0528)), consistent with the
+yielded $0.0210$ h/decade (95% CI: (-0.0125, 0.0528)), consistent with the
 unweighted primary estimate.
 
 ### S5. Mardia circular--linear rank correlation

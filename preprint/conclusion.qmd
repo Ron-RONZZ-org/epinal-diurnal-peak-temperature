@@ -4,17 +4,18 @@ I present evidence of a non-detectable shift in the
 clock hour of daily maximum temperature at Épinal, France, over the
 1986--2025 period, estimated using a von Mises circular regression
 framework with bootstrap uncertainty quantification. The estimated trend
-of -0.0281~h/decade~ is consistent with the global
+of $-0.0281$ h/decade is consistent with the global
 phase shifts reported by Shmuel et al. [-@shmuel2026daily] and the
 European diurnal cycle changes documented by Wang and
 Dillon [-@wang2014recent].
 
 The trend remains robust across eight pre-registered
 sensitivity variants, suggesting that the result is not an artefact of
-specific methodological choices. Seasonal stratifications reveal
-suggestive heterogeneity in the timing of peak
-temperature changes across the year, albeit with lower statistical
-power.
+specific methodological choices. Seasonal analyses revealed a
+significant trend toward earlier peaks in winter ($-0.19$ h/decade,
+95% CI: $-0.32$ to $-0.06$) and later peaks in autumn ($+0.09$
+h/decade, 95% CI: $0.01$ to $0.17$), though these do not survive
+multiple-testing correction and should be interpreted as exploratory.
 
 These findings contribute local-scale, station-level evidence to the
 emerging picture of a changing diurnal temperature phase. Replication
