@@ -278,7 +278,7 @@ def download_raw_data(config: EpinalPeakConfig) -> Path:
                 known_hash=known_hash,
                 fname=filename,
                 path=pup.path,
-                downloader=pooch.HTTPDownloader(progressbar=True),
+                downloader=pooch.HTTPDownloader(progressbar=False),
             )
         )
 
