@@ -155,6 +155,7 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 | `src/epinal_peak/_preprocess_schemas.py` | — | Private pandera schemas (imported by `preprocess.py`) |
 | `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Circular statistics and regression rules |
 | `src/epinal_peak/visualize.py` | `AGENTS-visualize.md` | Figure generation rules |
+| `notebooks/` | `AGENTS-notebooks.md` | Notebook conventions |
 | `tests/` | `AGENTS-tests.md` | Testing conventions |
 
 (Update this table as new modules are added)
@@ -170,6 +171,7 @@ Root AGENTS.md (global rules — this file)
     ├── AGENTS-preprocess.md  — QC thresholds, DST handling, peak extraction rules
     ├── AGENTS-analysis.md    — circular regression, sensitivity analysis rules
     ├── AGENTS-visualize.md   — figure style, export format rules
+    ├── AGENTS-notebooks.md   — notebook conventions
     └── AGENTS-tests.md       — test coverage targets, synthetic data conventions
 ```
 
