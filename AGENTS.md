@@ -28,7 +28,12 @@ epinal-diurnal-peak-temperature/
 │       ├── preprocess.py      # QC, UTC→local conversion, daily peak extraction
 │       ├── _preprocess_qc.py  # Private QC helpers (imported by preprocess.py)
 │       ├── _preprocess_schemas.py  # Private pandera schemas (imported by preprocess.py)
-│       ├── analysis.py        # von Mises circular regression + sensitivities
+│       ├── analysis.py        # Public API: orchestrates all analyses
+│       ├── _analysis_regression.py  # Core von Mises regression math
+│       ├── _analysis_interaction.py # Year × season interaction test + FDR
+│       ├── _analysis_bootstrap.py   # Bootstrap resampling engine
+│       ├── _analysis_variants.py    # Sensitivity and supplementary variants
+│       ├── _analysis_corr.py        # Circular-linear correlation helpers
 │       ├── visualize.py       # Publication-quality figures
 │       └── report.py          # Summary statistics tables
 ├── notebooks/
@@ -38,7 +43,8 @@ epinal-diurnal-peak-temperature/
 ├── tests/
 │   ├── conftest.py
 │   ├── test_preprocess.py
-│   └── test_analysis.py
+│   ├── test_analysis.py
+│   └── test_interaction.py
 ├── data/
 │   ├── raw/                   # git-ignored — archived on OSF
 │   ├── processed/             # git-ignored
@@ -117,6 +123,7 @@ Install: `pip install -e ".[dev]"`
 8. **Synthetic data tests**: `analysis.py` must include a test with known synthetic circular data that verifies the regression returns the expected coefficient
 9. **Tie-breaking**: Earliest peak hour is primary; latest is a sensitivity. Do NOT average tied hours (a linear average of 23 and 0 is 11.5 — meaningless; the proper circular mean is 23.5)
 10. **Diurnal amplitude filter**: Days with ``T_max - T_min < config.min_diurnal_amplitude`` (default 2.0 °C) must be excluded before trend analysis. This removes flat-trace instrument artefacts.
+11. **Hierarchical seasonal inference**: The primary analysis is pooled (all seasons). A year × season interaction LR test (χ², df=3) gates per-season inference. If not significant, report pooled only. If significant, report per-season β from the interaction model with Benjamini-Hochberg FDR across 4 seasons. Do NOT switch the primary analysis to seasonal.
 
 ---
 
@@ -133,7 +140,7 @@ Install: `pip install -e ".[dev]"`
 - **No bare `~` outside math mode**: In pandoc/Quarto markdown, `~text~` is subscript syntax (e.g., `H~2~O` → H₂O). Use `$\mathrm{...}$` for units in text, or a regular space. `Figure~\ref{...}` and `Table~\ref{...}` (Quarto cross-references) are exempt.
 - **Use `\mathrm{}` not `\text{}`** for multi-letter identifiers in math mode: `\mathrm{log\_kappa}` renders reliably in both HTML (MathJax) and PDF (xelatex).
 - **BibTeX year field**: Use `year = {YYYY}` in `.bib` entries (the `date` field is not recognized by BibTeX/natbib for extracting the year).
-- **Seasonal analyses**: Always note they are exploratory; mention multiple-testing correction (Bonferroni) when reporting their significance. Update abstract and conclusion to be consistent.
+- **Seasonal analyses**: The year × season interaction test (LR, χ², df=3) is the gatekeeper. Report it in methods. Only present per-season estimates if it is significant; apply Benjamini-Hochberg FDR. Update abstract and conclusion to be consistent.
 
 ---
 
@@ -171,7 +178,9 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 | `src/epinal_peak/preprocess.py` | `AGENTS-preprocess.md` | QC and preprocessing rules |
 | `src/epinal_peak/_preprocess_qc.py` | — | Private QC helpers (imported by `preprocess.py`) |
 | `src/epinal_peak/_preprocess_schemas.py` | — | Private pandera schemas (imported by `preprocess.py`) |
-| `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Circular statistics and regression rules |
+| `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Public API: orchestrates all analyses |
+| `src/epinal_peak/_analysis_regression.py` | — | Core von Mises regression math (extracted from analysis.py) |
+| `src/epinal_peak/_analysis_interaction.py` | — | Year × season interaction LR test + BH FDR |
 | `src/epinal_peak/visualize.py` | `AGENTS-visualize.md` | Figure generation rules |
 | `notebooks/` | `AGENTS-notebooks.md` | Notebook conventions |
 | `tests/` | `AGENTS-tests.md` | Testing conventions |
@@ -187,7 +196,7 @@ Root AGENTS.md (global rules — this file)
     │
     ├── AGENTS-acquire.md     — data download + pooch + validation rules
     ├── AGENTS-preprocess.md  — QC thresholds, DST handling, peak extraction rules
-    ├── AGENTS-analysis.md    — circular regression, sensitivity analysis rules
+    ├── AGENTS-analysis.md    — circular regression, sensitivity analysis, interaction test rules
     ├── AGENTS-visualize.md   — figure style, export format rules
     ├── AGENTS-notebooks.md   — notebook conventions
     └── AGENTS-tests.md       — test coverage targets, synthetic data conventions
