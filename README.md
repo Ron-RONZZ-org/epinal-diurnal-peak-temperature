@@ -16,14 +16,29 @@ Whereas existing research has predominantly examined *regional warming trends*, 
    - Conversion of UTC timestamps to local time (CET/CEST).
    - Extraction, for each calendar day, of the hour corresponding to the highest recorded temperature.
 
-3. **Analysis & Visualization** — The primary output is a time-series plot of the daily peak temperature hour across the observation period. A **von Mises circular GLM** models the trend (β hours/decade) with bootstrap confidence intervals. Secondary analyses examine seasonal variations (spring/summer/autumn/winter) and compute a long-term trend line. Four pre-registered sensitivity analyses test robustness.
+3. **Analysis & Visualization** — A **von Mises circular GLM** (via direct MLE with `scipy.optimize.minimize`) models the trend (β hours/decade) with bootstrap confidence intervals. A power analysis notebook determines the minimum detectable effect size from the real data.
+
+## Current Status
+
+### ✅ Completed
+- **M0**: Package scaffolding — `pyproject.toml`, installable via `pip install -e .`
+- **M1**: Data acquisition — pooch-based download from Météo-France with local fallback
+- **M2**: Data quality — QC flags, physical limits, flatline detection, circular outliers
+- **M3**: Preprocessing pipeline — UTC→local conversion, peak extraction, DST handling
+- **M4**: Power analysis — von Mises regression on real data, analytic power curves (this notebook)
+
+### In progress
+- **M5**: Full analysis suite — bootstrap CIs, sensitivity analysis
+- **M6**: Publication-quality figures
+- **M7**: Manuscript
 
 ## Expected Outputs
 
-- Curated and validated dataset.
-- Complete Python script for data processing and analysis.
-- Final visualization illustrating the trend in diurnal peak temperature.
-- Project report detailing the methodological approach and empirical findings.
+- Curated and validated dataset
+- Complete Python package for data processing and analysis
+- Power analysis notebook with minimum detectable effect size
+- Final visualization illustrating the trend in diurnal peak temperature
+- Project report detailing the methodological approach and empirical findings
 
 ## Pre-registration
 

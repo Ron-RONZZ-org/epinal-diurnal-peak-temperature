@@ -1,4 +1,4 @@
-"""Tests for the analysis module (M0 placeholder)."""
+"""Tests for the analysis module — circular statistics and von Mises regression."""
 
 from __future__ import annotations
 
@@ -10,42 +10,236 @@ from epinal_peak import EpinalPeakConfig
 from epinal_peak import analysis
 
 
-class TestAnalysisModule:
-    """Basic import and smoke tests for analysis.py."""
+# ── Helpers ─────────────────────────────────────────────────────────────
 
-    def test_module_importable(self) -> None:
-        """Verify the analysis module can be imported and has expected symbols."""
-        assert hasattr(analysis, "main")
-        assert hasattr(analysis, "circular_mean")
-        assert hasattr(analysis, "circular_std")
-        assert hasattr(analysis, "von_mises_regression")
-        assert hasattr(analysis, "bootstrap_trend")
-        assert hasattr(analysis, "sensitivity_analysis")
 
-    def test_main_runs_without_error(self) -> None:
-        """``main()`` should execute and return None (placeholder)."""
-        result = analysis.main()
-        assert result is None
+def _synthetic_peak_hours(
+    *,
+    beta_1_hours_per_year: float = 0.01,
+    kappa: float = 10.0,
+    n_years: int = 40,
+    days_per_year: int = 365,
+    seed: int = 42,
+) -> pd.DataFrame:
+    """Generate synthetic daily peak-hour data with a known trend.
 
-    def test_circular_mean_returns_float(self) -> None:
-        """Placeholder returns a float."""
-        result = analysis.circular_mean(np.array([14.0, 15.0]))
-        assert isinstance(result, float)
-        assert result == 14.5
+    Args:
+        beta_1_hours_per_year: True slope in hours/year.
+        kappa: Von Mises concentration parameter.
+        n_years: Number of years.
+        days_per_year: Days per year.
+        seed: RNG seed for reproducibility.
 
-    def test_circular_std_returns_float(self) -> None:
-        """Placeholder returns a float (currently numpy std)."""
-        result = analysis.circular_std(np.array([14.0, 15.0]))
-        assert isinstance(result, float)
+    Returns:
+        DataFrame with columns ``year``, ``peak_hour``, ``date``.
+    """
+    rng = np.random.default_rng(seed)
+    total_days = n_years * days_per_year
+    dates = pd.date_range("2000-01-01", periods=total_days, freq="D")
 
-    def test_von_mises_regression_returns_dict(self) -> None:
-        """Placeholder returns a dict with status key."""
+    years = dates.year.values.astype(float)
+    year_center = float(years.mean())
+
+    # True mu in radians: beta_0 + beta_1 * year_centered
+    beta_0_rad = analysis._hours_to_radians(14.0)  # intercept at 14:00
+    beta_1_rad = beta_1_hours_per_year * analysis._HOURS_TO_RAD
+    mu_rad = beta_0_rad + beta_1_rad * (years - year_center)
+
+    # Generate von Mises random deviations
+    # scipy.stats.vonmises(mu=0, kappa=kappa) is centred at 0
+    from scipy.stats import vonmises
+
+    noise = vonmises.rvs(kappa, size=total_days, random_state=rng)
+    theta = (mu_rad + noise) % (2.0 * np.pi)
+
+    peak_hours = analysis._radians_to_hours(theta)
+
+    return pd.DataFrame({"date": dates, "year": years, "peak_hour": peak_hours})
+
+
+# ── Tests ───────────────────────────────────────────────────────────────
+
+
+class TestCircularMean:
+    """Tests for ``circular_mean()``."""
+
+    def test_all_same_value(self) -> None:
+        """All values identical returns that value."""
+        result = analysis.circular_mean(np.array([14.0, 14.0, 14.0]))
+        assert result == pytest.approx(14.0)
+
+    def test_wrap_around(self) -> None:
+        """Values near 0 and 23 wrap correctly (mean should be 0)."""
+        result = analysis.circular_mean(np.array([23.0, 1.0]))
+        assert result == pytest.approx(0.0, abs=1e-10)
+
+    def test_symmetric(self) -> None:
+        """Symmetric values around a midpoint."""
+        result = analysis.circular_mean(np.array([13.0, 15.0]))
+        assert result == pytest.approx(14.0, abs=1e-2)
+
+    def test_single_value(self) -> None:
+        """Single value returns that value."""
+        result = analysis.circular_mean(np.array([8.0]))
+        assert result == pytest.approx(8.0)
+
+    def test_all_nan(self) -> None:
+        """All NaN returns NaN."""
+        result = analysis.circular_mean(np.array([np.nan, np.nan]))
+        assert np.isnan(result)
+
+    def test_some_nan(self) -> None:
+        """Partial NaN ignores NaN entries."""
+        result = analysis.circular_mean(np.array([14.0, np.nan, 14.0]))
+        assert result == pytest.approx(14.0)
+
+    def test_linear_mean_differs(self) -> None:
+        """Circular mean differs from linear mean for wraparound data."""
+        linear = np.mean([23.0, 1.0])
+        circular = analysis.circular_mean(np.array([23.0, 1.0]))
+        assert circular != pytest.approx(linear)
+        assert circular == pytest.approx(0.0, abs=1e-10)
+
+
+class TestCircularStd:
+    """Tests for ``circular_std()``."""
+
+    def test_all_same_value(self) -> None:
+        """All identical values have zero circular std."""
+        result = analysis.circular_std(np.array([14.0, 14.0, 14.0]))
+        assert result == pytest.approx(0.0, abs=1e-10)
+
+    def test_wider_distribution(self) -> None:
+        """Wider spread -> larger circular std."""
+        tight = analysis.circular_std(np.array([13.0, 14.0, 15.0]))
+        wide = analysis.circular_std(np.array([10.0, 14.0, 18.0]))
+        assert wide > tight
+
+    def test_all_nan(self) -> None:
+        """All NaN returns NaN."""
+        result = analysis.circular_std(np.array([np.nan, np.nan]))
+        assert np.isnan(result)
+
+    def test_single_value(self) -> None:
+        """Single value has zero circular std."""
+        result = analysis.circular_std(np.array([8.0]))
+        assert result == pytest.approx(0.0, abs=1e-10)
+
+    def test_some_nan(self) -> None:
+        """Partial NaN ignores NaN entries."""
+        result = analysis.circular_std(np.array([14.0, np.nan, 14.0]))
+        assert result == pytest.approx(0.0, abs=1e-10)
+
+
+class TestVonMisesRegression:
+    """Tests for ``von_mises_regression()``."""
+
+    def test_returns_dict_with_status(self) -> None:
+        """Returns a dict with status key."""
         df = pd.DataFrame({"year": [2000], "peak_hour": [14]})
         result = analysis.von_mises_regression(df)
         assert isinstance(result, dict)
         assert "status" in result
 
-    def test_bootstrap_trend_returns_tuple(self) -> None:
+    def test_empty_dataframe_raises(self) -> None:
+        """Empty DataFrame raises ValueError."""
+        with pytest.raises(ValueError, match="empty"):
+            analysis.von_mises_regression(pd.DataFrame())
+
+    def test_missing_column_raises(self) -> None:
+        """Missing required column raises ValueError."""
+        with pytest.raises(ValueError, match="year"):
+            analysis.von_mises_regression(pd.DataFrame({"foo": [1]}))
+
+    def test_synthetic_zero_trend(self) -> None:
+        """Synthetic data with zero trend returns beta_1 ≈ 0."""
+        df = _synthetic_peak_hours(
+            beta_1_hours_per_year=0.0,
+            kappa=20.0,
+            n_years=20,
+            seed=123,
+        )
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "ok"
+        # With high kappa and zero trend, beta_1 should be very close to 0
+        assert abs(result["beta_1_hours_per_decade"]) < 0.05
+
+    def test_synthetic_positive_trend(self) -> None:
+        """Synthetic data with known positive trend recovers the slope.
+
+        This is the critical regression test (Guideline #8 from AGENTS.md):
+        verifies that the von Mises regression returns the expected
+        coefficient on synthetic circular data.
+        """
+        true_beta_hours_per_year = 0.02  # 0.2 h/decade
+        df = _synthetic_peak_hours(
+            beta_1_hours_per_year=true_beta_hours_per_year,
+            kappa=15.0,
+            n_years=30,
+            days_per_year=365,
+            seed=42,
+        )
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "ok"
+        assert result["converged"] is True
+
+        # Recover beta_1 in hours/year
+        recovered = result["beta_1_hours_per_decade"] / 10.0
+        # With n=10950 obs and kappa=15, the estimate should be close
+        assert recovered == pytest.approx(true_beta_hours_per_year, abs=0.005)
+
+    def test_synthetic_negative_trend(self) -> None:
+        """Synthetic data with known negative trend recovers the slope."""
+        true_beta_hours_per_year = -0.015  # -0.15 h/decade
+        df = _synthetic_peak_hours(
+            beta_1_hours_per_year=true_beta_hours_per_year,
+            kappa=12.0,
+            n_years=25,
+            days_per_year=365,
+            seed=99,
+        )
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "ok"
+        assert result["converged"] is True
+
+        recovered = result["beta_1_hours_per_decade"] / 10.0
+        assert recovered == pytest.approx(true_beta_hours_per_year, abs=0.008)
+
+    def test_all_identical_peak_hours(self) -> None:
+        """All identical peak hours returns special status."""
+        years = np.arange(2000, 2010)
+        df = pd.DataFrame({"year": years, "peak_hour": [14.0] * 10})
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "all_peak_hours_identical"
+
+    def test_single_year_returns_insufficient(self) -> None:
+        """Single unique year returns insufficient status."""
+        df = pd.DataFrame(
+            {"year": [2000] * 100, "peak_hour": np.random.default_rng(42).uniform(0, 24, 100)}
+        )
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "insufficient_unique_years"
+
+    def test_high_kappa_low_noise(self) -> None:
+        """With very high kappa, estimate is very precise."""
+        true_beta = 0.01  # hours/year = 0.1 h/decade
+        df = _synthetic_peak_hours(
+            beta_1_hours_per_year=true_beta,
+            kappa=50.0,
+            n_years=20,
+            days_per_year=365,
+            seed=777,
+        )
+        result = analysis.von_mises_regression(df)
+        assert result["status"] == "ok"
+        recovered = result["beta_1_hours_per_decade"] / 10.0
+        assert recovered == pytest.approx(true_beta, abs=0.002)
+
+
+class TestBootstrapTrend:
+    """Tests for ``bootstrap_trend()`` (placeholder for M5)."""
+
+    def test_returns_tuple(self) -> None:
         """Placeholder returns a 3-tuple of floats."""
         df = pd.DataFrame({"year": [2000, 2001], "peak_hour": [14.0, 14.1]})
         result = analysis.bootstrap_trend(df)
@@ -53,10 +247,38 @@ class TestAnalysisModule:
         assert len(result) == 3
         assert all(isinstance(v, float) for v in result)
 
-    def test_sensitivity_analysis_returns_dict(self) -> None:
+
+class TestSensitivityAnalysis:
+    """Tests for ``sensitivity_analysis()`` (placeholder for M5)."""
+
+    def test_returns_dict(self) -> None:
         """Placeholder returns a dict with status key."""
         config = EpinalPeakConfig()
         df = pd.DataFrame({"year": [2000], "peak_hour": [14]})
         result = analysis.sensitivity_analysis(df, config)
         assert isinstance(result, dict)
         assert "status" in result
+
+
+class TestMain:
+    """Tests for ``main()`` entry point."""
+
+    def test_main_runs_without_error(self) -> None:
+        """``main()`` executes and returns None."""
+        result = analysis.main()
+        assert result is None
+
+
+class TestHelpers:
+    """Tests for internal helper functions."""
+
+    def test_hours_to_radians_known(self) -> None:
+        """Known conversion: 12 hours -> pi, 6 hours -> pi/2."""
+        assert analysis._hours_to_radians(np.array([12.0])) == pytest.approx(np.pi)
+        assert analysis._hours_to_radians(np.array([6.0])) == pytest.approx(np.pi / 2)
+        assert analysis._hours_to_radians(np.array([0.0])) == pytest.approx(0.0)
+
+    def test_radians_to_hours_known(self) -> None:
+        """Known conversion: pi -> 12, 2*pi -> 0."""
+        assert analysis._radians_to_hours(np.array([np.pi])) == pytest.approx(12.0)
+        assert analysis._radians_to_hours(np.array([2.0 * np.pi - 1e-10])) == pytest.approx(24.0 - 1e-10)
