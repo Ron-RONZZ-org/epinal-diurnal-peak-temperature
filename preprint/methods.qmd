@@ -114,13 +114,13 @@ The LR statistic $= 2 \times (\log L_{\mathrm{full}} - \log
 L_{\mathrm{reduced}})$ follows a $\chi^2$ distribution with 3
 degrees of freedom under the null hypothesis of no interaction.
 
-If the interaction test is significant at $\alpha = 0.05$, I report
-per-season slope estimates from the full interaction model with
+If the interaction test is insignificant at $\alpha = 0.05$,
+the season-blind pooled estimate would be sufficient to identify
+long-term trends. Otherwise, per-season analysis under the full
+interaction model would be more appropriate, with
 Benjamini-Hochberg false discovery rate (FDR) control across the
-four seasons, computed from Wald $p$-values using the inverse
-observed Fisher information. If the interaction is not significant,
-I report only the pooled (all-season) estimate as the primary
-result.
+four seasons computed from Wald $p$-values using the inverse
+observed Fisher information.
 
 ### Seasonal stratification (primary analysis)
 

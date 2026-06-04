@@ -17,6 +17,8 @@ format:
     cite-method: natbib
     keep-tex: false
     fig-pos: "htb!"
+    include-in-header:
+      - text: \usepackage{placeins}
   html:
     toc: true
     toc-depth: 3

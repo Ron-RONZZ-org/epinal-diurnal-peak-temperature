@@ -119,3 +119,9 @@ effect size estimated by the pooled MLE model.
 ### S8. Contingency analysis
 
 The primary MLE converged successfully; no fallback was required.
+
+### S9. Annual mean daily maximum temperature
+
+![Annual mean daily maximum temperature (solid line) with
+  $\pm 1\,\mathrm{SD}$ band (medium shading) and full annual range
+  (light shading).](../results/figures/context_timeseries.pdf){#fig-context}

@@ -7,11 +7,7 @@ After quality control filtering, 12,163 valid observation-days across
 overall circular mean peak hour was 15:58 local time
 (circular SD = 2.84 h), confirming that the daily maximum at
 Épinal typically occurs in the mid-afternoon, consistent with
-boundary-layer heating dynamics (Figure~\ref{fig-context}).
-
-![Annual mean daily maximum temperature (solid line) with $\pm 1\,\mathrm{SD}$
-  band (medium shading) and full annual range (light shading).
-  ](../results/figures/context_timeseries.pdf){#fig-context}
+boundary-layer heating dynamics (Supplementary Figure~\ref{fig-context}).
 
 ### Year--season interaction test
 
@@ -22,6 +18,10 @@ df = 3, $p = 0.0033$), rejecting the null hypothesis that all four
 seasons share a common trend. This result justifies examining seasonal
 estimates as the primary analytical framework rather than a single
 pooled estimate.
+
+```{=latex}
+\FloatBarrier
+```
 
 ### Spring (March--May)
 
@@ -46,6 +46,10 @@ All spring sensitivity variants remain within $\pm 0.015$ h/decade of
 the primary estimate, indicating no evidence of a trend regardless of
 methodological choice.
 
+```{=latex}
+\FloatBarrier
+```
+
 ### Summer (June--August)
 
 Summer shows a near-zero slope of $+0.020$ h/decade (95\% bootstrap CI:
@@ -66,6 +70,10 @@ Sensitivity estimates are similarly centred near zero:
 The 6-hour subsampling variant flips sign, confirming that the summer
 estimate is indistinguishable from zero and sensitive to discretisation
 choice.
+
+```{=latex}
+\FloatBarrier
+```
 
 ### Autumn (September--November)
 
@@ -89,6 +97,10 @@ All six variants produce positive estimates ranging from $+0.06$ to
 $+0.10$ h/decade. While non-significant, the directional consistency
 across variants suggests this may be a real but weak signal that the
 current record lacks power to detect.
+
+```{=latex}
+\FloatBarrier
+```
 
 ### Winter (December--February)
 
@@ -114,6 +126,10 @@ $-0.13$ to $-0.30$ h/decade), confirming the winter advance is not an
 artefact of parameter choice. The amplitude and magnitude are
 consistently greater than the other three seasons.
 
+```{=latex}
+\FloatBarrier
+```
+
 ### Seasonal summary
 
 All four seasonal estimates are summarised in
@@ -137,6 +153,10 @@ Figure~\ref{fig-seasonal} presents the per-season trend panels.
 ![Seasonal von Mises regression trends. Each panel shows hexbin density
   of daily peak hours and the fitted trend line with 95% CI band.
   ](../results/figures/seasonal_trend.pdf){#fig-seasonal}
+
+```{=latex}
+\FloatBarrier
+```
 
 ### Supplementary: pooled (all-season) estimate
 
