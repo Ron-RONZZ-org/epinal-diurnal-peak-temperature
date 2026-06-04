@@ -60,7 +60,7 @@ PERIOD_FILES: tuple[str, ...] = (
 KEEP_COLUMNS: tuple[str, ...] = (
     "NUM_POSTE",     # Station identifier (string)
     "AAAAMMJJHH",    # Timestamp in UTC (YYYYMMDDHH format)
-    "T",             # Temperature in 0.1 °C (divide by 10 for °C)
+    "T",             # Hourly temperature in °C
     "QT",            # Quality flag (1 = good)
 )
 """Columns extracted from the raw departmental CSV files."""
@@ -176,9 +176,9 @@ class RawDataSchema(pa.DataFrameModel):
     )
     T: Series[float] = pa.Field(
         nullable=True,
-        ge=-500.0,      # -50.0 °C in 0.1 °C units
-        le=600.0,       #  60.0 °C in 0.1 °C units
-        description="Hourly temperature in 0.1 °C (÷10 for °C)",
+        ge=-500.0,
+        le=600.0,
+        description="Hourly temperature in °C",
     )
     QT: Series[float] = pa.Field(
         nullable=True,
