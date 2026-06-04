@@ -17,7 +17,6 @@ from epinal_peak.config import EpinalPeakConfig
 _logger = logging.getLogger(__name__)
 
 _HOURS_IN_DAY = 24
-_TENCM = 10.0  # raw T is in 0.1 °C units
 
 
 # ── Circular helpers (private) ──────────────────────────────────────────
@@ -45,12 +44,17 @@ def _circular_distance_rad(a: np.ndarray, b: float) -> np.ndarray:
 def filter_physical_limits(df: pd.DataFrame, config: EpinalPeakConfig) -> pd.DataFrame:
     """Convert temperature to °C and drop physically implausible readings.
 
-    The raw *T* column (0.1 °C units) is divided by 10 to produce
-    ``temperature_c``.  Rows where ``temperature_c`` falls outside
-    [*physical_temp_min*, *physical_temp_max*] are dropped.
+    The raw *T* column (already in °C) is copied to ``temperature_c``.
+    Rows where ``temperature_c`` falls outside [*physical_temp_min*,
+    *physical_temp_max*] are dropped.
+
+    .. note::
+        The Météo-France HOR files historically store temperature in
+        0.1 °C units, but the ``acquire`` stage saves the filtered
+        output with T already in °C.
 
     Args:
-        df: DataFrame with a ``T`` column (0.1 °C units).
+        df: DataFrame with a ``T`` column (°C).
         config: Pipeline configuration with *physical_temp_min* and
             *physical_temp_max*.
 
@@ -59,7 +63,7 @@ def filter_physical_limits(df: pd.DataFrame, config: EpinalPeakConfig) -> pd.Dat
         removed.
     """
     df = df.copy()
-    df["temperature_c"] = df["T"] / _TENCM
+    df["temperature_c"] = df["T"].astype(float)
     before = len(df)
 
     below = df["temperature_c"] < config.physical_temp_min

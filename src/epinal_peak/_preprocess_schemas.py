@@ -34,9 +34,9 @@ class RawInputSchema(pa.DataFrameModel):
     )
     T: Series[float] = pa.Field(
         nullable=True,
-        ge=-500.0,      # -50.0 °C in 0.1 °C units
-        le=600.0,       #  60.0 °C in 0.1 °C units
-        description="Hourly temperature in 0.1 °C (÷10 for °C)",
+        ge=-500.0,
+        le=600.0,
+        description="Hourly temperature (°C); the acquire stage saves in °C",
     )
     QT: Series[float] = pa.Field(
         nullable=True,

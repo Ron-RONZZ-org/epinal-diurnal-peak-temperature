@@ -198,32 +198,32 @@ class TestUtcToLocal:
 
 
 class TestPhysicalLimits:
-    """Temperature range filtering."""
+    """Temperature range filtering (T already in °C)."""
 
     def test_passes_normal_temps(self, config: EpinalPeakConfig) -> None:
-        df = pd.DataFrame({"T": [250, 300, 150]})  # 25, 30, 15 °C
+        df = pd.DataFrame({"T": [25.0, 30.0, 15.0]})
         result = preprocess.filter_physical_limits(df, config)
         assert len(result) == 3
 
     def test_drops_below_minus_30(self, config: EpinalPeakConfig) -> None:
-        df = pd.DataFrame({"T": [-350, 250, -301]})  # -35, 25, -30.1 °C
+        df = pd.DataFrame({"T": [-35.0, 25.0, -30.1]})
         result = preprocess.filter_physical_limits(df, config)
-        assert len(result) == 1  # only 250 (25 °C) is valid
+        assert len(result) == 1  # only 25.0 is valid
 
     def test_drops_above_50(self, config: EpinalPeakConfig) -> None:
-        df = pd.DataFrame({"T": [510, 250, 501]})  # 51, 25, 50.1 °C
+        df = pd.DataFrame({"T": [51.0, 25.0, 50.1]})
         result = preprocess.filter_physical_limits(df, config)
-        assert len(result) == 1  # only 250 (25 °C) is valid
+        assert len(result) == 1  # only 25.0 is valid
 
     def test_adds_temperature_c_column(self, config: EpinalPeakConfig) -> None:
-        df = pd.DataFrame({"T": [250]})
+        df = pd.DataFrame({"T": [25.0]})
         result = preprocess.filter_physical_limits(df, config)
         assert "temperature_c" in result.columns
         assert result["temperature_c"].iloc[0] == 25.0
 
     def test_boundary_values_kept(self, config: EpinalPeakConfig) -> None:
         """-30.0 and 50.0 should be kept (inclusive)."""
-        df = pd.DataFrame({"T": [-300, 500]})
+        df = pd.DataFrame({"T": [-30.0, 50.0]})
         result = preprocess.filter_physical_limits(df, config)
         assert len(result) == 2
 
@@ -510,7 +510,7 @@ class TestMainPipeline:
                 rows.append({
                     "NUM_POSTE": "88136001",
                     "AAAAMMJJHH": f"202306{day:02d}{hour:02d}",
-                    "T": int(temp_c * 10),
+                    "T": temp_c,
                     "QT": 1,
                 })
         raw = pd.DataFrame(rows)
@@ -555,7 +555,7 @@ class TestMainPipeline:
                 rows.append({
                     "NUM_POSTE": "88136001",
                     "AAAAMMJJHH": f"202306{day:02d}{hour:02d}",
-                    "T": int(temp_c * 10),
+                    "T": temp_c,
                     "QT": 1,
                 })
         pd.DataFrame(rows).to_csv(csv_path, index=False)
