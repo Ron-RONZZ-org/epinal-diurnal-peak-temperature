@@ -128,6 +128,13 @@ Install: `pip install -e ".[dev]"`
 - Data processing decisions (thresholds, exclusion rules) are documented in `config.py` dataclass docstrings
 - Pipeline stages are documented in `Makefile` comments
 
+## Quarto Manuscript Conventions
+
+- **No bare `~` outside math mode**: In pandoc/Quarto markdown, `~text~` is subscript syntax (e.g., `H~2~O` → H₂O). Use `$\mathrm{...}$` for units in text, or a regular space. `Figure~\ref{...}` and `Table~\ref{...}` (Quarto cross-references) are exempt.
+- **Use `\mathrm{}` not `\text{}`** for multi-letter identifiers in math mode: `\mathrm{log\_kappa}` renders reliably in both HTML (MathJax) and PDF (xelatex).
+- **BibTeX year field**: Use `year = {YYYY}` in `.bib` entries (the `date` field is not recognized by BibTeX/natbib for extracting the year).
+- **Seasonal analyses**: Always note they are exploratory; mention multiple-testing correction (Bonferroni) when reporting their significance. Update abstract and conclusion to be consistent.
+
 ---
 
 ## Commit Message Format
