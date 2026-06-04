@@ -24,6 +24,7 @@ conversion, daily peak temperature extraction, and output validation.
 
 ## Data Contracts
 - **Input**: Raw CSV with UTC timestamps and temperature readings.
+  **T column is in °C** (not 0.1°C). The acquire stage already converts.
 - **Output**: CSV with columns `date` (YYYY-MM-DD), `peak_hour` (int, 0--23),
   `peak_temperature` (float).
 

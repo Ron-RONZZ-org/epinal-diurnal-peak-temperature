@@ -36,6 +36,8 @@ data from this station.
 - **Output**: CSV file saved to `raw_dir / raw_data_filename` with columns
   matching the Météo-France RADOME API schema (station, date, temperature,
   quality flags).
+- **T column**: The saved CSV has T **already in °C** (not 0.1°C as in the
+  original HOR files). Do NOT divide by 10 downstream.
 
 ## Edge Cases
 - **Empty registry**: Raise a clear `FileNotFoundError`.
