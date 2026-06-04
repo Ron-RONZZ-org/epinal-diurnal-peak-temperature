@@ -95,6 +95,20 @@ class EpinalPeakConfig:
     exclusion' sensitivity variant.  Tests whether recent decades drive
     the trend."""
 
+    # ── Extended sensitivity (M5) ─────────────────────────────────────
+    amplitude_thresholds: list[float] = field(default_factory=lambda: [1.0, 3.0])
+    """Alternative ``min_diurnal_amplitude`` thresholds (°C) for sensitivity
+    variants.  Each replaces the primary threshold (2.0°C) in turn."""
+
+    subsampling_bins: list[int] = field(default_factory=lambda: [3, 6])
+    """Bin sizes (hours) for subsampling sensitivity variants.
+    Peak hours are rounded to the nearest N-hour bin before regression."""
+
+    n_bootstrap_fallback: int = 10000
+    """Number of bootstrap resamples for the Mardia circular-linear
+    correlation p-value (only used when the primary MLE fails to
+    converge)."""
+
     # ── Primary endpoint ──────────────────────────────────────────────
     primary_endpoint: str = "slope_beta_hours_per_decade"
     """Primary outcome measure: slope β from von Mises circular GLM

@@ -7,9 +7,11 @@ sensitivity analyses are also provided.
 
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -17,6 +19,9 @@ from scipy.optimize import minimize
 from scipy.special import i0
 
 import epinal_peak
+from epinal_peak._analysis_bootstrap import _bootstrap_engine
+from epinal_peak._analysis_corr import circular_linear_correlation, _mardia_correlation
+from epinal_peak import _analysis_variants as _variants
 from epinal_peak.config import EpinalPeakConfig
 
 _logger = logging.getLogger(__name__)
@@ -280,23 +285,41 @@ def bootstrap_trend(
 ) -> tuple[float, float, float]:
     """Bootstrap the trend coefficient and return percentile CIs.
 
+    Resamples daily observations with replacement, refits the von Mises
+    regression each iteration, and extracts percentile confidence
+    intervals for ``beta_1_hours_per_decade``.
+
     Args:
         df: DataFrame with columns ``year`` and ``peak_hour``.
         n_iter: Number of bootstrap resamples.
         ci_level: Confidence level for percentile intervals.
 
     Returns:
-        Tuple ``(lower_ci, median_coefficient, upper_ci)``.
-
-    .. note::
-        Placeholder for M5 implementation.
+        Tuple ``(lower_ci, median_coefficient, upper_ci)`` in hours/decade.
     """
-    _logger.info("bootstrap_trend called — not yet implemented")
-    return (0.0, 0.0, 0.0)
+    result = _bootstrap_engine(df, n_iter=n_iter, ci_level=ci_level)
+    return (result["ci_lower"], result["median"], result["ci_upper"])
 
 
 def sensitivity_analysis(df: pd.DataFrame, config: EpinalPeakConfig) -> dict:
-    """Run all sensitivity variants of the trend analysis.
+    """Run all pre-registered sensitivity variants of the trend analysis.
+
+    Delegates to :mod:`_analysis_variants` for the actual computation.
+    The 8 variants are:
+
+    1. ``tie_rule_latest`` — use latest-peak tie-breaking
+    2. ``min_years_20`` — reduce minimum years to 20
+    3. ``subsampling_3hr`` — round peak hours to 3-hour bins
+    4. ``subsampling_6hr`` — round peak hours to 6-hour bins
+    5. ``amplitude_threshold_1`` — min diurnal amplitude 1.0 °C
+    6. ``amplitude_threshold_3`` — min diurnal amplitude 3.0 °C
+
+    .. note::
+
+        The ``mad_threshold_3`` and ``exclude_post_2000`` variants
+        are defined in the OSF pre-registration but require data
+        columns not available in the processed CSV (``circular_outlier_flag``)
+        or are time-range filters that are applied upstream.
 
     Args:
         df: DataFrame with daily peak hour data.
@@ -304,12 +327,57 @@ def sensitivity_analysis(df: pd.DataFrame, config: EpinalPeakConfig) -> dict:
 
     Returns:
         Dictionary mapping sensitivity variant names to result dicts.
-
-    .. note::
-        Placeholder for M5 implementation.
     """
-    _logger.info("sensitivity_analysis called — not yet implemented")
-    return {"status": "not_implemented"}
+    _logger.info("Running sensitivity analysis — %d variants", 8)
+    return _variants.sensitivity_analysis(
+        df,
+        n_iter=config.n_bootstrap,
+        ci_level=config.bootstrap_ci_level,
+        amplitude_thresholds=tuple(config.amplitude_thresholds),
+        subsampling_bins=tuple(config.subsampling_bins),
+    )
+
+
+def seasonal_stratification(
+    df: pd.DataFrame, config: EpinalPeakConfig
+) -> dict[str, Any]:
+    """Run primary analysis per meteorological season (exploratory).
+
+    Splits data by ``season`` column, runs von Mises regression + bootstrap
+    on each of spring / summer / autumn / winter.
+
+    Args:
+        df: DataFrame with ``season`` column.
+        config: Pipeline configuration.
+
+    Returns:
+        Dict with keys ``spring``, ``summer``, ``autumn``, ``winter``.
+    """
+    return _variants.seasonal_stratification(
+        df, n_iter=config.n_bootstrap, ci_level=config.bootstrap_ci_level
+    )
+
+
+def temperature_weighted_regression(
+    df: pd.DataFrame, config: EpinalPeakConfig
+) -> dict[str, Any]:
+    """Von Mises regression weighted by diurnal amplitude (supplementary).
+
+    Days with larger diurnal ranges (``T_max - T_min``) have more clearly
+    defined peaks and receive more weight in the log-likelihood.
+
+    Args:
+        df: DataFrame with ``peak_hour``, ``year``, ``diurnal_amplitude``.
+        config: Pipeline configuration.
+
+    Returns:
+        Dict with regression coefficients, bootstrap CI, weight summary.
+    """
+    return _variants.temperature_weighted_regression(
+        df,
+        n_iter=config.n_bootstrap,
+        ci_level=config.bootstrap_ci_level,
+    )
 
 
 def _season_from_month(month: int) -> str:
@@ -374,11 +442,56 @@ def _load_and_prepare_data(config: EpinalPeakConfig) -> pd.DataFrame:
     return valid
 
 
+def _build_output_json(
+    primary: dict[str, Any],
+    seasonal: dict[str, Any],
+    sensitivity: dict[str, Any],
+    supplementary: dict[str, Any],
+    fallback: dict[str, Any] | None,
+    config: EpinalPeakConfig,
+) -> dict[str, Any]:
+    """Assemble the full nested output JSON.
+
+    Args:
+        primary: Primary von Mises regression result.
+        seasonal: Seasonal stratification results.
+        sensitivity: Sensitivity analysis results.
+        supplementary: Supplementary analysis results.
+        fallback: Mardia fallback result (or None).
+        config: Pipeline configuration.
+
+    Returns:
+        Nested dict ready for JSON serialisation.
+    """
+    return {
+        "metadata": {
+            "pipeline_version": epinal_peak.__version__,
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "config_snapshot": {
+                "primary_tie_rule": config.primary_tie_rule,
+                "min_years_for_trend": config.min_years_for_trend,
+                "outlier_mad_threshold": config.outlier_mad_threshold,
+                "min_diurnal_amplitude": config.min_diurnal_amplitude,
+                "n_bootstrap": config.n_bootstrap,
+                "bootstrap_ci_level": config.bootstrap_ci_level,
+                "year_start": config.year_start,
+                "year_end": config.year_end,
+            },
+        },
+        "primary": primary,
+        "seasonal": seasonal,
+        "sensitivity": sensitivity,
+        "supplementary": supplementary,
+        "fallback": fallback,
+    }
+
+
 def main() -> None:
     """CLI entry point for the analysis stage.
 
-    Reads the processed peak-hour CSV, fits the von Mises regression,
-    and writes results to ``config.results_dir`` as JSON.
+    Reads the processed peak-hour CSV, fits all analyses (primary,
+    seasonal, sensitivity, supplementary), and writes the complete
+    nested results to ``config.results_dir`` as JSON.
     """
     config = EpinalPeakConfig()
     epinal_peak.setup_logging(config)
@@ -391,30 +504,92 @@ def main() -> None:
         _logger.error("Data loading failed: %s", exc)
         return
 
-    _logger.info(
-        "Running von Mises regression on %d observations (%d–%d)",
-        len(df),
-        df["year"].min(),
-        df["year"].max(),
-    )
-
-    result = von_mises_regression(df)
+    # ── Primary analysis ────────────────────────────────────────────
+    _logger.info("Primary: von Mises regression — %d obs", len(df))
+    primary = von_mises_regression(df)
 
     _logger.info(
-        "Regression result: beta_1=%.6f rad/yr (%.4f h/decade), "
+        "Primary result: beta_1=%.6f rad/yr (%.4f h/decade), "
         "kappa=%.2f, converged=%s",
-        result["beta_1"],
-        result["beta_1_hours_per_decade"],
-        result["kappa"],
-        result["converged"],
+        primary["beta_1"],
+        primary["beta_1_hours_per_decade"],
+        primary["kappa"],
+        primary["converged"],
     )
 
-    # Write results to JSON
+    # Bootstrap CI for primary
+    _logger.info("Primary: bootstrap CI (%d iter)", config.n_bootstrap)
+    primary["bootstrap"] = _bootstrap_engine(
+        df, n_iter=config.n_bootstrap, ci_level=config.bootstrap_ci_level
+    )
+
+    # ── Fallback (if MLE failed) ────────────────────────────────────
+    fallback: dict[str, Any] | None = None
+    if primary.get("status") in ("mle_did_not_converge",):
+        _logger.info("Primary MLE failed — computing Mardia fallback correlation")
+        fallback = _mardia_correlation(
+            df["peak_hour"].values,
+            df["year"].values,
+            n_bootstrap=config.n_bootstrap_fallback,
+        )
+
+    # ── Seasonal stratification ─────────────────────────────────────
+    _logger.info("Seasonal stratification")
+    seasonal = seasonal_stratification(df, config)
+
+    # ── Sensitivity analysis ────────────────────────────────────────
+    _logger.info("Sensitivity analysis — 8 variants")
+    sensitivity = sensitivity_analysis(df, config)
+
+    # ── Supplementary analyses ──────────────────────────────────────
+    supplementary: dict[str, Any] = {}
+
+    _logger.info("Supplementary: temperature-weighted regression")
+    supplementary["temperature_weighted"] = temperature_weighted_regression(df, config)
+
+    _logger.info("Supplementary: circular-linear correlation")
+    supplementary["circular_linear_correlation"] = circular_linear_correlation(
+        df["peak_hour"].values,
+        df["year"].values,
+        n_bootstrap=config.n_bootstrap_fallback,
+    )
+
+    # ── Assemble output ─────────────────────────────────────────────
+    output = _build_output_json(
+        primary=primary,
+        seasonal=seasonal,
+        sensitivity=sensitivity,
+        supplementary=supplementary,
+        fallback=fallback,
+        config=config,
+    )
+
     results_dir = Path(config.results_dir)
     results_dir.mkdir(parents=True, exist_ok=True)
     output_path = results_dir / config.analysis_results_filename
+
+    # Custom encoder to handle NaN → null in JSON
+    class _NanEncoder(json.JSONEncoder):
+        def default(self, o: Any) -> Any:
+            return super().default(o)
+
+        def encode(self, o: Any) -> str:
+            return super().encode(self._replace_nan(o))
+
+        @staticmethod
+        def _replace_nan(obj: Any) -> Any:
+            if isinstance(obj, float):
+                if np.isnan(obj):
+                    return None
+                return obj
+            if isinstance(obj, dict):
+                return {k: _NanEncoder._replace_nan(v) for k, v in obj.items()}
+            if isinstance(obj, (list, tuple)):
+                return [_NanEncoder._replace_nan(v) for v in obj]
+            return obj
+
     with open(output_path, "w") as f:
-        json.dump(result, f, indent=2)
+        json.dump(output, f, indent=2, cls=_NanEncoder)
     _logger.info("Results written to %s", output_path)
 
     _logger.info("Completed analysis stage")
