@@ -1,0 +1,59 @@
+## Introduction
+
+The diurnal temperature cycle -- the rise from daily minimum to daily
+maximum and subsequent decline -- is a fundamental climatic rhythm that
+shapes ecological processes, agricultural productivity, human health
+outcomes, and energy demand [@wang2014recent]. Most research on changes
+in the diurnal cycle has focused on the diurnal temperature range (DTR),
+documenting a narrowing of the range in many regions as minimum
+temperatures have risen faster than maximum temperatures
+[@gill2010circular]. Far less attention has been paid to whether the
+*phasing* (timing) of the diurnal cycle is changing -- that is, whether
+the clock hour at which the daily maximum temperature occurs has shifted
+over time.
+
+Recent evidence suggests that the phase of the diurnal temperature cycle
+may indeed be shifting at global scales. In a conference presentation,
+Shmuel et al. [-@shmuel2026daily] analysed historical hourly temperature
+records spanning the 1980s to the near present and documented systematic
+shifts in the timing of both morning warming and afternoon cooling
+periods. Their key findings include morning warming-period temperatures
+occurring approximately 15 minutes earlier per decade globally, and
+afternoon cooling-period temperatures occurring more than 20 minutes
+later per decade. Under a moderate emissions scenario (SSP2-4.5), they
+project that equivalent temperatures could shift by over three hours by
+2100 relative to late-20th-century baselines.
+
+In a complementary peer-reviewed global analysis, Wang and
+Dillon [-@wang2014recent] used over 1.4 billion hourly measurements
+from 7\,906 weather stations worldwide covering the period 1975--2013.
+They reported that diurnal temperature variation increased by
+approximately 1.0\,{\textdegree}C in temperate regions, with this
+increase particularly pronounced in Europe, including France. They
+further documented coherent changes in the phase of the *annual*
+temperature cycle, suggesting that both diurnal and seasonal timing
+shifts are occurring in response to radiative forcing.
+
+Together, these findings suggest that the diurnal temperature cycle is
+undergoing systematic changes in both magnitude and phase at global and
+continental scales. However, neither study examines the specific clock
+hour of daily maximum temperature at a local, station-based scale -- and
+neither focuses on the Grand Est region of France or the city of
+{\'E}pinal.
+
+### Present study
+
+We address this gap by asking a focused question: *Has the clock hour of
+the daily maximum temperature at {\'E}pinal, France, changed over the
+past four decades?* Using 40 years of hourly temperature records from a
+single well-instrumented M{\'e}t{\'e}o-France RADOME station, we apply a
+von Mises circular regression model -- the appropriate statistical
+framework for a circular response variable (0--23 hours) -- to estimate
+the trend in peak temperature timing. We evaluate eight pre-registered
+sensitivity variants to constrain researcher degrees of freedom and
+conduct exploratory seasonal stratifications.
+
+This study thus tests whether the global phase shifts provisionally
+identified by Shmuel et al. [-@shmuel2026daily] are detectable at a
+single station in eastern France, at the resolution of the daily
+temperature peak.

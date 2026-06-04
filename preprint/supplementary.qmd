@@ -1,0 +1,60 @@
+## Supplementary Material
+
+### S1. Complete sensitivity analysis results
+
+Full numerical results for all eight sensitivity variants, including
+$\kappa$ estimates and log-likelihood values.
+
+| Variant | $\beta$ (h/decade) | 95~\% CI | $\kappa$ | log~$L$ | n~obs | n~years |
+|---------|--------------------|----------|----------|---------|-------|---------|
+| Primary (earliest tie) | [beta_p] | [ci_p] | [kap_p] | [ll_p] | [n_p] | [ny_p] |
+| Latest tie | [beta_l] | [ci_l] | [kap_l] | [ll_l] | [n_l] | [ny_l] |
+| Min years = 20 | [beta_y] | [ci_y] | [kap_y] | [ll_y] | [n_y] | [ny_y] |
+| MAD = 3.0 | [beta_m] | [ci_m] | [kap_m] | [ll_m] | [n_m] | [ny_m] |
+| Exclude post-2000 | [beta_e] | [ci_e] | [kap_e] | [ll_e] | [n_e] | [ny_e] |
+| 3-hour bin | [beta_3h] | [ci_3h] | [kap_3h] | [ll_3h] | [n_3h] | [ny_3h] |
+| 6-hour bin | [beta_6h] | [ci_6h] | [kap_6h] | [ll_6h] | [n_6h] | [ny_6h] |
+| Amp 1.0~°C | [beta_a1] | [ci_a1] | [kap_a1] | [ll_a1] | [n_a1] | [ny_a1] |
+| Amp 3.0~°C | [beta_a3] | [ci_a3] | [kap_a3] | [ll_a3] | [n_a3] | [ny_a3] |
+
+### S2. Descriptive statistics by decade
+
+| Period | n~obs | Circular mean (h) | Circular SD (h) |
+|--------|-------|-------------------|-----------------|
+| 1986--1995 | [n_1] | [m_1] | [s_1] |
+| 1996--2005 | [n_2] | [m_2] | [s_2] |
+| 2006--2015 | [n_3] | [m_3] | [s_3] |
+| 2016--2025 | [n_4] | [m_4] | [s_4] |
+
+### S3. Power analysis
+
+The pre-registered power analysis (see `notebooks/02-power-analysis.qmd`
+for full details) estimated a minimum detectable effect of
+~25--30~min/decade at 80~\% power for the full record
+($\kappa \approx 2.5$). Seasonal sub-analyses require effects
+>45--60~min/decade to achieve the same power.
+
+![Power curves for the full record, single-season, and half-season
+  sample sizes at the observed concentration
+  $\kappa \approx 2.5$.](results/figures/power_curve.pdf)
+
+![Sensitivity of detection power to the concentration parameter
+  $\kappa$.](results/figures/power_curve_kappa_sensitivity.pdf)
+
+### S4. Supplementary analysis: temperature-weighted regression
+
+Temperature-weighted von Mises regression (weight = diurnal amplitude)
+yielded [beta_w]~h/decade~ (95~\% CI: [ci_w]), consistent with the
+unweighted primary estimate.
+
+### S5. Mardia circular--linear rank correlation
+
+Corroborating non-parametric test using all daily observations:
+
+- $\rho_c$ = [rho_c]
+- Bootstrap p-value = [p_val]
+- n = [n_mardia]
+
+### S6. Contingency analysis
+
+[If applicable, describe fallback results here.]

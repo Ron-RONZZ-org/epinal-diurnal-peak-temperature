@@ -1,0 +1,32 @@
+## Conclusion
+
+We present evidence of a [detectable / non-detectable] shift in the
+clock hour of daily maximum temperature at {\'E}pinal, France, over the
+1986--2025 period, estimated using a von Mises circular regression
+framework with bootstrap uncertainty quantification. The estimated trend
+of [beta]~h/decade~ [is consistent with / contrasts with] the global
+phase shifts reported by Shmuel et al. [-@shmuel2026daily] and the
+European diurnal cycle changes documented by Wang and
+Dillon [-@wang2014recent].
+
+The trend [remains / does not remain] robust across eight pre-registered
+sensitivity variants, suggesting that the result is not an artefact of
+specific methodological choices. Seasonal stratifications reveal
+[meaningful / suggestive / null] heterogeneity in the timing of peak
+temperature changes across the year, albeit with lower statistical
+power.
+
+These findings contribute local-scale, station-level evidence to the
+emerging picture of a changing diurnal temperature phase. Replication
+across the broader M{\'e}t{\'e}o-France RADOME network and extension to
+other regions with long sub-daily temperature records are natural next
+steps. If the shift is confirmed more broadly, it would warrant
+re-evaluation of applied models -- from heat-health预警 to building
+energy and crop modelling -- that currently assume a stationary diurnal
+cycle.
+
+**Data and code availability.** All analysis code is available at
+[https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature](
+https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature).
+Processed data and the pre-registration are archived on OSF
+[[DOI_link]].

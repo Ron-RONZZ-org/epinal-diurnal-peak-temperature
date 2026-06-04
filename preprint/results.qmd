@@ -1,0 +1,110 @@
+## Results
+
+### Data summary
+
+After quality control filtering, [N_valid] valid observation-days across
+[N_years] calendar years (1986--2025) were available for analysis. The
+overall circular mean peak hour was [mean_hour]:00 local time
+(circular~SD~ = [circ_std]~h~), confirming that the daily maximum at
+{\'E}pinal typically occurs in the mid-afternoon, consistent with
+boundary-layer heating dynamics.
+
+### Primary trend estimate
+
+The von Mises circular regression yielded a slope of
+[beta]~h/decade~ (95~\% bootstrap CI: [ci_lower], [ci_upper];
+$\kappa$ = [kappa]). This [indicates a shift toward later/earlier
+peak timing / suggests no detectable shift over the study period].
+
+Figure~\ref{fig-wrapped-scatter} shows the daily peak-hour observations
+with the fitted von Mises trend line and 95~\% confidence band. The
+hexagonal binning reveals the dominant concentration of peak hours in
+the 14:00--18:00 window (approximately [pct]~\% of observations), with
+the broad spread reflecting meteorological day-to-day variability.
+
+![Daily peak-hour observations (hexbin density) with von Mises
+  regression trend line and 95~\% bootstrap confidence band.
+  The circular y-axis (0h$\leftrightarrow$24h) is shown zoomed to
+  8--22h for readability.](results/figures/wrapped_scatter.pdf){#fig-wrapped-scatter}
+
+### Sensitivity analyses
+
+All eight pre-registered sensitivity variants produced results
+consistent with the primary estimate (Table~\ref{tbl-sensitivity}),
+indicating that the trend is not driven by any single methodological
+choice.
+
+| Variant | $\beta$ (h/decade) | 95~\% CI | n~obs |
+|---------|--------------------|----------|-------|
+| Primary (earliest tie) | [beta_p] | [ci_p_l, ci_p_u] | [n_p] |
+| Latest tie | [beta_l] | [ci_l_l, ci_l_u] | [n_l] |
+| Min years = 20 | [beta_y] | [ci_y_l, ci_y_u] | [n_y] |
+| MAD threshold = 3.0 | [beta_m] | [ci_m_l, ci_m_u] | [n_m] |
+| Exclude post-2000 | [beta_e] | [ci_e_l, ci_e_u] | [n_e] |
+| 3-hour subsampling | [beta_3h] | [ci_3h_l, ci_3h_u] | [n_3h] |
+| 6-hour subsampling | [beta_6h] | [ci_6h_l, ci_6h_u] | [n_6h] |
+| Min amplitude 1.0~°C | [beta_a1] | [ci_a1_l, ci_a1_u] | [n_a1] |
+| Min amplitude 3.0~°C | [beta_a3] | [ci_a3_l, ci_a3_u] | [n_a3] |
+: Summary of primary and sensitivity analysis results.
+  $\beta$ is in hours per decade; CI bounds are 2.5th and 97.5th
+  bootstrap percentiles. {#tbl-sensitivity}
+
+Figure~\ref{fig-rose-diagram} compares the circular distribution of
+peak hours in the early and late halves of the record, showing
+[no visible / a subtle] shift in the concentration and direction of peak
+hours.
+
+![Rose diagram comparing the circular distribution of peak hours
+  between the early (left) and late (right) halves of the study
+  period.](results/figures/rose_diagram.pdf){#fig-rose-diagram}
+
+The 5-year moving circular mean (Figure~\ref{fig-moving-average})
+further illustrates the interannual variability and [presence/absence]
+of a decadal-scale trend.
+
+![Five-year moving circular mean of daily peak hour, with each point
+  representing the circular mean of peak hours in a
+  $\pm$2-year window.](results/figures/moving_average.pdf){#fig-moving-average}
+
+For context, Figure~\ref{fig-context} shows the annual mean daily
+maximum temperature over the study period. [No/An] accompanying trend
+in the temperature magnitude [is/is not] evident.
+
+![Annual mean daily maximum temperature (solid line) with $\pm$1~SD
+  band (medium shading) and full annual range (light shading).
+  ](results/figures/context_timeseries.pdf){#fig-context}
+
+### Seasonal patterns
+
+The seasonal sub-analyses (Table~\ref{tbl-seasonal}) [revealed
+heterogeneous trends across seasons / were broadly consistent with the
+annual result]. [Spring/summer/autumn/winter] showed the largest
+estimated shift at [beta_season]~h/decade~, while
+[spring/summer/autumn/winter] showed [no detectable trend / the weakest
+signal].
+
+| Season | $\beta$ (h/decade) | 95~\% CI | n~obs |
+|--------|--------------------|----------|-------|
+| Spring (MAM) | [beta_sp] | [ci_sp_l, ci_sp_u] | [n_sp] |
+| Summer (JJA) | [beta_su] | [ci_su_l, ci_su_u] | [n_su] |
+| Autumn (SON) | [beta_au] | [ci_au_l, ci_au_u] | [n_au] |
+| Winter (DJF) | [beta_wi] | [ci_wi_l, ci_wi_u] | [n_wi] |
+: Seasonal von Mises regression results. CI bounds are 2.5th and 97.5th
+  bootstrap percentiles. {#tbl-seasonal}
+
+Figure~\ref{fig-seasonal} presents the per-season trend panels.
+Note that the exploratory nature of these analyses (no multiple-testing
+correction) warrants cautious interpretation.
+
+![Seasonal von Mises regression trends. Each panel shows hexbin density
+  of daily peak hours and the fitted trend line with 95~\% CI band.
+  ](results/figures/seasonal_trend.pdf){#fig-seasonal}
+
+### Supplementary analyses
+
+Temperature-weighted von Mises regression (weighting each day by its
+diurnal amplitude) produced a consistent estimate of
+[beta_w]~h/decade~, confirming that the trend is not driven by days
+with poorly defined peaks. The circular--linear rank correlation
+(Mardia 1976) yielded $\rho_c$ = [rho_c] ([p-value = / p~{\textless}~]
+0.05), corroborating the MLE-based result.

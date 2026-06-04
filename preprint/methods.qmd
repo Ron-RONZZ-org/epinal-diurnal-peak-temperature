@@ -1,0 +1,121 @@
+## Methods
+
+### Data source
+
+We obtained sub-daily (hourly) temperature records from the
+M{\'e}t{\'e}o-France Synop Essentielles / RADOME network, station
+**88136001** ({\'E}pinal, 48.21{\textdegree}N, 6.45{\textdegree}E,
+317 m a.s.l.). The station opened on 1 June 1986; no sub-daily data
+exist before this date. The study period spans 1 January 1986 to
+31 December 2025, yielding up to 40 years of continuous hourly records.
+Raw data were acquired via the M{\'e}t{\'e}o-France public data API
+using the `pooch` data registry and archived on OSF for reproducibility.
+
+### Preprocessing and quality control
+
+All processing was performed in Python~$\geq$~3.10 using `numpy`,
+`pandas`, and native `zoneinfo` for timezone handling (no `pytz`).
+
+**UTC to local time conversion.** Raw UTC timestamps were converted to
+local time (CET/CEST) via `zoneinfo.ZoneInfo("Europe/Paris")`,
+with correct handling of 23-hour (spring-forward) and 25-hour
+(autumn-back) daylight saving transition days via the `fold` attribute.
+
+**Missing data filter.** A calendar day was retained only if at least
+75~\% of hourly observations were non-null (i.e., $\leq$~6 missing hours
+out of 24).
+
+**Diurnal amplitude filter.** Days with a diurnal temperature range
+$T_{\max} - T_{\min} < 2.0$~{\textdegree}C were excluded as likely
+flat-trace instrument artefacts or radiation-error events.
+
+**Physical range check.** Hourly temperatures outside
+$[-30, 50]$~{\textdegree}C were dropped as instrument errors.
+
+**Outlier flagging.** Observations exceeding 5.0 median absolute
+deviations (MAD) from the series median were flagged and the
+corresponding day excluded from the primary analysis.
+
+**Peak hour extraction.** For each valid calendar day, the clock hour(s)
+of the maximum recorded temperature were identified. When multiple hours
+shared the same maximum temperature, the *earliest* hour was selected as
+the primary analysis variable; the *latest* hour was retained for a
+sensitivity analysis. This tie-breaking rule is critical: the circular
+average of two peak hours such as 23:00 and 00:00 would give 11:30 --
+a physically meaningless result.
+
+### Von Mises circular regression
+
+The peak hour $\theta_i$ (converted to radians as
+$\theta_i = 2\pi \times \text{peak\_hour}_i / 24$) is a circular
+response variable for which linear regression is inappropriate. We
+therefore model the trend using a von Mises GLM fitted by direct
+maximum likelihood estimation (MLE) via `scipy.optimize.minimize`,
+following Fisher and Lee [-@fisher1992regression].
+
+The model maximises the log-likelihood:
+
+$$
+\log L = \sum_{i=1}^{n} \kappa \cos(\theta_i - \mu_i)
+         - n \log\bigl(2\pi I_0(\kappa)\bigr)
+$$
+
+where:
+- $\mu_i = \beta_0 + \beta_1 \, x_i$
+- $x_i = \text{year}_i - \text{year\_midpoint}$ (centred year)
+- $\kappa = \exp(\text{log\_kappa}) > 0$ is the concentration parameter
+- $I_0(\kappa)$ is the modified Bessel function of order 0
+
+Year centring at the midpoint of the data range reduces correlation
+between the intercept $\beta_0$ and slope $\beta_1$ estimates.
+
+The primary endpoint is $\beta_1$ converted to **hours per decade**:
+
+$$
+\beta\ (\text{h/decade}) = \beta_1 \times \frac{24}{2\pi} \times 10
+$$
+
+Confidence intervals were obtained from 1\,000 bootstrap resamples:
+daily observations were resampled with replacement, the model refit on
+each resample, and the 2.5th and 97.5th percentiles of the bootstrap
+distribution extracted.
+
+### Contingency: circular--linear correlation
+
+If the MLE fails to converge (e.g., all peak hours identical, flat
+likelihood), we fall back to the nonparametric circular--linear rank
+correlation of Mardia [-@mardia1976linearcircular]:
+
+$$
+\rho_c^2 = \frac{r_{cx}^2 + r_{sx}^2 - 2\, r_{cx}\, r_{sx}\, r_{cs}}
+               {1 - r_{cs}^2}
+$$
+
+where $r_{cx}$, $r_{sx}$, and $r_{cs}$ are rank correlations among
+$\cos\theta$, $\sin\theta$, and year $x$. Significance is assessed by
+bootstrap (10\,000 resamples).
+
+### Sensitivity analysis
+
+We evaluated eight pre-registered sensitivity variants, each varying a
+single parameter while keeping all others at their primary values:
+(1) latest-peak tie-breaking; (2) reduced minimum record length (20
+years); (3) strict outlier threshold (3.0~MAD); (4) post-2000 exclusion;
+(5)--(6) subsampling peak hours to 3-hour and 6-hour bins; (7)--(8)
+alternative diurnal amplitude thresholds (1.0 and
+3.0~{\textdegree}C).
+
+### Seasonal stratification
+
+As an exploratory analysis, we repeated the primary regression
+separately for each meteorological season: spring (MAM),
+summer (JJA), autumn (SON), winter (DJF). These results are
+presented as supplementary information without multiple-testing
+correction.
+
+### Software
+
+All analyses used Python~$\geq$~3.10 with `numpy`, `pandas`, `scipy`,
+`statsmodels`, `matplotlib`, `seaborn`, and `pooch`. Complete
+reproducibility is ensured via `pyproject.toml`-pinned dependencies and
+the pipeline `Makefile`.

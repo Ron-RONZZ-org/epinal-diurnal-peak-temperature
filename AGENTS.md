@@ -46,7 +46,17 @@ epinal-diurnal-peak-temperature/
 ├── results/
 │   └── figures/               # Output figures (PDF + PNG)
 ├── logs/                      # Pipeline execution logs
-├── preprint/                  # Quarto manuscript
+├── preprint/                  # Quarto manuscript (.qmd sections + main.qmd)
+│   ├── main.qmd               # Orchestrator — includes all sections
+│   ├── abstract.qmd           # Structured abstract
+│   ├── introduction.qmd       # Background and literature review
+│   ├── methods.qmd            # Data source, QC, von Mises regression
+│   ├── results.qmd            # Primary and sensitivity results
+│   ├── discussion.qmd         # Interpretation and limitations
+│   ├── conclusion.qmd         # Summary and outlook
+│   ├── references.qmd         # Bibliography (rendered from .bib)
+│   ├── supplementary.qmd      # Extended tables and figures
+│   └── bibliography.bib       # BibTeX citation database
 ├── pyproject.toml             # Source of truth for dependencies
 ├── Makefile                   # Pipeline orchestration
 └── AGENTS.md                  # This file
@@ -88,7 +98,8 @@ This project uses `pyproject.toml` for dependency management. All dependencies a
 
 - **Core**: pandas, numpy, scipy, statsmodels, pooch, matplotlib, seaborn, zoneinfo (stdlib)
 - **Dev/Test**: pytest, pytest-cov
-- **Optional**: pandera (schema validation), pingouin (supplementary correlation), quarto (manuscript render)
+- **Optional**: pandera (schema validation), pingouin (supplementary correlation)
+- **External (not pip)**: Quarto CLI (>=1.4) for manuscript compilation — install from https://quarto.org
 
 Install: `pip install -e ".[dev]"`
 
