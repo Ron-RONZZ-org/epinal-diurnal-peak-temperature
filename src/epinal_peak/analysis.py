@@ -106,10 +106,10 @@ def _load_and_prepare_data(config: EpinalPeakConfig) -> pd.DataFrame:
 
 
 def sensitivity_analysis(df: pd.DataFrame, config: EpinalPeakConfig) -> dict:
-    """Run all pre-registered sensitivity variants of the trend analysis.
+    """Run pooled sensitivity variants of the trend analysis.
 
     Delegates to :mod:`_analysis_variants` for the actual computation.
-    The 8 variants are:
+    The 6 variants are:
 
     1. ``tie_rule_latest`` — use latest-peak tie-breaking
     2. ``min_years_20`` — reduce minimum years to 20
@@ -117,13 +117,6 @@ def sensitivity_analysis(df: pd.DataFrame, config: EpinalPeakConfig) -> dict:
     4. ``subsampling_6hr`` — round peak hours to 6-hour bins
     5. ``amplitude_threshold_1`` — min diurnal amplitude 1.0 °C
     6. ``amplitude_threshold_3`` — min diurnal amplitude 3.0 °C
-
-    .. note::
-
-        The ``mad_threshold_3`` and ``exclude_post_2000`` variants
-        are defined in the OSF pre-registration but require data
-        columns not available in the processed CSV (``circular_outlier_flag``)
-        or are time-range filters that are applied upstream.
 
     Args:
         df: DataFrame with daily peak hour data.

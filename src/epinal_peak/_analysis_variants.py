@@ -145,7 +145,7 @@ def sensitivity_analysis(
     amplitude_thresholds: tuple[float, ...] | None = None,
     subsampling_bins: tuple[int, ...] | None = None,
 ) -> dict[str, Any]:
-    """Run all pre-registered sensitivity variants.
+    """Run all pooled sensitivity variants.
 
     Args:
         df: Daily peak-hour DataFrame.
