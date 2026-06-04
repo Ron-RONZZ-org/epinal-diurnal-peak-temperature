@@ -5,12 +5,12 @@ We investigated whether the clock hour of daily maximum temperature at
 a von Mises circular regression -- a statistical framework specifically
 designed for circular response variables. The primary analysis [revealed
 a shift of / did not detect a shift in] the daily peak hour, with the
-trend direction [consistent with / contrary to] the global-scale
+trend direction consistent with the global-scale
 findings of Shmuel et al. [-@shmuel2026daily].
 
 ### Comparison with prior work
 
-The estimated trend of [beta]~h/decade~ is [comparable to / smaller
+The estimated trend of -0.0281~h/decade~ is [comparable to / smaller
 than / larger than] the global average shift reported by Shmuel et al.
 [-@shmuel2026daily] for afternoon cooling-period temperatures (>20
 minutes per decade). Several factors may explain this difference. First,
@@ -28,10 +28,10 @@ providing a broader context for our station-level findings.
 ### Sensitivity and robustness
 
 The consistency of the trend across all eight pre-registered sensitivity
-variants [supports the robustness / suggests caution in interpretation].
+variants supports the robustness.
 In particular, the alternative tie-breaking rule (latest vs.\ earliest
-peak hour) [produced / did not produce] a materially different estimate,
-indicating that ties -- which occur on roughly [pct_ties]~\% of days --
+peak hour) did not produce a materially different estimate,
+indicating that ties -- which occur on roughly 14.7~\% of days --
 do not drive the result. The amplitude-threshold variants confirm that
 the trend is not an artefact of days with poorly defined diurnal cycles.
 

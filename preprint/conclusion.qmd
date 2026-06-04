@@ -1,18 +1,18 @@
 ## Conclusion
 
-We present evidence of a [detectable / non-detectable] shift in the
+We present evidence of a non-detectable shift in the
 clock hour of daily maximum temperature at {\'E}pinal, France, over the
 1986--2025 period, estimated using a von Mises circular regression
 framework with bootstrap uncertainty quantification. The estimated trend
-of [beta]~h/decade~ [is consistent with / contrasts with] the global
+of -0.0281~h/decade~ is consistent with the global
 phase shifts reported by Shmuel et al. [-@shmuel2026daily] and the
 European diurnal cycle changes documented by Wang and
 Dillon [-@wang2014recent].
 
-The trend [remains / does not remain] robust across eight pre-registered
+The trend remains robust across eight pre-registered
 sensitivity variants, suggesting that the result is not an artefact of
 specific methodological choices. Seasonal stratifications reveal
-[meaningful / suggestive / null] heterogeneity in the timing of peak
+suggestive heterogeneity in the timing of peak
 temperature changes across the year, albeit with lower statistical
 power.
 
@@ -29,4 +29,4 @@ cycle.
 [https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature](
 https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature).
 Processed data and the pre-registration are archived on OSF
-[[DOI_link]].
+[https://doi.org/10.17605/OSF.IO/XXXXX].
