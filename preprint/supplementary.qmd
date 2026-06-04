@@ -2,24 +2,67 @@
 
 ## Supplementary Material
 
-### S1. Complete pooled sensitivity results
+### S1. Per-season sensitivity analysis results
 
-Full numerical results for all pooled sensitivity variants, including
-$\kappa$ estimates and log-likelihood values.
+Full numerical results for all seasonal sensitivity variants, grouped
+by season. Each season's primary estimate is listed for reference.
 
-| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | $\log L$ | n obs | n years |
-|---------|--------------------|----------|----------|---------|-------|---------|
-| Primary (earliest tie) | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
-| Latest tie | $-0.0358$ | $(-0.078, 0.005)$ | 2.44 | $-13756$ | 12,163 | 35 |
-| Min years = 20 | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
-| MAD = 3.0 | --- | --- | --- | --- | --- | --- |
-| Exclude post-2000 | --- | --- | --- | --- | --- | --- |
-| 3-hour bin | $-0.0225$ | $(-0.068, 0.020)$ | 2.46 | $-13761$ | 12,163 | 35 |
-| 6-hour bin | $-0.0536$ | $(-0.112, 0.002)$ | 2.48 | $-13768$ | 12,163 | 35 |
-| Amp 1.0°C | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
-| Amp 3.0°C | $-0.0177$ | $(-0.059, 0.024)$ | 2.49 | $-12943$ | 11,457 | 35 |
+**Spring (MAM):**
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
+|---------|--------------------|----------|----------|-------|
+| Primary (earliest tie) | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 |
+| Latest tie | $-0.0704$ | $(-0.143, 0.003)$ | 2.36 | 3,168 |
+| 3-hour bin | $-0.0585$ | $(-0.128, 0.017)$ | 2.37 | 3,168 |
+| 6-hour bin | $-0.0793$ | $(-0.166, 0.006)$ | 2.38 | 3,168 |
+| Amp 1.0$\,^\circ$C | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 |
+| Amp 3.0$\,^\circ$C | $-0.0701$ | $(-0.143, 0.003)$ | 2.39 | 3,057 |
 
-### S2. Seasonal bootstrap confidence intervals
+**Summer (JJA):**
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
+|---------|--------------------|----------|----------|-------|
+| Primary (earliest tie) | $+0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 |
+| Latest tie | $+0.0370$ | $(-0.029, 0.101)$ | 2.72 | 3,111 |
+| 3-hour bin | $+0.0282$ | $(-0.037, 0.093)$ | 2.72 | 3,111 |
+| 6-hour bin | $-0.0165$ | $(-0.100, 0.066)$ | 2.75 | 3,111 |
+| Amp 1.0$\,^\circ$C | $+0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 |
+| Amp 3.0$\,^\circ$C | $+0.0226$ | $(-0.046, 0.087)$ | 2.72 | 3,018 |
+
+**Autumn (SON):**
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
+|---------|--------------------|----------|----------|-------|
+| Primary (earliest tie) | $+0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 |
+| Latest tie | $+0.0629$ | $(-0.025, 0.142)$ | 2.36 | 3,002 |
+| 3-hour bin | $+0.1006$ | $(-0.003, 0.186)$ | 2.38 | 3,002 |
+| 6-hour bin | $+0.0975$ | $(-0.029, 0.209)$ | 2.40 | 3,002 |
+| Amp 1.0$\,^\circ$C | $+0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 |
+| Amp 3.0$\,^\circ$C | $+0.0849$ | $(-0.007, 0.162)$ | 2.42 | 2,857 |
+
+**Winter (DJF):**
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
+|---------|--------------------|----------|----------|-------|
+| Primary (earliest tie) | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 |
+| Latest tie | $-0.2154$ | $(-0.311, -0.068)$ | 2.59 | 2,882 |
+| 3-hour bin | $-0.1982$ | $(-0.294, -0.068)$ | 2.61 | 2,882 |
+| 6-hour bin | $-0.3017$ | $(-0.437, -0.127)$ | 2.67 | 2,882 |
+| Amp 1.0$\,^\circ$C | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 |
+| Amp 3.0$\,^\circ$C | $-0.1299$ | $(-0.276, 0.015)$ | 2.69 | 2,750 |
+
+### S2. Pooled sensitivity results (supplementary)
+
+For completeness, the pooled (all-season) estimate under the same
+methodological variants:
+
+| Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
+|---------|--------------------|----------|----------|-------|
+| Primary (earliest tie) | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
+| Latest tie | $-0.0358$ | $(-0.078, 0.005)$ | 2.44 | 12,163 |
+| Min years = 20 | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
+| 3-hour bin | $-0.0225$ | $(-0.068, 0.020)$ | 2.46 | 12,163 |
+| 6-hour bin | $-0.0536$ | $(-0.112, 0.002)$ | 2.48 | 12,163 |
+| Amp 1.0$\,^\circ$C | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
+| Amp 3.0$\,^\circ$C | $-0.0177$ | $(-0.059, 0.024)$ | 2.49 | 11,457 |
+
+### S3. Seasonal bootstrap confidence intervals
 
 Per-season von Mises regression estimates with 95% bootstrap
 percentile intervals (reference for Table~1 in main text).
@@ -31,7 +74,7 @@ percentile intervals (reference for Table~1 in main text).
 | Autumn (SON) | $0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 | 35 |
 | Winter (DJF) | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 | 35 |
 
-### S3. Descriptive statistics by decade
+### S4. Descriptive statistics by decade
 
 | Period | n obs | Circular mean (h) | Circular SD (h) |
 |--------|-------|-------------------|-----------------|
@@ -40,7 +83,7 @@ percentile intervals (reference for Table~1 in main text).
 | 2006--2015 | 3,526 | 15.92 | 2.83 |
 | 2016--2025 | 3,560 | 15.96 | 2.77 |
 
-### S4. Power analysis
+### S5. Power analysis
 
 The power analysis (see `notebooks/02-power-analysis.qmd`
 for full details) estimated a minimum detectable effect of
@@ -55,13 +98,13 @@ for full details) estimated a minimum detectable effect of
 ![Sensitivity of detection power to the concentration parameter
   $\kappa$.](../results/figures/power_curve_kappa_sensitivity.pdf)
 
-### S5. Supplementary analysis: temperature-weighted regression
+### S6. Supplementary analysis: temperature-weighted regression
 
 Temperature-weighted von Mises regression (weight = diurnal amplitude)
 yielded $0.0210$ h/decade (95% CI: (-0.0125, 0.0528)), consistent with the
 unweighted pooled estimate.
 
-### S6. Mardia circular--linear rank correlation
+### S7. Mardia circular--linear rank correlation
 
 Non-parametric test using all daily observations:
 
@@ -73,6 +116,6 @@ The small but statistically significant correlation is consistent with
 a weak association between year and peak hour, in line with the small
 effect size estimated by the pooled MLE model.
 
-### S7. Contingency analysis
+### S8. Contingency analysis
 
 The primary MLE converged successfully; no fallback was required.
