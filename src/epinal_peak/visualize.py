@@ -20,7 +20,7 @@ from matplotlib.ticker import FuncFormatter, MultipleLocator
 from seaborn import color_palette
 
 import epinal_peak
-from epinal_peak.analysis import circular_mean
+from epinal_peak._analysis_regression import circular_mean
 from epinal_peak.config import EpinalPeakConfig
 
 _logger = logging.getLogger(__name__)
