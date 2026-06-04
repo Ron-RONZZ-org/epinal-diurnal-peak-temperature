@@ -97,20 +97,35 @@ is deemed insufficient for a meaningful trend estimate).
 
 ### 8.1 Primary analysis
 
-Fit a **von Mises circular GLM** using ``statsmodels``:
+Fit a **von Mises circular regression** by **direct maximum likelihood
+estimation (MLE)** via ``scipy.optimize``, following Fisher & Lee
+(1992, *Biometrics*).
 
-```
-endog = peak_hour (converted to radians: θ = 2π × hour / 24)
-exog = [1, year_centered]
-family = Binomial()  # von Mises via circular link
+**Model** (log-likelihood to be maximised):
+
+```math
+\log L = \sum_{i=1}^{n} \kappa \cos(\theta_i - \beta_0 - \beta_1 x_i)
+          - n \log\bigl(2\pi I_0(\kappa)\bigr)
 ```
 
-The regression coefficient for ``year_centered`` is the **primary
-endpoint** β (radians/year), converted to **hours per decade** for
-reporting.
+where:
+- $\theta_i = 2\pi \times \text{peak\_hour}_i / 24$ (radians)
+- $x_i = \text{year}_i - \text{year\_midpoint}$ (centred year)
+- $I_0(\kappa)$ = modified Bessel function of order 0
+- $\beta_1$ = trend coefficient (radians/year)
+
+Numerical optimisation via ``scipy.optimize.minimize`` with
+$\kappa = \exp(\text{log\_kappa})$ to enforce $\kappa > 0$.
+Standard errors from the inverse Hessian of the negative log-likelihood.
+
+The primary endpoint $\beta_1$ is converted to **hours per decade**:
+
+```math
+\beta\ (\text{hours/decade}) = \beta_1 \times \frac{24}{2\pi} \times 10
+```
 
 **Confidence interval**: Bootstrap — resample daily observations with
-replacement (1 000 iterations), refit the GLM each iteration, and
+replacement (1 000 iterations), refit the model each iteration, and
 extract the 2.5th and 97.5th percentiles of the bootstrap distribution.
 
 **Reporting**: β (hours/decade), 95 % bootstrap CI, number of
@@ -147,14 +162,32 @@ changes. All other parameters match the primary analysis.
 
 ### 8.4 Contingency plan
 
-If the von Mises GLM fails to converge (e.g., all peak hours identical,
-or extreme data sparsity), we will fall back to:
+If the von Mises regression MLE fails to converge (e.g., all peak
+hours identical, flat likelihood, or extreme data sparsity), we will
+fall back to a **non-parametric circular–linear association test**:
 
-1. Compute **circular mean** peak hour per decade (1986–1995,
-   1996–2005, 2006–2015, 2016–2025).
-2. Estimate the trend as the slope of a weighted linear regression
-   of circular means against decade midpoint.
-3. Report both the non-parametric trend and the convergence failure.
+**Primary contingency**: **Circular–linear rank correlation**
+(Mardia 1976, *JRSS B*)
+
+```math
+\rho_c^2 = \frac{r_{cx}^2 + r_{sx}^2 - 2\, r_{cx}\, r_{sx}\, r_{cs}}
+               {1 - r_{cs}^2}
+```
+
+where $r_{cx}$ is the rank correlation of $\cos\theta$ with year,
+$r_{sx}$ of $\sin\theta$ with year, and $r_{cs}$ between
+$\cos\theta$ and $\sin\theta$.
+- Uses **all daily observations** — no aggregation loss.
+- Makes **no distributional assumptions** about $\kappa$.
+- Bootstrap p-value from 10 000 resamples of year–hour pairs.
+- Reports the correlation coefficient $\rho_c$ and its p-value.
+
+**Secondary (descriptive only)**: Compute circular mean peak hour
+per decade (1986–1995, 1996–2005, 2006–2015, 2016–2025) and display
+as a simple table. Do **not** fit a regression through these 4 points
+(aggregation bias — see reasoning in project documentation).
+
+Report both the convergence failure and the contingency results.
 
 ## 9. Software
 

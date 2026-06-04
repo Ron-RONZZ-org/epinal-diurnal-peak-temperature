@@ -8,10 +8,26 @@ intervals, and multi-variant sensitivity analysis.
 ## Constraints & Invariants
 - **Always use circular statistics**: Hour-of-day is circular (0 wraps to 23).
   Never compute linear mean, linear std, or linear regression on raw hours.
-- **Von Mises parameterization**: Model the GLM with
-  `statsmodels.GLM(endog, exog, family=statsmodels.genmod.families.Binomial())`
-  using a von Mises / wrapped Cauchy link or a linear-circular conversion.
-  The predictor variable is **year** (centered).
+- **Von Mises regression by direct MLE**: Maximise the von Mises
+  log-likelihood directly using ``scipy.optimize.minimize``
+  (Fisher & Lee 1992, *Biometrics*).  The model is:
+
+  ```math
+  \theta_i = 2\pi \times \text{peak\_hour}_i / 24
+  \mu_i = \beta_0 + \beta_1 \times \text{year\_centered}_i
+  \log L = \sum_i \kappa \cos(\theta_i - \mu_i) - n \log(2\pi I_0(\kappa))
+  ```
+
+  where $I_0$ is the modified Bessel function
+  (``scipy.special.i0``).  Enforce $\kappa > 0$ via
+  $\kappa = \exp(\text{log\_kappa})$.
+
+  **Do NOT use** ``statsmodels.GLM`` with a ``Binomial`` family —
+  that family is for binary data, not circular data.  Statsmodels
+  has no built-in von Mises family; custom MLE via scipy is the
+  correct approach.
+- **Year centering**: Center year at the midpoint of the data range to reduce
+  correlation between intercept and slope.
 - **Year centering**: Center year at the midpoint of the data range to reduce
   correlation between intercept and slope.
 - **Bootstrap methodology**: Resample daily peak hours with replacement,
@@ -40,8 +56,11 @@ intervals, and multi-variant sensitivity analysis.
 
 ## Edge Cases
 - **Fewer than 2 unique years**: Return `None` with a logged warning.
-- **All peak hours identical**: Circular variance is zero; GLM may fail to
+- **All peak hours identical**: Circular variance is zero; MLE may fail to
   converge. Return `np.nan` coefficients.
+- **MLE convergence failure**: Fall back to **circular–linear rank
+  correlation** (Mardia 1976) — a non-parametric test using all
+  observations.  Report $\rho_c$ and bootstrap p-value.
 - **Empty DataFrame after filtering**: Raise `ValueError`.
 
 ## References
@@ -50,3 +69,12 @@ intervals, and multi-variant sensitivity analysis.
   `.min_years_for_trend`, `.sensitivity_tie_rule`,
   `.sensitivity_min_years`, `.sensitivity_mad_threshold`,
   `.sensitivity_exclude_post_2000`, `.primary_endpoint`
+- Fisher, N. I. & Lee, A. J. (1992). Regression models for an angular
+  response. *Biometrics* **48**, 665–677.
+  doi:10.2307/2532334
+- Mardia, K. V. (1976). Linear-circular correlation coefficients and
+  rhythmometry. *Biometrika* **63**(3), 403–405.
+  doi:10.1093/biomet/63.3.403
+- Gill, J. & Hangartner, D. (2010). Circular data in political science
+  and how to handle it. *Political Analysis* **18**(3), 316–336.
+  doi:10.1093/pan/mpq009
