@@ -211,5 +211,6 @@ Local rules override global rules. Module-level files focus on domain-specific b
 The project plan is maintained on GitHub:
 - **Issue #1**: Master research plan with sub-issue dependency map
 - **Issues #2–#9**: Actionable work items (M0–M7 milestones)
+- **Issue #11**: Year × season interaction test — completed and merged to main
 
 All work should reference these issues in commit messages and PRs.
