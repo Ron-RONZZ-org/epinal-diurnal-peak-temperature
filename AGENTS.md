@@ -26,6 +26,8 @@ epinal-diurnal-peak-temperature/
 │       ├── config.py          # Station IDs, thresholds, analysis params (dataclass)
 │       ├── acquire.py         # Data download via pooch + local fallback
 │       ├── preprocess.py      # QC, UTC→local conversion, daily peak extraction
+│       ├── _preprocess_qc.py  # Private QC helpers (imported by preprocess.py)
+│       ├── _preprocess_schemas.py  # Private pandera schemas (imported by preprocess.py)
 │       ├── analysis.py        # von Mises circular regression + sensitivities
 │       ├── visualize.py       # Publication-quality figures
 │       └── report.py          # Summary statistics tables
@@ -149,6 +151,8 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 |--------|-------------|---------|
 | `src/epinal_peak/acquire.py` | `AGENTS-acquire.md` | Data acquisition rules |
 | `src/epinal_peak/preprocess.py` | `AGENTS-preprocess.md` | QC and preprocessing rules |
+| `src/epinal_peak/_preprocess_qc.py` | — | Private QC helpers (imported by `preprocess.py`) |
+| `src/epinal_peak/_preprocess_schemas.py` | — | Private pandera schemas (imported by `preprocess.py`) |
 | `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Circular statistics and regression rules |
 | `src/epinal_peak/visualize.py` | `AGENTS-visualize.md` | Figure generation rules |
 | `tests/` | `AGENTS-tests.md` | Testing conventions |
