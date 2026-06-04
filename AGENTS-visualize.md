@@ -22,7 +22,7 @@ scatter, rose diagram, and seasonal trend plots.
 ### Wrapped scatter (`plot_wrapped_scatter`)
 - X-axis: year
 - Y-axis: peak hour (0--23, wrapped so that 0 and 23 appear adjacent)
-- Overlay: Smooth trend line (LOESS or GAM) with 95 % CI band
+- Overlay: Von Mises regression trend line (from ``analysis.py`` fitted model) with 95 % CI band from bootstrap slope distribution
 
 ### Rose diagram (`plot_rose_diagram`)
 - Circular histogram of peak-hour frequency
@@ -31,7 +31,7 @@ scatter, rose diagram, and seasonal trend plots.
 ### Seasonal trend (`plot_seasonal_trend`)
 - Faceted: one panel per meteorological season
   — spring (MAM), summer (JJA), autumn (SON), winter (DJF)
-- Each panel: scatter + trend line, matching wrapped-scatter style
+- Each panel: scatter + von Mises regression trend line + 95 % CI band, matching wrapped-scatter style
 
 ## Data Contracts
 - **Input**: Peak-hour CSV (DataFrame with `year`, `peak_hour`, `month`,
