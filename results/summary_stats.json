@@ -1,0 +1,47 @@
+{
+  "overall": {
+    "n_observations": 12163,
+    "n_years": 35,
+    "circular_mean_hour": 15.964344400888036,
+    "circular_std_hours": 2.836739024655022,
+    "year_min": 1992,
+    "year_max": 2026
+  },
+  "by_decade": [
+    {
+      "decade": "1986-1995",
+      "n_observations": 1374,
+      "n_years": 4,
+      "circular_mean_hour": 16.02545942778493,
+      "circular_std_hours": 2.973981771821033
+    },
+    {
+      "decade": "1996-2005",
+      "n_observations": 3551,
+      "n_years": 10,
+      "circular_mean_hour": 16.000210777616097,
+      "circular_std_hours": 2.8609222848194844
+    },
+    {
+      "decade": "2006-2015",
+      "n_observations": 3526,
+      "n_years": 10,
+      "circular_mean_hour": 15.919169275921265,
+      "circular_std_hours": 2.829829721889692
+    },
+    {
+      "decade": "2016-2025",
+      "n_observations": 3560,
+      "n_years": 10,
+      "circular_mean_hour": 15.959324241915294,
+      "circular_std_hours": 2.7697648963049395
+    },
+    {
+      "decade": "2026-2035",
+      "n_observations": 152,
+      "n_years": 1,
+      "circular_mean_hour": 15.766052330732288,
+      "circular_std_hours": 2.709632933103053
+    }
+  ]
+}
