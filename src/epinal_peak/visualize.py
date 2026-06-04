@@ -257,21 +257,29 @@ def plot_wrapped_scatter(
 
     fig, ax = plt.subplots(figsize=(3.5, 3.2))
 
+    # 2D hexagonal density binning — shows concentration structure clearly
+    hb = ax.hexbin(
+        year, peak,
+        gridsize=20,
+        mincnt=1,
+        cmap="Blues",
+        alpha=0.7,
+        edgecolors="none",
+    )
+    # Legend proxy for density
+    cb = fig.colorbar(hb, ax=ax, fraction=0.05, pad=0.02)
+    cb.set_label("Count", fontsize=7)
+    cb.ax.tick_params(labelsize=6)
+
     # CI band
     ax.fill_between(
         grid, ci_low, ci_upp,
-        alpha=0.25, color=pal[0], linewidth=0, label="95 % CI",
-    )
-    # Scatter (no circular augmentation needed — y-axis is zoomed to data range)
-    ax.scatter(
-        year, peak,
-        s=4, c=[pal[0]], alpha=0.35, edgecolors="none",
-        label=f"Daily obs. (n = {len(valid)})",
+        alpha=0.35, color=pal[2], linewidth=0, label="95 % CI",
     )
     # Trend line
     ax.plot(
         grid, trend,
-        color=pal[2], linewidth=1.5, label="von Mises trend",
+        color=pal[3], linewidth=1.8, label="von Mises trend",
     )
 
     # Axis styling
@@ -382,13 +390,21 @@ def plot_seasonal_trend(
                 year_center=res["year_center"],
                 dist_sample=ds,
             )
-            ax.fill_between(grid, cl, cu, alpha=0.12, color=pal[0], linewidth=0)
+            ax.fill_between(grid, cl, cu, alpha=0.2, color=pal[2], linewidth=0)
 
-        ax.scatter(year, peak, s=3, c=[pal[0]], alpha=0.25, edgecolors="none")
-        ax.plot(grid, trend, color=pal[2], linewidth=1.2)
+        # Hexbin density for season (fewer points → smaller grid)
+        ax.hexbin(
+            year, peak,
+            gridsize=15,
+            mincnt=1,
+            cmap="Blues",
+            alpha=0.6,
+            edgecolors="none",
+        )
+        ax.plot(grid, trend, color=pal[3], linewidth=1.2)
 
         nyrs = res.get("n_years", sdf["year"].nunique())
-        ax.set_title(f"{label}  (n={len(sdf)}, {nyrs} yr)", fontsize=9)
+        ax.set_title(f"{label}  (n={len(sdf)})", fontsize=9)
         ax.set_ylim(8, 22)
         ax.yaxis.set_major_locator(MultipleLocator(2))
         ax.yaxis.set_major_formatter(
