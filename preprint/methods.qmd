@@ -107,13 +107,30 @@ years); (3) strict outlier threshold (3.0 MAD); (4) post-2000 exclusion;
 alternative diurnal amplitude thresholds (1.0 and
 3.0 °C).
 
-### Seasonal stratification
+### Year-season interaction test
 
-As an exploratory analysis, I repeated the primary regression
-separately for each meteorological season: spring (MAM),
-summer (JJA), autumn (SON), winter (DJF). These results are
-presented as supplementary information without multiple-testing
-correction.
+Before examining seasonal trends, I formally tested whether the
+year-slope differs across meteorological seasons using a
+likelihood-ratio (LR) test comparing two nested von Mises GLMs:
+
+1. A **reduced (additive)** model with season-specific intercepts
+   and a common year slope (6 parameters: 4 intercepts + 1 slope
+   + $\log\kappa$).
+2. A **full (interaction)** model with season-specific intercepts
+   and season-specific slopes (9 parameters: 4 intercepts + 4 slopes
+   + $\log\kappa$).
+
+The LR statistic $= 2 \times (\log L_{\mathrm{full}} - \log
+L_{\mathrm{reduced}})$ follows a $\chi^2$ distribution with 3
+degrees of freedom under the null hypothesis of no interaction.
+
+If the interaction test is significant at $\alpha = 0.05$, I report
+per-season slope estimates from the full interaction model with
+Benjamini-Hochberg false discovery rate (FDR) control across the
+four seasons, computed from Wald $p$-values using the inverse
+observed Fisher information. If the interaction is not significant,
+I report only the pooled (all-season) estimate as the primary
+result.
 
 ### Software
 

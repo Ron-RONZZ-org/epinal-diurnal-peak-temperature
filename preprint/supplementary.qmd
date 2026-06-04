@@ -19,7 +19,19 @@ $\kappa$ estimates and log-likelihood values.
 | Amp 1.0°C | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | $-13757$ | 12,163 | 35 |
 | Amp 3.0°C | $-0.0177$ | $(-0.059, 0.024)$ | 2.49 | $-12943$ | 11,457 | 35 |
 
-### S2. Descriptive statistics by decade
+### S2. Seasonal bootstrap confidence intervals
+
+Per-season von Mises regression estimates with 95% bootstrap
+percentile intervals (reference for Table~1 in main text).
+
+| Season | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs | n years |
+|--------|--------------------|----------|----------|-------|---------|
+| Spring (MAM) | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 | 35 |
+| Summer (JJA) | $0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 | 35 |
+| Autumn (SON) | $0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 | 35 |
+| Winter (DJF) | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 | 35 |
+
+### S3. Descriptive statistics by decade
 
 | Period | n obs | Circular mean (h) | Circular SD (h) |
 |--------|-------|-------------------|-----------------|
@@ -28,7 +40,7 @@ $\kappa$ estimates and log-likelihood values.
 | 2006--2015 | 3,526 | 15.92 | 2.83 |
 | 2016--2025 | 3,560 | 15.96 | 2.77 |
 
-### S3. Power analysis
+### S4. Power analysis
 
 The pre-registered power analysis (see `notebooks/02-power-analysis.qmd`
 for full details) estimated a minimum detectable effect of
@@ -43,13 +55,13 @@ for full details) estimated a minimum detectable effect of
 ![Sensitivity of detection power to the concentration parameter
   $\kappa$.](../results/figures/power_curve_kappa_sensitivity.pdf)
 
-### S4. Supplementary analysis: temperature-weighted regression
+### S5. Supplementary analysis: temperature-weighted regression
 
 Temperature-weighted von Mises regression (weight = diurnal amplitude)
 yielded $0.0210$ h/decade (95% CI: (-0.0125, 0.0528)), consistent with the
 unweighted primary estimate.
 
-### S5. Mardia circular--linear rank correlation
+### S6. Mardia circular--linear rank correlation
 
 Non-parametric test using all daily observations:
 
@@ -61,6 +73,6 @@ The small but statistically significant correlation is consistent with
 a weak association between year and peak hour, in line with the small
 effect size estimated by the primary MLE model.
 
-### S6. Contingency analysis
+### S7. Contingency analysis
 
 The primary MLE converged successfully; no fallback was required.

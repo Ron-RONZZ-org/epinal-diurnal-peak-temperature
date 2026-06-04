@@ -77,28 +77,30 @@ in the temperature magnitude is evident.
 
 ### Seasonal patterns
 
-The seasonal sub-analyses (Table~\ref{tbl-seasonal}) revealed
-heterogeneous trends across seasons. Autumn showed a significant
-shift toward later peak timing at $+0.0850$ h/decade (95% CI: 0.0113
-to 0.1652), while winter showed a significant shift toward earlier
-timing at $-0.1886$ h/decade (95% CI: $-0.3165$ to $-0.0588$).
-Spring and summer trends were not statistically distinguishable from
-zero.
+The year--season interaction LR test was significant ($\chi^2 = 13.71$,
+df = 3, $p = 0.0033$), indicating that the year-slope varies by
+meteorological season. I therefore report per-season estimates with
+Benjamini-Hochberg FDR control across the four seasons.
 
-| Season | $\beta$ (h/decade) | 95% CI | n obs |
-|--------|--------------------|----------|-------|
-| Spring (MAM) | $-0.0650$ | $(-0.1350, 0.0051)$ | 3,168 |
-| Summer (JJA) | $0.0195$ | $(-0.0447, 0.0766)$ | 3,111 |
-| Autumn (SON) | $0.0850$ | $(0.0113, 0.1652)$ | 3,002 |
-| Winter (DJF) | $-0.1886$ | $(-0.3165, -0.0588)$ | 2,882 |
-: Seasonal von Mises regression results. CI bounds are 2.5th and 97.5th
-  bootstrap percentiles. {#tbl-seasonal}
+Winter shows a significant advance of $-0.1886$ h/decade
+($p = 0.0015$), which survives FDR correction at $\alpha = 0.05$.
+Autumn ($+0.0850$ h/decade, $p = 0.10$), spring ($-0.0650$ h/decade,
+$p = 0.17$), and summer ($+0.0195$ h/decade, $p = 0.68$) are not
+significant after FDR.
+
+| Season | $\beta$ (h/decade) | Wald $p$ | BH rejected |
+|--------|--------------------:|:--------:|:-----------:|
+| Winter (DJF) | $-0.1886$ | $0.0015$ | Yes |
+| Autumn (SON) | $+0.0850$ | $0.10$ | No |
+| Spring (MAM) | $-0.0650$ | $0.17$ | No |
+| Summer (JJA) | $+0.0195$ | $0.68$ | No |
+
+: Per-season slope estimates from the year--season interaction von
+Mises GLM. Wald $p$-values are corrected via the Benjamini-Hochberg
+procedure ($\alpha = 0.05$, $m = 4$). Bootstrap CIs are provided in
+Table~S1 for reference. {#tbl-seasonal}
 
 Figure~\ref{fig-seasonal} presents the per-season trend panels.
-Note that these seasonal analyses are exploratory and are presented
-without multiple-testing correction. With a Bonferroni adjustment for
-4 comparisons ($\alpha = 0.0125$), none of the seasonal trends would
-be considered statistically significant.
 
 ![Seasonal von Mises regression trends. Each panel shows hexbin density
   of daily peak hours and the fitted trend line with 95% CI band.

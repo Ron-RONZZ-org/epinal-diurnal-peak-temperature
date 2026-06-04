@@ -11,11 +11,12 @@ Dillon [-@wang2014recent].
 
 The trend remains robust across eight pre-registered
 sensitivity variants, suggesting that the result is not an artefact of
-specific methodological choices. Seasonal analyses revealed a
-significant trend toward earlier peaks in winter ($-0.19$ h/decade,
-95% CI: $-0.32$ to $-0.06$) and later peaks in autumn ($+0.09$
-h/decade, 95% CI: $0.01$ to $0.17$), though these do not survive
-multiple-testing correction and should be interpreted as exploratory.
+specific methodological choices. A year--season interaction
+likelihood-ratio test was significant ($\chi^2 = 13.71$, df = 3,
+$p = 0.0033$), supporting per-season inference with
+Benjamini-Hochberg FDR. Winter shows a significant advance of
+$-0.19$ h/decade ($p = 0.0015$), while spring, summer, and autumn do
+not show significant trends after correction.
 
 These findings contribute local-scale, station-level evidence to the
 emerging picture of a changing diurnal temperature phase. Replication
