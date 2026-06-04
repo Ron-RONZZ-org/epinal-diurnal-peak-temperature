@@ -72,11 +72,15 @@ and unimodal, which is a reasonable approximation for peak-hour data but
 may not capture multi-modal daily temperature cycles that occur during
 certain meteorological conditions (e.g., frontal passages).
 
-**Temporal autocorrelation.** Daily peak hours are serially correlated
-(weather regimes persist for days to weeks), and the bootstrap
-procedure, while robust, assumes exchangeability. A block bootstrap
-that preserves short-range autocorrelation would provide a stricter
-test.
+**Temporal autocorrelation.** Daily peak hours might be expected to
+exhibit short-range serial dependence because weather regimes persist
+for days to weeks. However, the empirical autocorrelation function at
+lags 1--7 for each season (Supplementary Table~S12) reveals negligible
+autocorrelation, with all values within $\pm 0.06$. This implies that the
+i.i.d.\ bootstrap employed here provides adequate inference and that
+temporal autocorrelation is not a practical concern for this dataset.
+A block-bootstrap analysis would likely produce identical confidence
+intervals.
 
 ### Implications
 

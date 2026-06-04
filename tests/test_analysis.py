@@ -403,3 +403,101 @@ class TestSeasonalSensitivity:
         result = analysis.seasonal_sensitivity_analysis(df, config)
         for s in ("spring", "summer", "autumn", "winter"):
             assert s in result
+
+
+class TestSeasonalSupplementary:
+    """Tests for per-season supplementary analysis wrappers."""
+
+    def _four_season_df(self) -> pd.DataFrame:
+        """Synthetic data with one season per quarter."""
+        dates = pd.date_range("2000-01-01", periods=400, freq="D")
+        rng = np.random.default_rng(42)
+        return pd.DataFrame({
+            "date": dates,
+            "year": dates.year,
+            "peak_hour": rng.uniform(10, 16, 400),
+            "diurnal_amplitude": rng.uniform(2.0, 10.0, 400),
+            "season": ["spring"] * 100 + ["summer"] * 100
+                       + ["autumn"] * 100 + ["winter"] * 100,
+        })
+
+    def test_seasonal_temperature_weighted_returns_all_seasons(self) -> None:
+        """_seasonal_temperature_weighted returns 4 seasons + pooled."""
+        config = EpinalPeakConfig(n_bootstrap=10)
+        df = self._four_season_df()
+        result = analysis._seasonal_temperature_weighted(df, config)
+        for s in ("spring", "summer", "autumn", "winter", "pooled"):
+            assert s in result, f"Missing key: {s}"
+
+    def test_seasonal_temperature_weighted_each_has_status(self) -> None:
+        """Each season entry has a status key."""
+        config = EpinalPeakConfig(n_bootstrap=10)
+        df = self._four_season_df()
+        result = analysis._seasonal_temperature_weighted(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert "status" in result[s], f"{s} missing status"
+
+    def test_seasonal_correlation_returns_all_seasons(self) -> None:
+        """_seasonal_circular_linear_correlation returns 4 seasons + pooled."""
+        config = EpinalPeakConfig()
+        df = self._four_season_df()
+        result = analysis._seasonal_circular_linear_correlation(df, config)
+        for s in ("spring", "summer", "autumn", "winter", "pooled"):
+            assert s in result, f"Missing key: {s}"
+
+    def test_seasonal_correlation_each_has_rho_c(self) -> None:
+        """Each season entry has a rho_c or status key."""
+        config = EpinalPeakConfig()
+        df = self._four_season_df()
+        result = analysis._seasonal_circular_linear_correlation(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            entry = result[s]
+            assert "rho_c" in entry or "status" in entry, f"{s} missing both"
+
+
+class TestAutocorrelationDiagnostic:
+    """Tests for _seasonal_autocorrelation()."""
+
+    def test_returns_all_seasons_plus_pooled(self) -> None:
+        """Returns dict with spring/summer/autumn/winter + pooled."""
+        dates = pd.date_range("2000-01-01", periods=400, freq="D")
+        df = pd.DataFrame({
+            "date": dates,
+            "season": ["spring"] * 100 + ["summer"] * 100
+                      + ["autumn"] * 100 + ["winter"] * 100,
+            "peak_hour": np.random.default_rng(42).uniform(10, 16, 400),
+        })
+        result = analysis._seasonal_autocorrelation(df)
+        for s in ("spring", "summer", "autumn", "winter", "pooled"):
+            assert s in result
+
+    def test_acf_has_seven_lags(self) -> None:
+        """Each season's ACF list has exactly 7 values."""
+        dates = pd.date_range("2000-01-01", periods=400, freq="D")
+        rng = np.random.default_rng(42)
+        df = pd.DataFrame({
+            "date": dates,
+            "season": ["spring"] * 100 + ["summer"] * 100
+                      + ["autumn"] * 100 + ["winter"] * 100,
+            "peak_hour": rng.uniform(10, 16, 400),
+        })
+        result = analysis._seasonal_autocorrelation(df)
+        for s in ("spring", "summer", "autumn", "winter", "pooled"):
+            acf = result[s]
+            assert acf is not None, f"{s} returned None"
+            assert len(acf) == 7, f"{s} has {len(acf)} lags, expected 7"
+
+    def test_white_noise_acf_near_zero(self) -> None:
+        """Synthetic white noise yields ACF values near zero."""
+        dates = pd.date_range("2000-01-01", periods=1000, freq="D")
+        rng = np.random.default_rng(123)
+        df = pd.DataFrame({
+            "date": dates,
+            "season": "spring",
+            "peak_hour": rng.uniform(10, 16, 1000),
+        })
+        result = analysis._seasonal_autocorrelation(df)
+        acf = result.get("spring", result.get("pooled"))
+        assert acf is not None
+        for val in acf:
+            assert abs(val) < 0.15, f"ACF value {val} too far from zero for white noise"

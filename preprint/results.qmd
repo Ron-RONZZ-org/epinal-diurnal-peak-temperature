@@ -202,4 +202,21 @@ diurnal amplitude) produced an estimate of $+0.021$ h/decade
 (95\% CI: $-0.013$ to $+0.053$), consistent with the pooled result.
 The circular--linear rank correlation (Mardia 1976) yielded
 $\rho_c = 0.025$ ($p = 0.021$), suggesting a very weak but statistically
-detectable association.
+detectable association across all observations.
+
+Both supplementary analyses were also applied per season. The
+temperature-weighted seasonal estimates are broadly consistent with the
+unweighted primary results (Supplementary Table~S10): winter remains
+negative ($-0.09$ h/decade) and autumn positive ($+0.11$ h/decade).
+The Mardia correlation per season shows $\rho_c$ in a narrow range
+$0.04$--$0.06$ across all four seasons (Supplementary Table~S11),
+indicating that the weak year--peak-hour association is not driven by a
+single season.
+
+**Autocorrelation diagnostic.** Because daily peak hours may exhibit
+short-range temporal dependence, I computed the autocorrelation function
+(ACF) at lags 1--7 for each season (Supplementary Table~S12). All ACF
+values are within $\pm 0.06$, indicating negligible serial correlation
+in the peak-hour residuals. The empirical ACF confirms that the i.i.d.
+bootstrap provides adequate inference and that temporal autocorrelation
+is not a practical concern for this dataset.

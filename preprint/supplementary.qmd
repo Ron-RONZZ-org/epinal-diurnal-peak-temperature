@@ -116,11 +116,64 @@ The small but statistically significant correlation is consistent with
 a weak association between year and peak hour, in line with the small
 effect size estimated by the pooled MLE model.
 
-### S8. Contingency analysis
+### S8. Per-season temperature-weighted regression
+
+Temperature-weighted von Mises regression (weight = diurnal amplitude),
+estimated per season and for all observations pooled.
+
+| Season | $\beta$ (h/decade) | $\kappa$ | n obs |
+|--------|-------------------:|:--------:|:-----:|
+| Spring (MAM) | $-0.0278$ | 4.35 | 3,168 |
+| Summer (JJA) | $+0.0538$ | 5.79 | 3,111 |
+| Autumn (SON) | $+0.1134$ | 3.51 | 3,002 |
+| Winter (DJF) | $-0.0866$ | 1.77 | 2,882 |
+| Pooled | $+0.0210$ | 3.42 | 12,163 |
+
+The seasonal pattern resembles the unweighted primary analysis: winter
+negative, autumn positive, spring near zero. Using diurnal amplitude as
+a weight does not materially alter the direction of any seasonal
+estimate.
+
+### S9. Per-season Mardia circular--linear rank correlation
+
+Non-parametric rank correlation (Mardia 1976) between peak hour and
+year, computed per season.
+
+| Season | $\rho_c$ | n obs |
+|--------|---------:|:-----:|
+| Spring (MAM) | 0.0447 | 3,168 |
+| Summer (JJA) | 0.0395 | 3,111 |
+| Autumn (SON) | 0.0579 | 3,002 |
+| Winter (DJF) | 0.0573 | 2,882 |
+| Pooled | $0.0252$ | 12,163 |
+
+All four seasonal $\rho_c$ values are in a narrow range (0.04--0.06),
+indicating that the weak but statistically significant pooled
+correlation is not driven by any single season.
+
+### S10. Autocorrelation diagnostic
+
+Lag-1 through lag-7 autocorrelation of daily peak-hour values, computed
+per season and for all observations pooled (sorted chronologically).
+
+| Season | AC(1) | AC(2) | AC(3) | AC(4) | AC(5) | AC(6) | AC(7) |
+|--------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Spring | --0.019 | --0.044 | --0.021 | 0.016 | 0.020 | 0.028 | 0.004 |
+| Summer | 0.002 | 0.006 | --0.018 | 0.004 | --0.024 | 0.006 | --0.026 |
+| Autumn | 0.019 | 0.018 | 0.021 | 0.028 | 0.039 | 0.042 | 0.002 |
+| Winter | --0.034 | --0.047 | --0.036 | --0.059 | 0.008 | --0.017 | 0.020 |
+| Pooled | 0.026 | 0.018 | 0.028 | 0.031 | 0.056 | 0.054 | 0.055 |
+
+All autocorrelation values are within $\pm 0.06$, confirming that
+short-range serial dependence in peak hours is negligible. The i.i.d.\
+bootstrap used throughout this study is therefore adequate for
+inference.
+
+### S11. Contingency analysis
 
 The primary MLE converged successfully; no fallback was required.
 
-### S9. Annual mean daily maximum temperature
+### S12. Annual mean daily maximum temperature
 
 ![Annual mean daily maximum temperature (solid line) with
   $\pm 1\,\mathrm{SD}$ band (medium shading) and full annual range

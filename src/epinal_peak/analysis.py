@@ -204,6 +204,103 @@ def seasonal_sensitivity_analysis(
     )
 
 
+def _seasonal_temperature_weighted(
+    df: pd.DataFrame, config: EpinalPeakConfig
+) -> dict[str, Any]:
+    """Run temperature-weighted regression per season.
+
+    Args:
+        df: DataFrame with ``season`` column.
+        config: Pipeline configuration.
+
+    Returns:
+        Dict mapping season names to their regression results.
+        Includes a ``pooled`` key for the all-season reference.
+    """
+    from epinal_peak._analysis_weighted import temperature_weighted_regression as _twr
+
+    results: dict[str, Any] = {}
+    for season_name in ["spring", "summer", "autumn", "winter"]:
+        subset = df[df["season"] == season_name]
+        if subset.empty:
+            results[season_name] = {"status": "no_data"}
+        else:
+            results[season_name] = _twr(
+                subset,
+                n_iter=config.n_bootstrap,
+                ci_level=config.bootstrap_ci_level,
+            )
+    results["pooled"] = _twr(
+        df,
+        n_iter=config.n_bootstrap,
+        ci_level=config.bootstrap_ci_level,
+    )
+    return results
+
+
+def _seasonal_circular_linear_correlation(
+    df: pd.DataFrame, config: EpinalPeakConfig
+) -> dict[str, Any]:
+    """Run circular-linear correlation per season.
+
+    Args:
+        df: DataFrame with ``season``, ``peak_hour``, ``year`` columns.
+        config: Pipeline configuration.
+
+    Returns:
+        Dict mapping season names to their correlation results.
+        Includes a ``pooled`` key for the all-season reference.
+    """
+    results: dict[str, Any] = {}
+    for season_name in ["spring", "summer", "autumn", "winter"]:
+        subset = df[df["season"] == season_name]
+        if subset.empty:
+            results[season_name] = {"status": "no_data"}
+        else:
+            results[season_name] = circular_linear_correlation(
+                subset["peak_hour"].values,
+                subset["year"].values,
+                n_bootstrap=config.n_bootstrap_fallback,
+            )
+    results["pooled"] = circular_linear_correlation(
+        df["peak_hour"].values,
+        df["year"].values,
+        n_bootstrap=config.n_bootstrap_fallback,
+    )
+    return results
+
+
+def _seasonal_autocorrelation(df: pd.DataFrame) -> dict[str, Any]:
+    """Compute lag-1 through lag-7 autocorrelation per season.
+
+    Args:
+        df: DataFrame with ``season``, ``date``, ``peak_hour`` columns.
+
+    Returns:
+        Dict mapping season names to a list of lag-1..7 ACF values.
+        Includes a ``pooled`` entry.
+    """
+    results: dict[str, Any] = {}
+    for season_name in ["spring", "summer", "autumn", "winter"]:
+        subset = df[df["season"] == season_name].sort_values("date")
+        ph = subset["peak_hour"].values
+        if len(ph) < 8:
+            results[season_name] = None
+            continue
+        acf = []
+        for lag in range(1, 8):
+            acf.append(float(np.corrcoef(ph[:-lag], ph[lag:])[0, 1]))
+        results[season_name] = acf
+    # Pooled
+    df_sorted = df.sort_values("date")
+    ph = df_sorted["peak_hour"].values
+    acf = []
+    for lag in range(1, 8):
+        acf.append(float(np.corrcoef(ph[:-lag], ph[lag:])[0, 1]))
+    results["pooled"] = acf
+    return results
+
+
 def _build_output_json(
     primary: dict[str, Any],
     seasonal: dict[str, Any],
@@ -212,6 +309,7 @@ def _build_output_json(
     fallback: dict[str, Any] | None,
     interaction: dict[str, Any] | None,
     seasonal_sensitivity: dict[str, Any] | None,
+    autocorrelation: dict[str, Any] | None,
     config: EpinalPeakConfig,
 ) -> dict[str, Any]:
     """Assemble the full nested output JSON.
@@ -220,10 +318,13 @@ def _build_output_json(
         primary: Pooled von Mises regression result (supplementary).
         seasonal: Seasonal stratification results (primary).
         sensitivity: Pooled sensitivity analysis results.
-        supplementary: Supplementary analysis results.
+        supplementary: Supplementary analysis results (includes
+            per-season temperature-weighted regression and
+            circular-linear correlation).
         fallback: Mardia fallback result (or None).
         interaction: Interaction test result (or None).
         seasonal_sensitivity: Per-season sensitivity results (or None).
+        autocorrelation: Per-season ACF diagnostic (or None).
         config: Pipeline configuration.
 
     Returns:
@@ -249,6 +350,8 @@ def _build_output_json(
     }
     if seasonal_sensitivity is not None:
         output["seasonal_sensitivity"] = seasonal_sensitivity
+    if autocorrelation is not None:
+        output["autocorrelation"] = autocorrelation
     output["pooled"] = primary
     output["sensitivity"] = sensitivity
     output["supplementary"] = supplementary
@@ -270,7 +373,8 @@ def main() -> None:
     3. Seasonal sensitivity variants
     4. Pooled regression (supplementary)
     5. Pooled sensitivity (supplementary)
-    6. Supplementary analyses
+    6. Supplementary analyses (pooled + per-season)
+    7. Autocorrelation diagnostic (ACF lag-1..7 per season)
     """
     config = EpinalPeakConfig()
     epinal_peak.setup_logging(config)
@@ -360,15 +464,34 @@ def main() -> None:
     # ── 6. Supplementary analyses ───────────────────────────────────
     supplementary: dict[str, Any] = {}
 
-    _logger.info("Supplementary: temperature-weighted regression")
+    _logger.info("Supplementary: temperature-weighted regression (pooled)")
     supplementary["temperature_weighted"] = temperature_weighted_regression(df, config)
 
-    _logger.info("Supplementary: circular-linear correlation")
+    _logger.info("Supplementary: circular-linear correlation (pooled)")
     supplementary["circular_linear_correlation"] = circular_linear_correlation(
         df["peak_hour"].values,
         df["year"].values,
         n_bootstrap=config.n_bootstrap_fallback,
     )
+
+    # Per-season supplementary analyses
+    _logger.info(
+        "Supplementary: seasonal temperature-weighted regression — 4 seasons + pooled"
+    )
+    supplementary["temperature_weighted_seasonal"] = _seasonal_temperature_weighted(
+        df, config
+    )
+
+    _logger.info(
+        "Supplementary: seasonal circular-linear correlation — 4 seasons + pooled"
+    )
+    supplementary["correlation_seasonal"] = _seasonal_circular_linear_correlation(
+        df, config
+    )
+
+    # ── 7. Autocorrelation diagnostic ──────────────────────────────
+    _logger.info("Autocorrelation diagnostic: ACF lag-1..7 per season")
+    autocorrelation = _seasonal_autocorrelation(df)
 
     # ── Assemble output ─────────────────────────────────────────────
     output = _build_output_json(
@@ -379,6 +502,7 @@ def main() -> None:
         fallback=fallback,
         interaction=interaction,
         seasonal_sensitivity=seas_sens,
+        autocorrelation=autocorrelation,
         config=config,
     )
 
