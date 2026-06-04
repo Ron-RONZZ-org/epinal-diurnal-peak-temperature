@@ -166,7 +166,8 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 - **Do NOT hardcode file paths** — All paths come from `config.py` or `pyproject.toml` metadata
 - **Do NOT commit raw/processed data to git** — Data goes to OSF; local copies are git-ignored
 - **Do NOT add dependencies without updating `pyproject.toml`** — All dependencies must be declared and pinned
-- **Do NOT skip pre-registration** — Analysis must not begin before the OSF pre-registration is submitted
+
+> **Note on pre-registration**: The OSF pre-registration was drafted but **never submitted**. This project has no pre-registration constraint. Analysis design decisions are free to change as the science dictates.
 
 ---
 

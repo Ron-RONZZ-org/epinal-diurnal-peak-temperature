@@ -16,6 +16,7 @@ format:
     number-sections: true
     cite-method: natbib
     keep-tex: false
+    fig-pos: "htb!"
   html:
     toc: true
     toc-depth: 3
