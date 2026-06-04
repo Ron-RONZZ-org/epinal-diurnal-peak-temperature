@@ -1,9 +1,14 @@
 ---
 title: "The Shifting Peak: Analyzing Diurnal Maximum Temperature Trends in Épinal (Grand Est, France)"
-author: "Rong Martin-Siebler ZHOU"
+author:
+  - name: "Rong Martin-Siebler ZHOU"
+    affiliations:
+      - "Université de Lorraine, CNRS, LIEC, F-54000 Nancy, France"
+    email: rong.zhou6@univ-lorraine.fr
 date: last-modified
 format:
   pdf:
+    pdf-engine: xelatex
     documentclass: article
     papersize: a4
     toc: true

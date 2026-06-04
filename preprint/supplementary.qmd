@@ -25,11 +25,6 @@ $\kappa$ estimates and log-likelihood values.
 | 1996--2005 | 3,551 | 16.00 | 2.86 |
 | 2006--2015 | 3,526 | 15.92 | 2.83 |
 | 2016--2025 | 3,560 | 15.96 | 2.77 |
-|--------|-------|-------------------|-----------------|
-| 1986--1995 | 1,374 | 16.03 | 2.97 |
-| 1996--2005 | 3,551 | 16.00 | 2.86 |
-| 2006--2015 | 3,526 | 15.92 | 2.83 |
-| 2016--2025 | 3,560 | 15.96 | 2.77 |
 
 ### S3. Power analysis
 
@@ -54,11 +49,15 @@ unweighted primary estimate.
 
 ### S5. Mardia circular--linear rank correlation
 
-Corroborating non-parametric test using all daily observations:
+Non-parametric test using all daily observations:
 
 - $\rho_c$ = 0.0252
 - Bootstrap p-value = 0.0206
 - n = 12,163
+
+The small but statistically significant correlation is consistent with
+a weak association between year and peak hour, in line with the small
+effect size estimated by the primary MLE model.
 
 ### S6. Contingency analysis
 

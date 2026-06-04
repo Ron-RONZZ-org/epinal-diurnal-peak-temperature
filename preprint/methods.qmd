@@ -2,13 +2,13 @@
 
 ### Data source
 
-We obtained sub-daily (hourly) temperature records from the
-M{\'e}t{\'e}o-France Synop Essentielles / RADOME network, station
-**88136001** ({\'E}pinal, 48.21{\textdegree}N, 6.45{\textdegree}E,
+I obtained sub-daily (hourly) temperature records from the
+Météo-France Synop Essentielles / RADOME network, station
+**88136001** (Épinal, 48.21°N, 6.45°E,
 317 m a.s.l.). The station opened on 1 June 1986; no sub-daily data
 exist before this date. The study period spans 1 January 1986 to
 31 December 2025, yielding up to 40 years of continuous hourly records.
-Raw data were acquired via the M{\'e}t{\'e}o-France public data API
+Raw data were acquired via the Météo-France public data API
 using the `pooch` data registry and archived on OSF for reproducibility.
 
 ### Preprocessing and quality control
@@ -26,11 +26,11 @@ with correct handling of 23-hour (spring-forward) and 25-hour
 out of 24).
 
 **Diurnal amplitude filter.** Days with a diurnal temperature range
-$T_{\max} - T_{\min} < 2.0$~{\textdegree}C were excluded as likely
+$T_{\max} - T_{\min} < 2.0$~°C were excluded as likely
 flat-trace instrument artefacts or radiation-error events.
 
 **Physical range check.** Hourly temperatures outside
-$[-30, 50]$~{\textdegree}C were dropped as instrument errors.
+$[-30, 50]$~°C were dropped as instrument errors.
 
 **Outlier flagging.** Observations exceeding 5.0 median absolute
 deviations (MAD) from the series median were flagged and the
@@ -40,15 +40,17 @@ corresponding day excluded from the primary analysis.
 of the maximum recorded temperature were identified. When multiple hours
 shared the same maximum temperature, the *earliest* hour was selected as
 the primary analysis variable; the *latest* hour was retained for a
-sensitivity analysis. This tie-breaking rule is critical: the circular
-average of two peak hours such as 23:00 and 00:00 would give 11:30 --
-a physically meaningless result.
+sensitivity analysis. This tie-breaking rule is critical: a linear
+average of two peak hours straddling midnight (e.g., 23:00 and 00:00)
+would give 11:30 — a physically meaningless result. The proper
+circular mean of 23:00 (345°) and 00:00 (0°/360°) is 23:30, confirming
+that simple arithmetic averaging is inappropriate for circular data.
 
 ### Von Mises circular regression
 
 The peak hour $\theta_i$ (converted to radians as
 $\theta_i = 2\pi \times \text{peak\_hour}_i / 24$) is a circular
-response variable for which linear regression is inappropriate. We
+response variable for which linear regression is inappropriate. I
 therefore model the trend using a von Mises GLM fitted by direct
 maximum likelihood estimation (MLE) via `scipy.optimize.minimize`,
 following Fisher and Lee [-@fisher1992regression].
@@ -83,7 +85,7 @@ distribution extracted.
 ### Contingency: circular--linear correlation
 
 If the MLE fails to converge (e.g., all peak hours identical, flat
-likelihood), we fall back to the nonparametric circular--linear rank
+likelihood), I fall back to the nonparametric circular--linear rank
 correlation of Mardia [-@mardia1976linearcircular]:
 
 $$
@@ -97,17 +99,17 @@ bootstrap (10\,000 resamples).
 
 ### Sensitivity analysis
 
-We evaluated eight pre-registered sensitivity variants, each varying a
+I evaluated eight pre-registered sensitivity variants, each varying a
 single parameter while keeping all others at their primary values:
 (1) latest-peak tie-breaking; (2) reduced minimum record length (20
 years); (3) strict outlier threshold (3.0~MAD); (4) post-2000 exclusion;
 (5)--(6) subsampling peak hours to 3-hour and 6-hour bins; (7)--(8)
 alternative diurnal amplitude thresholds (1.0 and
-3.0~{\textdegree}C).
+3.0~°C).
 
 ### Seasonal stratification
 
-As an exploratory analysis, we repeated the primary regression
+As an exploratory analysis, I repeated the primary regression
 separately for each meteorological season: spring (MAM),
 summer (JJA), autumn (SON), winter (DJF). These results are
 presented as supplementary information without multiple-testing

@@ -1,29 +1,31 @@
 ## Discussion
 
-We investigated whether the clock hour of daily maximum temperature at
-{\'E}pinal, France, has shifted over the 40-year period 1986--2025 using
+I investigated whether the clock hour of daily maximum temperature at
+Épinal, France, has shifted over the 40-year period 1986--2025 using
 a von Mises circular regression -- a statistical framework specifically
-designed for circular response variables. The primary analysis [revealed
-a shift of / did not detect a shift in] the daily peak hour, with the
-trend direction consistent with the global-scale
-findings of Shmuel et al. [-@shmuel2026daily].
+designed for circular response variables. The primary analysis did not
+detect a statistically significant shift in the daily peak hour at the
+annual scale ($\beta = -0.0281$~h/decade~, 95\% CI:
+$-0.0699$ to $0.0121$), though the point estimate is directionally
+consistent with the global-scale findings of Shmuel et
+al. [-@shmuel2026daily].
 
 ### Comparison with prior work
 
-The estimated trend of -0.0281~h/decade~ is [comparable to / smaller
-than / larger than] the global average shift reported by Shmuel et al.
+The estimated trend of -0.0281~h/decade~ is substantively smaller
+than the global average shift reported by Shmuel et al.
 [-@shmuel2026daily] for afternoon cooling-period temperatures (>20
 minutes per decade). Several factors may explain this difference. First,
-our study examines the specific clock hour of *maximum* temperature,
+this study examines the specific clock hour of *maximum* temperature,
 whereas Shmuel et al. analysed the timing of fixed-temperature
 thresholds; these are related but distinct metrics. Second, local
 factors such as topography, land-use change, and proximity to the
-Vosges mountains may modulate the diurnal cycle at {\'E}pinal
-differently than the global mean. Third, our single-station design
+Vosges mountains may modulate the diurnal cycle at Épinal
+differently than the global mean. Third, this single-station design
 eliminates spatial aggregation biases but captures only local signals.
 The peer-reviewed analysis of Wang and Dillon [-@wang2014recent]
 identified France as a region of notable diurnal temperature change,
-providing a broader context for our station-level findings.
+providing a broader context for these station-level findings.
 
 ### Sensitivity and robustness
 
@@ -41,10 +43,10 @@ Several limitations should be acknowledged.
 
 **Single-station generalisability.** This study examines one station in
 eastern France. The results cannot be extrapolated to other regions
-without caution. Spatial replication across the M{\'e}t{\'e}o-France
+without caution. Spatial replication across the Météo-France
 RADOME network would be a natural extension.
 
-**Data homogeneity.** The M{\'e}t{\'e}o-France record may contain
+**Data homogeneity.** The Météo-France record may contain
 undocumented instrument changes, station relocations, or observation
 practice shifts over the 40-year period. While the diurnal amplitude
 filter removes the most obvious instrument artefacts, inhomogeneities
@@ -65,7 +67,7 @@ may not capture multi-modal daily temperature cycles that occur during
 certain meteorological conditions (e.g., frontal passages).
 
 **Temporal autocorrelation.** Daily peak hours are serially correlated
-(weather regimes persist for days to weeks), and our bootstrap
+(weather regimes persist for days to weeks), and the bootstrap
 procedure, while robust, assumes exchangeability. A block bootstrap
 that preserves short-range autocorrelation would provide a stricter
 test.

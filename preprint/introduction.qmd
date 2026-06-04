@@ -28,7 +28,7 @@ In a complementary peer-reviewed global analysis, Wang and
 Dillon [-@wang2014recent] used over 1.4 billion hourly measurements
 from 7\,906 weather stations worldwide covering the period 1975--2013.
 They reported that diurnal temperature variation increased by
-approximately 1.0\,{\textdegree}C in temperate regions, with this
+approximately 1.0\,°C in temperate regions, with this
 increase particularly pronounced in Europe, including France. They
 further documented coherent changes in the phase of the *annual*
 temperature cycle, suggesting that both diurnal and seasonal timing
@@ -39,17 +39,17 @@ undergoing systematic changes in both magnitude and phase at global and
 continental scales. However, neither study examines the specific clock
 hour of daily maximum temperature at a local, station-based scale -- and
 neither focuses on the Grand Est region of France or the city of
-{\'E}pinal.
+Épinal.
 
 ### Present study
 
-We address this gap by asking a focused question: *Has the clock hour of
-the daily maximum temperature at {\'E}pinal, France, changed over the
+I address this gap by asking a focused question: *Has the clock hour of
+the daily maximum temperature at Épinal, France, changed over the
 past four decades?* Using 40 years of hourly temperature records from a
-single well-instrumented M{\'e}t{\'e}o-France RADOME station, we apply a
+single well-instrumented Météo-France RADOME station, I apply a
 von Mises circular regression model -- the appropriate statistical
 framework for a circular response variable (0--23 hours) -- to estimate
-the trend in peak temperature timing. We evaluate eight pre-registered
+the trend in peak temperature timing. I evaluate eight pre-registered
 sensitivity variants to constrain researcher degrees of freedom and
 conduct exploratory seasonal stratifications.
 

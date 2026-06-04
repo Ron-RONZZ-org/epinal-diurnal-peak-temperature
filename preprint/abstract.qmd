@@ -6,24 +6,31 @@ agriculture, and human health. While changes in diurnal temperature
 daily maximum temperature remain poorly characterized at local scales.
 
 **Methods**: Using 40 years (1986--2025) of hourly temperature records
-from the M{\'e}t{\'e}o-France RADOME station at {\'E}pinal, France
-(48.21{\textdegree}N, 6.45{\textdegree}E), we extracted the clock hour
-of daily maximum temperature and modelled its long-term trend using a
-von Mises circular regression by direct maximum likelihood (Fisher \&
-Lee 1992). Confidence intervals were obtained from 1\,000 bootstrap
-resamples. We evaluated eight pre-registered sensitivity variants
-including alternative tie-breaking rules, subsampling schemes, and
-amplitude thresholds, as well as exploratory seasonal stratifications.
+from the Météo-France RADOME station at Épinal, France
+(48.21°N, 6.45°E), I extracted the clock hour
+of daily maximum temperature from 12\,163 valid days and modelled
+its long-term trend using a von Mises circular regression by direct
+maximum likelihood (Fisher & Lee 1992).
+Confidence intervals were obtained from 1\,000 bootstrap resamples.
+I evaluated eight pre-registered sensitivity variants including
+alternative tie-breaking rules, subsampling schemes, and amplitude
+thresholds, as well as exploratory seasonal stratifications.
 
-**Results**: The primary analysis revealed a shift of [\beta] hours per
-decade (95 \% bootstrap CI: [lower], [upper]), indicating that the
-daily temperature peak at {\'E}pinal has occurred [later/earlier] over
-the study period. The trend was robust across most sensitivity variants.
-Seasonal sub-analyses suggested [summary of seasonal patterns].
+**Results**: The primary analysis revealed a shift of −0.028 hours per
+decade (95% bootstrap CI: −0.070 to 0.012 hours per decade, equivalent
+to −1.7 minutes per decade; 95% CI: −4.2 to 0.7 minutes per decade),
+indicating a slight tendency toward an earlier daily peak that is not
+statistically distinguishable from zero. The trend direction was
+consistent across all eight sensitivity variants. Seasonal
+sub-analyses revealed contrasting patterns: a significant shift
+toward earlier peaks in winter (−0.19 hr/dec, 95% CI: −0.32 to
+−0.06) and toward later peaks in autumn (0.09 hr/dec, 95% CI:
+0.01 to 0.17), with non-significant tendencies in spring and summer.
 
 **Conclusions**: The clock hour of daily maximum temperature at
-{\'E}pinal has [shifted/not shifted] measurably over the past four
-decades. These results provide local-scale evidence consistent with
-recent global findings of a systematic shift in the diurnal temperature
-phase, with implications for heat-health预警 systems, crop modelling,
-and building energy demand forecasting.
+Épinal has not shifted measurably over the past four decades at the
+annual scale, though significant seasonal trends in opposing
+directions were detected. These results provide local-scale evidence
+that complements recent global findings regarding shifts in the
+diurnal temperature phase, with implications for heat-health warning
+systems, crop modelling, and building energy demand forecasting.
