@@ -29,7 +29,8 @@ scatter, rose diagram, and seasonal trend plots.
 - N bins: 24
 
 ### Seasonal trend (`plot_seasonal_trend`)
-- Faceted: summer (Jun--Aug) and winter (Dec--Feb) panels side by side
+- Faceted: one panel per meteorological season
+  — spring (MAM), summer (JJA), autumn (SON), winter (DJF)
 - Each panel: scatter + trend line, matching wrapped-scatter style
 
 ## Data Contracts
@@ -44,4 +45,6 @@ scatter, rose diagram, and seasonal trend plots.
 
 ## References
 - [Root AGENTS.md](AGENTS.md) — global coding conventions
-- `config.py`: `EpinalPeakConfig.figures_dir`
+- `config.py`: `EpinalPeakConfig.figures_dir`,
+  `.spring_start`, `.spring_end`, `.summer_start`, `.summer_end`,
+  `.autumn_start`, `.autumn_end`, `.winter_start`, `.winter_end`

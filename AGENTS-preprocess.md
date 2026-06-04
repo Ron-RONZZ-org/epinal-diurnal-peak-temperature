@@ -17,6 +17,10 @@ conversion, daily peak temperature extraction, and output validation.
 - **Missing data threshold**: A day is valid only if at least
   `config.min_valid_fraction` (default 75 %) of hourly observations are
   non-null.
+- **Diurnal amplitude filter**: A day is valid only if
+  `T_max - T_min >= config.min_diurnal_amplitude` (default 2.0 °C).
+  Days with near-zero amplitude (flat trace) are excluded as likely
+  instrument or radiation-error artefacts.
 
 ## Data Contracts
 - **Input**: Raw CSV with UTC timestamps and temperature readings.

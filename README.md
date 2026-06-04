@@ -16,7 +16,7 @@ Whereas existing research has predominantly examined *regional warming trends*, 
    - Conversion of UTC timestamps to local time (CET/CEST).
    - Extraction, for each calendar day, of the hour corresponding to the highest recorded temperature.
 
-3. **Analysis & Visualization** — The primary output is a time-series plot of the daily peak temperature hour across the observation period. Secondary analyses examine seasonal variations (summer vs. winter) and compute a long-term trend line using appropriate statistical methods.
+3. **Analysis & Visualization** — The primary output is a time-series plot of the daily peak temperature hour across the observation period. A **von Mises circular GLM** models the trend (β hours/decade) with bootstrap confidence intervals. Secondary analyses examine seasonal variations (spring/summer/autumn/winter) and compute a long-term trend line. Four pre-registered sensitivity analyses test robustness.
 
 ## Expected Outputs
 
@@ -25,11 +25,19 @@ Whereas existing research has predominantly examined *regional warming trends*, 
 - Final visualization illustrating the trend in diurnal peak temperature.
 - Project report detailing the methodological approach and empirical findings.
 
+## Pre-registration
+
+The analysis plan was pre-registered on the **Open Science Framework (OSF)**
+before any data analysis began, in accordance with open-science best practices.
+
+- **OSF Pre-registration**: [Add OSF DOI link after submission]
+
 ## Project Management
 
-This project is managed on the **Open Science Framework (OSF)**. The Git repository serves as an external storage component linked to the OSF project.
+This project is managed on the **Open Science Framework (OSF)**. The Git
+repository serves as an external storage component linked to the OSF project.
 
-- OSF Project: [Add OSF link here]
+- OSF Project: [Add OSF project link here]
 
 ## License
 

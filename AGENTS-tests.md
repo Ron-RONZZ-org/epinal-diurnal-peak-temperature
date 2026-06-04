@@ -6,7 +6,8 @@ tests for every pipeline module.
 
 ## Constraints & Invariants
 - **Coverage targets**: >= 80 % line coverage overall; 100 % coverage on
-  critical paths (DST handling, tie-breaking, circular mean/std).
+  critical paths (DST handling, tie-breaking, diurnal amplitude filtering,
+  circular mean/std).
 - **DST edge cases**: Every DST transition type must have at least one test:
   - 23-hour day (spring-forward)
   - 25-hour day (autumn-back)
@@ -27,8 +28,10 @@ assertion or a small set of related assertions.
 ## Fixtures
 Shared fixtures live in `conftest.py`:
 - `sample_temperature_data`: 48-hour synthetic data with a DST transition.
-- `sample_peak_hours`: 30 years of synthetic daily peak hours with a known
-  weak trend.
+- `sample_peak_hours`: 40 years of synthetic daily peak hours with a known
+  weak trend and 4-season labels (spring/summer/autumn/winter).
+- `sample_peak_hours_amplitude`: Same as above but includes a
+  ``diurnal_amplitude`` column for testing the amplitude filter.
 
 Module-specific fixtures go in the module's own test file using
 ``conftest.py``-level fixtures where possible.

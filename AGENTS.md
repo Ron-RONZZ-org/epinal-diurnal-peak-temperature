@@ -103,6 +103,7 @@ Install: `pip install -e ".[dev]"`
 7. **Unit test DST edge cases**: 23-hour (spring) and 25-hour (autumn) transition days must have explicit test coverage
 8. **Synthetic data tests**: `analysis.py` must include a test with known synthetic circular data that verifies the regression returns the expected coefficient
 9. **Tie-breaking**: Earliest peak hour is primary; latest is a sensitivity. Do NOT average tied hours (circular average of 23 and 0 is 11.5 — meaningless)
+10. **Diurnal amplitude filter**: Days with ``T_max - T_min < config.min_diurnal_amplitude`` (default 2.0 °C) must be excluded before trend analysis. This removes flat-trace instrument artefacts.
 
 ---
 

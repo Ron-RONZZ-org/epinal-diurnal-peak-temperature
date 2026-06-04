@@ -17,15 +17,24 @@ intervals, and multi-variant sensitivity analysis.
 - **Bootstrap methodology**: Resample daily peak hours with replacement,
   refit the GLM each iteration, and extract percentile confidence intervals.
   Default: 1000 iterations, 95 % CI.
-- **Sensitivity variants** (all must be implemented):
-  1. Tie-breaking rule: `"latest"` instead of `"earliest"`
-  2. Minimum years reduced to 20 (from 30)
-  3. Outlier threshold: 3.0 MAD instead of 5.0
-  4. Excluding post-2000 data only
+- **Sensitivity variants** (all must be implemented; all are pre-registered):
+   1. Tie-breaking rule: `"latest"` instead of `"earliest"`
+      (`config.sensitivity_tie_rule`)
+   2. Minimum years reduced to 20 (from 30)
+      (`config.sensitivity_min_years`)
+   3. Outlier threshold: 3.0 MAD instead of 5.0
+      (`config.sensitivity_mad_threshold`)
+   4. Excluding post-2000 data only
+      (`config.sensitivity_exclude_post_2000`)
+
+## Primary Endpoint
+- **Primary outcome**: Slope β from von Mises GLM, expressed in hours per
+  decade (`config.primary_endpoint = "slope_beta_hours_per_decade"`).
+- Report β, 95 % bootstrap CI, and p-value (or CI-exclusivity-of-zero).
 
 ## Data Contracts
 - **Input**: CSV with columns `date`, `year`, `peak_hour`, `peak_temperature`,
-  `season`.
+  `season` (one of ``"spring"``, ``"summer"``, ``"autumn"``, ``"winter"``).
 - **Output**: JSON file with regression coefficients, bootstrap CI bounds,
   and per-variant sensitivity results.
 
@@ -38,4 +47,6 @@ intervals, and multi-variant sensitivity analysis.
 ## References
 - [Root AGENTS.md](AGENTS.md) — global coding conventions
 - `config.py`: `EpinalPeakConfig.n_bootstrap`, `.bootstrap_ci_level`,
-  `.min_years_for_trend`, `.sensitivity_tie_rule`
+  `.min_years_for_trend`, `.sensitivity_tie_rule`,
+  `.sensitivity_min_years`, `.sensitivity_mad_threshold`,
+  `.sensitivity_exclude_post_2000`, `.primary_endpoint`

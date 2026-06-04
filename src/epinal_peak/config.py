@@ -51,6 +51,10 @@ class EpinalPeakConfig:
     """Number of median absolute deviations from median for outlier flagging."""
     min_years_for_trend: int = 30
     """Minimum years of data required for meaningful trend analysis."""
+    min_diurnal_amplitude: float = 2.0
+    """Minimum diurnal temperature range (°C) for a valid day.
+    Days with peak minus minimum temperature below this threshold
+    are excluded (common instrument or radiation-error flag)."""
 
     # ── Analysis period ───────────────────────────────────────────────
     year_start: int = 1986
@@ -67,11 +71,37 @@ class EpinalPeakConfig:
     sensitivity_tie_rule: str = "latest"
     """Tie-breaking rule for sensitivity analysis."""
 
+    # ── Sensitivity analysis ──────────────────────────────────────────
+    sensitivity_min_years: int = 20
+    """Alternative *min_years_for_trend* for the 'reduced years' sensitivity
+    variant.  Used to test whether the trend is robust to a shorter record."""
+    sensitivity_mad_threshold: float = 3.0
+    """Alternative *outlier_mad_threshold* for the 'strict outlier' sensitivity
+    variant.  Flags outliers more aggressively than the primary threshold."""
+    sensitivity_exclude_post_2000: bool = False
+    """If ``True``, excludes all data after year 2000 for the 'post-2000
+    exclusion' sensitivity variant.  Tests whether recent decades drive
+    the trend."""
+
+    # ── Primary endpoint ──────────────────────────────────────────────
+    primary_endpoint: str = "slope_beta_hours_per_decade"
+    """Primary outcome measure: slope β from von Mises circular GLM
+    expressed in hours per decade.  A positive value indicates the daily
+    maximum temperature occurs later in the day over time."""
+
     # ── Seasonal definitions (Northern Hemisphere, meteorological) ────
+    spring_start: int = 3
+    spring_end: int = 5
+    """March, April, May — meteorological spring."""
     summer_start: int = 6
     summer_end: int = 8
+    """June, July, August — meteorological summer."""
+    autumn_start: int = 9
+    autumn_end: int = 11
+    """September, October, November — meteorological autumn."""
     winter_start: int = 12  # December of year N-1
     winter_end: int = 2  # February of year N
+    """December, January, February — meteorological winter (DJF)."""
 
     # ── Circular regression ───────────────────────────────────────────
     n_bootstrap: int = 1000
