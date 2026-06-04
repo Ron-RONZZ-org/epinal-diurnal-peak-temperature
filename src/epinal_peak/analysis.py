@@ -18,9 +18,9 @@ import numpy as np
 import pandas as pd
 
 import epinal_peak
+from epinal_peak import _analysis_variants as _variants
 from epinal_peak._analysis_bootstrap import _bootstrap_engine
 from epinal_peak._analysis_corr import circular_linear_correlation, _mardia_correlation
-from epinal_peak import _analysis_variants as _variants
 from epinal_peak._analysis_regression import (
     _hours_to_radians,
     _radians_to_hours,
@@ -177,14 +177,38 @@ def temperature_weighted_regression(
     Returns:
         Dict with regression coefficients, bootstrap CI, weight summary.
     """
-    return _variants.temperature_weighted_regression(
+    from epinal_peak._analysis_weighted import temperature_weighted_regression as _twr
+
+    return _twr(
         df,
         n_iter=config.n_bootstrap,
         ci_level=config.bootstrap_ci_level,
     )
 
 
-# ── Output assembly ────────────────────────────────────────────────
+def seasonal_sensitivity_analysis(
+    df: pd.DataFrame, config: EpinalPeakConfig
+) -> dict[str, dict[str, Any]]:
+    """Run sensitivity variants per meteorological season.
+
+    For each season, runs the standard sensitivity variants
+    (tie-breaking, subsampling, amplitude thresholds) independently.
+
+    Args:
+        df: DataFrame with ``season`` column.
+        config: Pipeline configuration.
+
+    Returns:
+        Nested dict: outer keys are seasons, inner are variant names.
+    """
+    _logger.info("Seasonal sensitivity analysis — 4 seasons × 6 variants")
+    return _variants.seasonal_sensitivity_analysis(
+        df,
+        n_iter=config.n_bootstrap,
+        ci_level=config.bootstrap_ci_level,
+        amplitude_thresholds=tuple(config.amplitude_thresholds),
+        subsampling_bins=tuple(config.subsampling_bins),
+    )
 
 
 def _build_output_json(
@@ -194,17 +218,19 @@ def _build_output_json(
     supplementary: dict[str, Any],
     fallback: dict[str, Any] | None,
     interaction: dict[str, Any] | None,
+    seasonal_sensitivity: dict[str, Any] | None,
     config: EpinalPeakConfig,
 ) -> dict[str, Any]:
     """Assemble the full nested output JSON.
 
     Args:
-        primary: Primary von Mises regression result.
-        seasonal: Seasonal stratification results.
-        sensitivity: Sensitivity analysis results.
+        primary: Pooled von Mises regression result (supplementary).
+        seasonal: Seasonal stratification results (primary).
+        sensitivity: Pooled sensitivity analysis results.
         supplementary: Supplementary analysis results.
         fallback: Mardia fallback result (or None).
         interaction: Interaction test result (or None).
+        seasonal_sensitivity: Per-season sensitivity results (or None).
         config: Pipeline configuration.
 
     Returns:
@@ -225,15 +251,16 @@ def _build_output_json(
                 "year_end": config.year_end,
             },
         },
-        "primary": primary,
+        "interaction": interaction,
         "seasonal": seasonal,
-        "sensitivity": sensitivity,
-        "supplementary": supplementary,
     }
+    if seasonal_sensitivity is not None:
+        output["seasonal_sensitivity"] = seasonal_sensitivity
+    output["pooled"] = primary
+    output["sensitivity"] = sensitivity
+    output["supplementary"] = supplementary
     if fallback is not None:
         output["fallback"] = fallback
-    if interaction is not None:
-        output["interaction"] = interaction
     return output
 
 
@@ -243,9 +270,14 @@ def _build_output_json(
 def main() -> None:
     """CLI entry point for the analysis stage.
 
-    Reads the processed peak-hour CSV, fits all analyses (primary,
-    seasonal, sensitivity, supplementary, interaction), and writes the
-    complete nested results to ``config.results_dir`` as JSON.
+    Reads the processed peak-hour CSV and runs:
+
+    1. Year--season interaction test (diagnostic justification)
+    2. Seasonal stratification (**primary** analysis)
+    3. Seasonal sensitivity variants
+    4. Pooled regression (supplementary)
+    5. Pooled sensitivity (supplementary)
+    6. Supplementary analyses
     """
     config = EpinalPeakConfig()
     epinal_peak.setup_logging(config)
@@ -258,48 +290,16 @@ def main() -> None:
         _logger.error("Data loading failed: %s", exc)
         return
 
-    # ── Primary analysis ────────────────────────────────────────────
-    _logger.info("Primary: von Mises regression — %d obs", len(df))
-    primary = von_mises_regression(df)
-
-    _logger.info(
-        "Primary result: beta_1=%.6f rad/yr (%.4f h/decade), "
-        "kappa=%.2f, converged=%s",
-        primary["beta_1"],
-        primary["beta_1_hours_per_decade"],
-        primary["kappa"],
-        primary["converged"],
-    )
-
-    # Bootstrap CI for primary
-    _logger.info("Primary: bootstrap CI (%d iter)", config.n_bootstrap)
-    primary["bootstrap"] = _bootstrap_engine(
-        df, n_iter=config.n_bootstrap, ci_level=config.bootstrap_ci_level
-    )
-
-    # ── Fallback (if MLE failed) ────────────────────────────────────
-    fallback: dict[str, Any] | None = None
-    if primary.get("status") in ("mle_did_not_converge",):
-        _logger.info("Primary MLE failed — computing Mardia fallback correlation")
-        fallback = _mardia_correlation(
-            df["peak_hour"].values,
-            df["year"].values,
-            n_bootstrap=config.n_bootstrap_fallback,
-        )
-
-    # ── Seasonal stratification ─────────────────────────────────────
-    _logger.info("Seasonal stratification")
-    seasonal = seasonal_stratification(df, config)
-
-    # ── Interaction test: year × season ─────────────────────────────
-    _logger.info("Interaction test: year × season von Mises LR test")
+    # ── 1. Interaction test: year × season (diagnostic) ─────────────
+    _logger.info("Year × season interaction LR test (diagnostic)")
     interaction = interaction_lr_test(df)
     if interaction["status"] != "ok":
         _logger.warning("Interaction test failed: %s", interaction["status"])
     elif interaction["significant"]:
         _logger.info(
             "Interaction significant (χ²=%.2f, p=%.4f) — "
-            "%d / 4 seasons rejected at FDR=%.2f",
+            "%d / 4 seasons rejected at FDR=%.2f — "
+            "justifying seasonal primary analysis",
             interaction["lr_stat"],
             interaction["p_value"],
             interaction["per_season"]["n_seasons_rejected"],
@@ -312,11 +312,59 @@ def main() -> None:
             interaction["p_value"],
         )
 
-    # ── Sensitivity analysis ────────────────────────────────────────
-    _logger.info("Sensitivity analysis — 8 variants")
+    # ── 2. Seasonal stratification (PRIMARY analysis) ───────────────
+    _logger.info("PRIMARY: Seasonal stratification — von Mises regression per season")
+    seasonal = seasonal_stratification(df, config)
+    for s in ["spring", "summer", "autumn", "winter"]:
+        r = seasonal.get(s, {})
+        if r.get("status") == "ok":
+            _logger.info(
+                "  %s: β=%.4f h/decade [%.4f, %.4f], n=%d",
+                s,
+                r["beta_1_hours_per_decade"],
+                r["bootstrap"]["ci_lower"],
+                r["bootstrap"]["ci_upper"],
+                r["n_obs"],
+            )
+
+    # ── 3. Seasonal sensitivity ─────────────────────────────────────
+    _logger.info("Seasonal sensitivity — 4 seasons × 6 variants")
+    seas_sens = seasonal_sensitivity_analysis(df, config)
+
+    # ── 4. Pooled regression (supplementary) ────────────────────────
+    _logger.info("SUPPLEMENTARY: Pooled von Mises regression — %d obs", len(df))
+    primary = von_mises_regression(df)
+
+    _logger.info(
+        "Pooled result: beta_1=%.6f rad/yr (%.4f h/decade), "
+        "kappa=%.2f, converged=%s",
+        primary["beta_1"],
+        primary["beta_1_hours_per_decade"],
+        primary["kappa"],
+        primary["converged"],
+    )
+
+    # Bootstrap CI for pooled
+    _logger.info("Pooled: bootstrap CI (%d iter)", config.n_bootstrap)
+    primary["bootstrap"] = _bootstrap_engine(
+        df, n_iter=config.n_bootstrap, ci_level=config.bootstrap_ci_level
+    )
+
+    # ── Fallback (if MLE failed) ────────────────────────────────────
+    fallback: dict[str, Any] | None = None
+    if primary.get("status") in ("mle_did_not_converge",):
+        _logger.info("Pooled MLE failed — computing Mardia fallback correlation")
+        fallback = _mardia_correlation(
+            df["peak_hour"].values,
+            df["year"].values,
+            n_bootstrap=config.n_bootstrap_fallback,
+        )
+
+    # ── 5. Pooled sensitivity (supplementary) ───────────────────────
+    _logger.info("SUPPLEMENTARY: Pooled sensitivity analysis — 8 variants")
     sensitivity = sensitivity_analysis(df, config)
 
-    # ── Supplementary analyses ──────────────────────────────────────
+    # ── 6. Supplementary analyses ───────────────────────────────────
     supplementary: dict[str, Any] = {}
 
     _logger.info("Supplementary: temperature-weighted regression")
@@ -337,6 +385,7 @@ def main() -> None:
         supplementary=supplementary,
         fallback=fallback,
         interaction=interaction,
+        seasonal_sensitivity=seas_sens,
         config=config,
     )
 

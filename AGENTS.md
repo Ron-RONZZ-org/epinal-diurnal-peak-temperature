@@ -182,6 +182,7 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 | `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Public API: orchestrates all analyses |
 | `src/epinal_peak/_analysis_regression.py` | — | Core von Mises regression math (extracted from analysis.py) |
 | `src/epinal_peak/_analysis_interaction.py` | — | Year × season interaction LR test + BH FDR |
+| `src/epinal_peak/_analysis_weighted.py` | — | Temperature-weighted von Mises regression (extracted from _analysis_variants.py) |
 | `src/epinal_peak/visualize.py` | `AGENTS-visualize.md` | Figure generation rules |
 | `notebooks/` | `AGENTS-notebooks.md` | Notebook conventions |
 | `tests/` | `AGENTS-tests.md` | Testing conventions |

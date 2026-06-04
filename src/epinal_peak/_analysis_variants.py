@@ -1,4 +1,8 @@
-"""Sensitivity variants, seasonal stratification, and supplementary regressions."""
+"""Sensitivity variants and seasonal stratification.
+
+Weighted regression functions have been extracted to
+:mod:`_analysis_weighted` to keep this module under 500 lines.
+"""
 
 from __future__ import annotations
 
@@ -7,8 +11,6 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
-from scipy.special import i0
 
 from epinal_peak._analysis_bootstrap import _bootstrap_engine
 
@@ -197,6 +199,88 @@ def sensitivity_analysis(
     return variants
 
 
+def seasonal_sensitivity_analysis(
+    df: pd.DataFrame,
+    n_iter: int = 1000,
+    ci_level: float = 0.95,
+    amplitude_thresholds: tuple[float, ...] | None = None,
+    subsampling_bins: tuple[int, ...] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Run sensitivity variants per meteorological season.
+
+    For each season (spring / summer / autumn / winter), runs the
+    standard sensitivity variants independently.  This tests whether
+    the per-season trend estimates are robust to methodological
+    choices.
+
+    Args:
+        df: DataFrame with ``season`` column.
+        n_iter: Bootstrap iterations per variant-season.
+        ci_level: Bootstrap CI level.
+        amplitude_thresholds: Alternative amplitude thresholds.
+        subsampling_bins: Bin sizes for subsampling variants.
+
+    Returns:
+        Nested dict: outer keys are season names, inner keys are
+        variant names mapping to result dicts.
+    """
+    at = amplitude_thresholds or (1.0, 3.0)
+    sb = subsampling_bins or (3, 6)
+    seasons = {"spring": "MAM", "summer": "JJA", "autumn": "SON", "winter": "DJF"}
+    results: dict[str, dict[str, Any]] = {}
+
+    for season_name, season_label in seasons.items():
+        subset = df[df["season"] == season_name].copy()
+        if subset.empty:
+            results[season_name] = {"status": "no_data"}
+            continue
+
+        season_results: dict[str, Any] = {}
+        n_years = int(subset["year"].nunique())
+
+        # Tie rule: latest
+        if "peak_hour_sensitivity" in subset.columns:
+            season_results["tie_rule_latest"] = _run_variant(
+                subset,
+                {"tie_col": "peak_hour_sensitivity", "note": "tie_rule=latest"},
+                n_iter=n_iter,
+                ci_level=ci_level,
+            )
+            if "n_years" not in season_results["tie_rule_latest"]:
+                season_results["tie_rule_latest"]["n_years"] = n_years
+
+        # Subsampling variants
+        for bin_size in sb:
+            key = f"subsampling_{bin_size}hr"
+            season_results[key] = _run_variant(
+                subset,
+                {"subsampling_bin": bin_size, "note": f"subsampling_bin={bin_size}"},
+                n_iter=n_iter,
+                ci_level=ci_level,
+            )
+            if "n_years" not in season_results[key]:
+                season_results[key]["n_years"] = n_years
+
+        # Amplitude threshold variants
+        for threshold in at:
+            key = f"amplitude_threshold_{threshold}"
+            season_results[key] = _run_variant(
+                subset,
+                {
+                    "amplitude_threshold": threshold,
+                    "note": f"min_amplitude={threshold}",
+                },
+                n_iter=n_iter,
+                ci_level=ci_level,
+            )
+            if "n_years" not in season_results[key]:
+                season_results[key]["n_years"] = n_years
+
+        results[season_name] = season_results
+
+    return results
+
+
 def seasonal_stratification(
     df: pd.DataFrame,
     n_iter: int = 1000,
@@ -241,213 +325,4 @@ def seasonal_stratification(
     return results
 
 
-def _weighted_neg_log_likelihood(
-    params: np.ndarray,
-    theta: np.ndarray,
-    year_centered: np.ndarray,
-    weights: np.ndarray,
-) -> float:
-    """Weighted negative log-likelihood for von Mises regression.
 
-    Each observation contributes ``w_i`` times the log-likelihood.
-    The effective sample size is ``sum(w_i)``.
-    """
-    beta_0, beta_1, log_kappa = params
-    kappa = np.exp(log_kappa)
-    mu = beta_0 + beta_1 * year_centered
-    n_eff = weights.sum()
-    ll = np.sum(weights * kappa * np.cos(theta - mu)) - n_eff * np.log(
-        2.0 * np.pi * i0(kappa)
-    )
-    return float(-ll)
-
-
-def temperature_weighted_regression(
-    df: pd.DataFrame,
-    n_iter: int = 1000,
-    ci_level: float = 0.95,
-    weight_col: str = "diurnal_amplitude",
-) -> dict[str, Any]:
-    """Von Mises regression weighted by diurnal amplitude (supplementary).
-
-    Days with larger diurnal ranges have more clearly defined peaks and
-    receive more weight in the log-likelihood.
-
-    Args:
-        df: DataFrame with ``peak_hour``, ``year``, and *weight_col*.
-        n_iter: Bootstrap iterations.
-        ci_level: Bootstrap CI level.
-        weight_col: Column name for observation weights.
-
-    Returns:
-        Dict with regression coefficients, bootstrap CI, and weight summary.
-    """
-    hours = df["peak_hour"].values.astype(float)
-    year = df["year"].values.astype(float)
-    weights = df[weight_col].values.astype(float)
-
-    valid = ~(np.isnan(hours) | np.isnan(year) | np.isnan(weights) | (weights <= 0))
-    if not valid.any():
-        return {"status": "no_valid_observations"}
-
-    hours = hours[valid]
-    year = year[valid]
-    weights = weights[valid]
-
-    theta = _hours_to_radians(hours)
-    year_center = float(np.mean(year))
-    year_centered = year - year_center
-
-    # ── Initial guesses ─────────────────────────────────────────────
-    sin_sum = np.sin(theta).sum()
-    cos_sum = np.cos(theta).sum()
-    beta_0_init = np.arctan2(sin_sum, cos_sum)
-    n = float(len(theta))
-    r = np.sqrt(sin_sum**2 + cos_sum**2) / n
-    if r < 0.99:
-        kappa_init = max(r * (2.0 - r**2) / (1.0 - r**2), 0.01)
-    else:
-        kappa_init = 100.0
-
-    opt_result = minimize(
-        _weighted_neg_log_likelihood,
-        x0=np.array([beta_0_init, 0.0, np.log(kappa_init)]),
-        args=(theta, year_centered, weights),
-        method="Nelder-Mead",
-        options={"maxiter": 5000, "xatol": 1e-8, "fatol": 1e-8},
-    )
-
-    beta_0, beta_1, log_kappa = opt_result.x
-    kappa = np.exp(log_kappa)
-    beta_1_hpd = beta_1 * _radians_to_hours(np.array([1.0]))[0] * 10.0
-
-    # ── Bootstrap (resample with weights in df) ─────────────────────
-    # Build a DataFrame subset that includes weights
-    weighted_df = df.iloc[valid].copy()
-    weighted_df["_weight"] = weights
-    bootstrap_result = _bootstrap_weighted_engine(
-        weighted_df, n_iter=n_iter, ci_level=ci_level
-    )
-
-    return {
-        "status": "ok" if opt_result.success else "mle_did_not_converge",
-        "beta_0": float(beta_0),
-        "beta_1": float(beta_1),
-        "beta_1_hours_per_decade": float(beta_1_hpd),
-        "kappa": float(kappa),
-        "year_center": year_center,
-        "n_obs": int(len(theta)),
-        "n_years": int(year_centered.size),  # approximate
-        "converged": bool(opt_result.success),
-        "log_likelihood": float(-opt_result.fun),
-        "bootstrap": bootstrap_result,
-        "weight_var": weight_col,
-        "weight_mean": float(weights.mean()),
-        "weight_std": float(weights.std()),
-    }
-
-
-def _bootstrap_weighted_engine(
-    df: pd.DataFrame,
-    n_iter: int = 1000,
-    ci_level: float = 0.95,
-) -> dict[str, Any]:
-    """Bootstrap resampling for the temperature-weighted regression.
-
-    Resamples rows and extracts the weighted regression's slope.
-    """
-    alpha = 1.0 - ci_level
-    lower_pct = 100.0 * alpha / 2.0
-    upper_pct = 100.0 * (1.0 - alpha / 2.0)
-
-    estimates: list[float] = []
-    n = len(df)
-
-    for i in range(n_iter):
-        if (i + 1) % 100 == 0:
-            _logger.info("Weighted bootstrap iteration %d / %d", i + 1, n_iter)
-
-        resample = df.sample(n=n, replace=True, random_state=i)
-        try:
-            result = _run_weighted(resample)
-        except (ValueError, RuntimeError):
-            continue
-
-        if result.get("status") != "ok":
-            continue
-        estimates.append(result["beta_1_hours_per_decade"])
-
-    if len(estimates) < 2:
-        return {
-            "n_iter": n_iter,
-            "ci_level": ci_level,
-            "ci_lower": np.nan,
-            "ci_upper": np.nan,
-            "median": np.nan,
-            "std_error": np.nan,
-            "status": "too_few_valid_resamples",
-        }
-
-    arr = np.array(estimates)
-    return {
-        "n_iter": len(estimates),
-        "ci_level": ci_level,
-        "ci_lower": float(np.nanpercentile(arr, lower_pct)),
-        "ci_upper": float(np.nanpercentile(arr, upper_pct)),
-        "median": float(np.nanmedian(arr)),
-        "std_error": float(np.nanstd(arr, ddof=1)),
-        "status": "ok",
-    }
-
-
-def _run_weighted(df: pd.DataFrame) -> dict[str, Any]:
-    """Fit weighted von Mises regression on a DataFrame with ``_weight`` column."""
-    hours = df["peak_hour"].values.astype(float)
-    year = df["year"].values.astype(float)
-    weights = df["_weight"].values.astype(float)
-
-    valid = ~(np.isnan(hours) | np.isnan(year) | np.isnan(weights) | (weights <= 0))
-    if not valid.any():
-        return {"status": "no_valid_observations"}
-
-    hours = hours[valid]
-    year = year[valid]
-    weights = weights[valid]
-
-    theta = _hours_to_radians(hours)
-    year_center = float(np.mean(year))
-    year_centered = year - year_center
-
-    sin_sum = np.sin(theta).sum()
-    cos_sum = np.cos(theta).sum()
-    beta_0_init = np.arctan2(sin_sum, cos_sum)
-    n = float(len(theta))
-    r = np.sqrt(sin_sum**2 + cos_sum**2) / n
-    if r < 0.99:
-        kappa_init = max(r * (2.0 - r**2) / (1.0 - r**2), 0.01)
-    else:
-        kappa_init = 100.0
-
-    opt_result = minimize(
-        _weighted_neg_log_likelihood,
-        x0=np.array([beta_0_init, 0.0, np.log(kappa_init)]),
-        args=(theta, year_centered, weights),
-        method="Nelder-Mead",
-        options={"maxiter": 5000, "xatol": 1e-8, "fatol": 1e-8},
-    )
-
-    beta_0, beta_1, log_kappa = opt_result.x
-    kappa = np.exp(log_kappa)
-    beta_1_hpd = beta_1 * _radians_to_hours(np.array([1.0]))[0] * 10.0
-
-    return {
-        "status": "ok" if opt_result.success else "mle_did_not_converge",
-        "beta_0": float(beta_0),
-        "beta_1": float(beta_1),
-        "beta_1_hours_per_decade": float(beta_1_hpd),
-        "kappa": float(kappa),
-        "year_center": year_center,
-        "n_obs": int(len(theta)),
-        "converged": bool(opt_result.success),
-        "log_likelihood": float(-opt_result.fun),
-    }

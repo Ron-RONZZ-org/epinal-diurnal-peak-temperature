@@ -292,3 +292,114 @@ class TestHelpers:
         """Known conversion: pi -> 12, 2*pi -> 0."""
         assert analysis._radians_to_hours(np.array([np.pi])) == pytest.approx(12.0)
         assert analysis._radians_to_hours(np.array([2.0 * np.pi - 1e-10])) == pytest.approx(24.0 - 1e-10)
+
+
+class TestSeasonalStratification:
+    """Tests for ``seasonal_stratification()``."""
+
+    def _seasonal_synthetic_data(self, seed: int = 42) -> pd.DataFrame:
+        """Generate synthetic data spanning all four seasons."""
+        rng = np.random.default_rng(seed)
+        dfs = []
+        for season_name, month_range in [
+            ("spring", (3, 4, 5)),
+            ("summer", (6, 7, 8)),
+            ("autumn", (9, 10, 11)),
+            ("winter", (12, 1, 2)),
+        ]:
+            months = list(month_range)
+            n_days = 300 if season_name != "winter" else 270
+            season_dates = []
+            for _ in range(n_days):
+                m = rng.choice(months)
+                d = int(rng.integers(1, 29))
+                y = int(rng.integers(2000, 2020))
+                season_dates.append(pd.Timestamp(year=y, month=m, day=d))
+            df = pd.DataFrame({"date": pd.DatetimeIndex(season_dates).sort_values()})
+            df["year"] = df["date"].dt.year
+            df["peak_hour"] = rng.uniform(10, 16, len(df))
+            df["season"] = season_name
+            dfs.append(df)
+        return pd.concat(dfs, ignore_index=True)
+
+    def test_returns_dict_with_four_seasons(self) -> None:
+        """Returns a dict with all four season keys."""
+        config = EpinalPeakConfig(n_bootstrap=20)
+        df = self._seasonal_synthetic_data()
+        result = analysis.seasonal_stratification(df, config)
+        assert isinstance(result, dict)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert s in result, f"Missing season: {s}"
+
+    def test_each_season_has_status(self) -> None:
+        """Each season entry contains a status key."""
+        config = EpinalPeakConfig(n_bootstrap=20)
+        df = self._seasonal_synthetic_data()
+        result = analysis.seasonal_stratification(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert "status" in result[s], f"{s} missing status"
+
+    def test_empty_dataframe(self) -> None:
+        """Empty df returns all seasons as no_data."""
+        config = EpinalPeakConfig()
+        df = pd.DataFrame(columns=["year", "peak_hour", "season", "date"])
+        result = analysis.seasonal_stratification(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert result[s].get("status") == "no_data"
+
+    def test_no_season_column_raises(self) -> None:
+        """DataFrame without season column raises KeyError."""
+        config = EpinalPeakConfig()
+        df = pd.DataFrame({"year": [2000], "peak_hour": [14.0]})
+        with pytest.raises(KeyError):
+            analysis.seasonal_stratification(df, config)
+
+
+class TestSeasonalSensitivity:
+    """Tests for ``seasonal_sensitivity_analysis()``."""
+
+    def test_returns_nested_dict(self) -> None:
+        """Returns outer dict of seasons, each with variant dicts."""
+        config = EpinalPeakConfig(n_bootstrap=10)
+        dates = pd.date_range("2000-01-01", periods=400, freq="D")
+        rng = np.random.default_rng(42)
+        df = pd.DataFrame({
+            "date": dates,
+            "year": dates.year,
+            "peak_hour": rng.uniform(10, 16, 400),
+            "diurnal_amplitude": rng.uniform(2.0, 8.0, 400),
+            "season": ["spring"] * 100 + ["summer"] * 100 + ["autumn"] * 100 + ["winter"] * 100,
+        })
+        df["peak_hour_sensitivity"] = df["peak_hour"]
+        result = analysis.seasonal_sensitivity_analysis(df, config)
+        assert isinstance(result, dict)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert s in result, f"Missing season: {s}"
+
+    def test_variant_keys_present_when_data_exists(self) -> None:
+        """Each season with data has expected variant keys."""
+        config = EpinalPeakConfig(n_bootstrap=10)
+        dates = pd.date_range("2000-01-01", periods=400, freq="D")
+        rng = np.random.default_rng(123)
+        df = pd.DataFrame({
+            "date": dates,
+            "year": dates.year,
+            "peak_hour": rng.uniform(10, 16, 400),
+            "diurnal_amplitude": rng.uniform(2.0, 8.0, 400),
+            "season": ["spring"] * 100 + ["summer"] * 100 + ["autumn"] * 100 + ["winter"] * 100,
+        })
+        df["peak_hour_sensitivity"] = df["peak_hour"]
+        result = analysis.seasonal_sensitivity_analysis(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            season_result = result[s]
+            if isinstance(season_result, dict) and "status" not in season_result:
+                for v in ("tie_rule_latest",):
+                    assert v in season_result, f"{s} missing variant {v}"
+
+    def test_empty_dataframe(self) -> None:
+        """Empty df returns all seasons as no_data."""
+        config = EpinalPeakConfig()
+        df = pd.DataFrame(columns=["year", "peak_hour", "season", "date", "diurnal_amplitude"])
+        result = analysis.seasonal_sensitivity_analysis(df, config)
+        for s in ("spring", "summer", "autumn", "winter"):
+            assert s in result
