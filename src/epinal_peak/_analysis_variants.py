@@ -113,8 +113,8 @@ def _run_variant(
             "variant_note": overrides.get("note", ""),
         }
 
-    # ── Run regression (lazy import to avoid circular dep) ──────────
-    from epinal_peak.analysis import von_mises_regression as _vm_reg
+    # ── Run regression ──────────────────────────────────────────────
+    from epinal_peak._analysis_regression import von_mises_regression as _vm_reg
 
     try:
         result = _vm_reg(variant_df)
@@ -229,7 +229,7 @@ def seasonal_stratification(
             }
             continue
 
-        from epinal_peak.analysis import von_mises_regression as _vm_reg
+        from epinal_peak._analysis_regression import von_mises_regression as _vm_reg
 
         result = _vm_reg(subset)
         bootstrap = _bootstrap_engine(subset, n_iter=n_iter, ci_level=ci_level)

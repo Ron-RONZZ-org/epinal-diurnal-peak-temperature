@@ -45,8 +45,7 @@ def _bootstrap_engine(
     estimates: list[float] = []
     n = len(df)
 
-    # Lazy import to avoid circular dependency
-    from epinal_peak.analysis import von_mises_regression as _vm_reg
+    from epinal_peak._analysis_regression import von_mises_regression as _vm_reg
 
     for i in range(n_iter):
         if (i + 1) % 100 == 0:

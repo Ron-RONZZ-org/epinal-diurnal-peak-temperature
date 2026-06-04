@@ -112,8 +112,8 @@ def summarize_statistics(df: pd.DataFrame) -> dict[str, Any]:
         Dictionary with keys ``overall`` and ``by_decade``.
         ``by_decade`` is a list of dicts ordered by decade.
     """
-    from epinal_peak.analysis import circular_mean as _circ_mean
-    from epinal_peak.analysis import circular_std as _circ_std
+    from epinal_peak._analysis_regression import circular_mean as _circ_mean
+    from epinal_peak._analysis_regression import circular_std as _circ_std
 
     valid = df[df["qc_excluded"] == False].copy()
 

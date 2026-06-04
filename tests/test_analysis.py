@@ -249,22 +249,32 @@ class TestBootstrapTrend:
 
 
 class TestSensitivityAnalysis:
-    """Tests for ``sensitivity_analysis()`` (placeholder for M5)."""
+    """Tests for ``sensitivity_analysis()``."""
 
-    def test_returns_dict(self) -> None:
-        """Placeholder returns a dict with status key."""
+    def test_returns_dict_of_variants(self) -> None:
+        """Returns a dict of variant results (6 expected)."""
         config = EpinalPeakConfig()
-        df = pd.DataFrame({"year": [2000], "peak_hour": [14]})
+        df = pd.DataFrame({"year": [2000, 2001], "peak_hour": [14.0, 15.0]})
         result = analysis.sensitivity_analysis(df, config)
         assert isinstance(result, dict)
-        assert "status" in result
+        # Each variant entry should have a status key
+        for variant_name, variant_result in result.items():
+            assert "status" in variant_result, f"{variant_name} missing status"
 
 
 class TestMain:
     """Tests for ``main()`` entry point."""
 
+    @pytest.mark.slow
     def test_main_runs_without_error(self) -> None:
-        """``main()`` executes and returns None."""
+        """``main()`` executes and returns None.
+
+        .. note::
+
+            This is a slow integration test (~minutes) that requires
+            the processed data file and runs 1000 bootstrap iterations.
+            Use ``pytest --runslow`` to execute.
+        """
         result = analysis.main()
         assert result is None
 
