@@ -253,40 +253,45 @@ def plot_wrapped_scatter(
         dist_sample=trend_params["dist_sample"],
     )
 
-    # Augment for circular wrapping
-    xs, ys = _augment_circular(year, peak)
-    xl, yl = _augment_circular(grid, trend)
-    _, yl_lo = _augment_circular(grid, ci_low)
-    _, yl_hi = _augment_circular(grid, ci_upp)
-
     pal = color_palette("colorblind", 4)
 
     fig, ax = plt.subplots(figsize=(3.5, 3.2))
 
     # CI band
     ax.fill_between(
-        xl, yl_lo, yl_hi,
-        alpha=0.2, color=pal[0], linewidth=0, label="95 % CI",
+        grid, ci_low, ci_upp,
+        alpha=0.25, color=pal[0], linewidth=0, label="95 % CI",
     )
-    # Scatter
+    # Scatter (no circular augmentation needed — y-axis is zoomed to data range)
     ax.scatter(
-        xs, ys,
+        year, peak,
         s=4, c=[pal[0]], alpha=0.35, edgecolors="none",
         label=f"Daily obs. (n = {len(valid)})",
     )
     # Trend line
     ax.plot(
-        xl, yl,
+        grid, trend,
         color=pal[2], linewidth=1.5, label="von Mises trend",
     )
 
     # Axis styling
     ax.set_xlabel("Year")
     ax.set_ylabel("Peak hour (local time)")
-    ax.set_ylim(0, 24)
-    ax.yaxis.set_major_locator(MultipleLocator(3))
-    ax.yaxis.set_major_formatter(_hour_formatter())
-    ax.axhline(24, color="gray", linewidth=0.4, linestyle=":", alpha=0.4)
+
+    # Zoom y-axis to show data concentration; annotate circular range
+    ax.set_ylim(8, 22)
+    ax.yaxis.set_major_locator(MultipleLocator(2))
+    ax.yaxis.set_major_formatter(
+        FuncFormatter(lambda v, _: f"{int(v)}h")
+    )
+    ax.text(
+        0.98, 0.02,
+        "Circular y-axis: 0h ↔ 24h\n(shown 8h–22h)",
+        transform=ax.transAxes, fontsize=6, color="gray",
+        ha="right", va="bottom",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                  edgecolor="none", alpha=0.7),
+    )
     ax.legend(fontsize=7, loc="lower left", framealpha=0.8)
 
     fig.tight_layout()
@@ -377,23 +382,17 @@ def plot_seasonal_trend(
                 year_center=res["year_center"],
                 dist_sample=ds,
             )
-            _, yl = _augment_circular(grid, cl)
-            _, yu = _augment_circular(grid, cu)
-            ax.fill_between(grid, yl, yu, alpha=0.12, color=pal[0], linewidth=0)
+            ax.fill_between(grid, cl, cu, alpha=0.12, color=pal[0], linewidth=0)
 
-        # Augment data
-        xs, ys = _augment_circular(year, peak)
-        xl, yl2 = _augment_circular(grid, trend)
-
-        ax.scatter(xs, ys, s=3, c=[pal[0]], alpha=0.25, edgecolors="none")
-        ax.plot(xl, yl2, color=pal[2], linewidth=1.2)
+        ax.scatter(year, peak, s=3, c=[pal[0]], alpha=0.25, edgecolors="none")
+        ax.plot(grid, trend, color=pal[2], linewidth=1.2)
 
         nyrs = res.get("n_years", sdf["year"].nunique())
         ax.set_title(f"{label}  (n={len(sdf)}, {nyrs} yr)", fontsize=9)
-        ax.set_ylim(0, 24)
-        ax.yaxis.set_major_locator(MultipleLocator(6))
+        ax.set_ylim(8, 22)
+        ax.yaxis.set_major_locator(MultipleLocator(2))
         ax.yaxis.set_major_formatter(
-            FuncFormatter(lambda v, _: "0" if abs(v) < 1e-6 or abs(v - 24) < 1e-6 else f"{int(v)}")
+            FuncFormatter(lambda v, _: f"{int(v)}h")
         )
 
     for ax in axes[1, :]:
