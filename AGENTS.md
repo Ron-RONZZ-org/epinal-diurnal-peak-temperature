@@ -179,15 +179,14 @@ Reference GitHub issues by number: `feat(#5): implement pooch-based data acquisi
 | `src/epinal_peak/preprocess.py` | `AGENTS-preprocess.md` | QC and preprocessing rules |
 | `src/epinal_peak/_preprocess_qc.py` | — | Private QC helpers (imported by `preprocess.py`) |
 | `src/epinal_peak/_preprocess_schemas.py` | — | Private pandera schemas (imported by `preprocess.py`) |
-| `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Public API: orchestrates all analyses |
+| `src/epinal_peak/analysis.py` | `AGENTS-analysis.md` | Public API: orchestrates all analyses (**note:** >500 lines, should be split — see tech-debt todo) |
 | `src/epinal_peak/_analysis_regression.py` | — | Core von Mises regression math (extracted from analysis.py) |
 | `src/epinal_peak/_analysis_interaction.py` | — | Year × season interaction LR test + BH FDR |
 | `src/epinal_peak/_analysis_bootstrap.py` | — | Bootstrap resampling engine |
+| `src/epinal_peak/_analysis_weighted.py` | — | Temperature-weighted von Mises regression (extracted from _analysis_variants.py) |
 | `src/epinal_peak/_analysis_variants.py` | — | Sensitivity and supplementary variants |
 | `src/epinal_peak/_analysis_corr.py` | — | Circular-linear correlation helpers |
-| `src/epinal_peak/_analysis_regression.py` | — | Core von Mises regression math (extracted from analysis.py) |
-| `src/epinal_peak/_analysis_interaction.py` | — | Year × season interaction LR test + BH FDR |
-| `src/epinal_peak/_analysis_weighted.py` | — | Temperature-weighted von Mises regression (extracted from _analysis_variants.py) |
+| `src/epinal_peak/_circular_utils.py` | — | Shared circular utilities: hour↔radian conversion, circular mean/std, circular ACF, season constants |
 | `src/epinal_peak/_visualize_utils.py` | — | Private helpers: style, export, seasonal filter, trend math (imported by visualize) |
 | `src/epinal_peak/_visualize_regression.py` | — | Regression plots: wrapped scatter, seasonal trend panels |
 | `src/epinal_peak/_visualize_descriptive.py` | — | Descriptive plots: rose diagram, moving avg, context + per-season variants |
