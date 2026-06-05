@@ -16,13 +16,14 @@ methodological sensitivity variants. Autumn shows a moderate delay ($+0.09$ h/de
 that excludes zero, though the Wald p-value does not survive FDR
 correction; spring and summer estimates are near zero.
 
-The pooled (all-season) estimate of $-0.03$ h/decade, while consistent
-with global phase shifts reported by Shmuel et al. [-@shmuel2026daily]
-and European diurnal cycle changes documented by Wang and
-Dillon [-@wang2014recent], obscures this seasonal heterogeneity through
-a Simpson's paradox in which winter advance and autumn delay cancel at
-the annual scale. The pooled result is presented as supplementary
-context rather than the primary finding.
+The pooled (all-season) estimate of $-0.03$ h/decade is substantially
+smaller than the global afternoon-cooling shifts reported by Shmuel et
+al. [-@shmuel2026daily] (>20 min/decade); only the winter seasonal
+advance of $-0.19$ h/decade approaches the lower end of their reported
+range. The pooled estimate also obscures this seasonal heterogeneity
+through a Simpson's paradox in which winter advance and autumn delay
+cancel at the annual scale, and is presented as supplementary context
+rather than the primary finding.
 
 These findings contribute local-scale, station-level evidence of
 seasonally divergent changes in the diurnal temperature phase.

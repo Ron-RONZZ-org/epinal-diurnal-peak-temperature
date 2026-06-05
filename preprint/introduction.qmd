@@ -52,7 +52,7 @@ warranted; per-season estimates with false discovery rate control
 constitute the primary analysis, while the pooled (all-season) estimate
 and sensitivity variants are presented as supplementary context.
 
-This study thus tests whether the global phase shifts provisionally
-identified by Shmuel et al. [-@shmuel2026daily] are detectable at a
-single station in eastern France, at the resolution of the daily
-temperature peak.
+This study thus compares the local-scale evidence from a single
+station in eastern France with the global phase shifts provisionally
+identified by Shmuel et al. [-@shmuel2026daily], at the resolution of
+the daily temperature peak.
