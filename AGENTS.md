@@ -221,5 +221,6 @@ The project plan is maintained on GitHub:
 - **Issue #1**: Master research plan with sub-issue dependency map
 - **Issues #2–#9**: Actionable work items (M0–M7 milestones)
 - **Issue #11**: Year × season interaction test — completed and merged to main
+- **Issue #12**: Code quality improvements — shared circular utils, bootstrap seeding, circular ACF, manuscript fixes — completed and merged to main
 
 All work should reference these issues in commit messages and PRs.
