@@ -101,8 +101,11 @@ for full details) estimated a minimum detectable effect of
 ### S6. Supplementary analysis: temperature-weighted regression
 
 Temperature-weighted von Mises regression (weight = diurnal amplitude)
-yielded $0.0210$ h/decade (95% CI: (-0.0125, 0.0528)), consistent with the
-unweighted pooled estimate.
+yielded $+0.0210$ h/decade (95% CI: $-0.0125$, $+0.0528$). The sign
+differs from the unweighted pooled estimate ($-0.0281$), but both values
+are near zero and well within each other's confidence intervals,
+confirming this is sampling noise around a null result rather than a
+substantive discrepancy.
 
 ### S7. Mardia circular--linear rank correlation
 
@@ -129,10 +132,15 @@ estimated per season and for all observations pooled.
 | Winter (DJF) | $-0.0866$ | 1.77 | 2,882 |
 | Pooled | $+0.0210$ | 3.42 | 12,163 |
 
-The seasonal pattern resembles the unweighted primary analysis: winter
-negative, autumn positive, spring near zero. Using diurnal amplitude as
-a weight does not materially alter the direction of any seasonal
-estimate.
+The seasonal pattern maintains the same directional sign as the unweighted
+primary analysis for all four seasons, but the magnitudes differ in a
+mechanistically informative way. The winter advance shrinks from
+$-0.19$ to $-0.09$ h/decade ($\Delta = +0.10$) when high-amplitude
+days are up-weighted, indicating the winter peak-hour advance is
+concentrated on low-amplitude (cloudy, advection-dominated) days.
+Autumn and summer shift slightly more positive ($\Delta \approx +0.03$
+each), suggesting the weak delay is subtly enhanced on high-amplitude
+days. Spring remains near zero under both schemes.
 
 ### S9. Per-season Mardia circular--linear rank correlation
 

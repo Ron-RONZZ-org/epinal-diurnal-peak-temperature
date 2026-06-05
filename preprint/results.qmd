@@ -195,23 +195,39 @@ Figure~\ref{fig-moving-average} shows the 5-year moving circular mean.
   representing the circular mean of peak hours in a
   $\pm$2-year window.](../results/figures/moving_average.pdf){#fig-moving-average}
 
+```{=latex}
+\FloatBarrier
+```
+
 ### Supplementary analyses
 
 Temperature-weighted von Mises regression (weighting each day by its
-diurnal amplitude) produced an estimate of $+0.021$ h/decade
-(95\% CI: $-0.013$ to $+0.053$), consistent with the pooled result.
+diurnal amplitude) probes whether the trend is driven primarily by
+high-amplitude (clear-sky, convectively active) or low-amplitude
+(cloudy, advection-dominated) days. A larger (more positive or less
+negative) temperature-weighted estimate indicates the trend is stronger
+on high-amplitude days; a smaller estimate indicates it is stronger on
+low-amplitude days (Supplementary Table~S10).
+
+Per season, the temperature-weighted estimates deviate from the
+unweighted primary in a revealing pattern. The winter advance shrinks
+from $-0.19$ to $-0.09$ h/decade ($\Delta = +0.10$), indicating that the
+winter peak-hour advance is concentrated on low-amplitude days ---
+cloudy, overcast winter days where the diurnal cycle is governed
+primarily by synoptic advection rather than solar geometry. Autumn and
+summer shift modestly more positive ($\Delta \approx +0.03$ each),
+suggesting the weak delay is slightly enhanced on high-amplitude days.
+The pooled estimate flips sign ($-0.028 \rightarrow +0.021$), but both
+values are near zero and well within each other's confidence intervals,
+confirming this is noise around a null result, not a meaningful
+discrepancy.
+
 The circular--linear rank correlation (Mardia 1976) yielded
 $\rho_c = 0.025$ ($p = 0.021$), suggesting a very weak but statistically
-detectable association across all observations.
-
-Both supplementary analyses were also applied per season. The
-temperature-weighted seasonal estimates are broadly consistent with the
-unweighted primary results (Supplementary Table~S10): winter remains
-negative ($-0.09$ h/decade) and autumn positive ($+0.11$ h/decade).
-The Mardia correlation per season shows $\rho_c$ in a narrow range
-$0.04$--$0.06$ across all four seasons (Supplementary Table~S11),
-indicating that the weak year--peak-hour association is not driven by a
-single season.
+detectable association across all observations. Per season
+(Supplementary Table~S11), $\rho_c$ values lie in a narrow range
+$0.04$--$0.06$, indicating that the weak year--peak-hour association is
+not driven by a single season.
 
 **Autocorrelation diagnostic.** Because daily peak hours may exhibit
 short-range temporal dependence, I computed the autocorrelation function
