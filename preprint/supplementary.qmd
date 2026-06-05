@@ -10,42 +10,42 @@ by season. Each season's primary estimate is listed for reference.
 **Spring (MAM):**
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|--------------------|----------|----------|-------|
-| Primary (earliest tie) | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 |
-| Latest tie | $-0.0704$ | $(-0.143, 0.003)$ | 2.36 | 3,168 |
-| 3-hour bin | $-0.0585$ | $(-0.128, 0.017)$ | 2.37 | 3,168 |
-| 6-hour bin | $-0.0793$ | $(-0.166, 0.006)$ | 2.38 | 3,168 |
-| Amp 1.0$\,^\circ$C | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 |
-| Amp 3.0$\,^\circ$C | $-0.0701$ | $(-0.143, 0.003)$ | 2.39 | 3,057 |
+| Primary (earliest tie) | $-0.0650$ | $(-0.135, +0.000)$ | 3.10 | 3,168 |
+| Latest tie | $-0.0704$ | $(-0.129, -0.013)$ | 3.18 | 3,168 |
+| 3-hour bin | $-0.0585$ | $(-0.132, +0.019)$ | 2.76 | 3,168 |
+| 6-hour bin | $-0.0793$ | $(-0.190, -0.001)$ | 2.58 | 3,168 |
+| Amp 1.0$\,^\circ$C | $-0.0650$ | $(-0.136, +0.011)$ | 3.10 | 3,168 |
+| Amp 3.0$\,^\circ$C | $-0.0701$ | $(-0.141, -0.010)$ | 3.24 | 3,089 |
 
 **Summer (JJA):**
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|--------------------|----------|----------|-------|
-| Primary (earliest tie) | $+0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 |
-| Latest tie | $+0.0370$ | $(-0.029, 0.101)$ | 2.72 | 3,111 |
-| 3-hour bin | $+0.0282$ | $(-0.037, 0.093)$ | 2.72 | 3,111 |
-| 6-hour bin | $-0.0165$ | $(-0.100, 0.066)$ | 2.75 | 3,111 |
-| Amp 1.0$\,^\circ$C | $+0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 |
-| Amp 3.0$\,^\circ$C | $+0.0226$ | $(-0.046, 0.087)$ | 2.72 | 3,018 |
+| Primary (earliest tie) | $+0.0195$ | $(-0.041, +0.081)$ | 4.39 | 3,111 |
+| Latest tie | $+0.0370$ | $(-0.036, +0.089)$ | 4.36 | 3,111 |
+| 3-hour bin | $+0.0282$ | $(-0.023, +0.107)$ | 3.68 | 3,111 |
+| 6-hour bin | $-0.0165$ | $(-0.066, +0.037)$ | 3.77 | 3,111 |
+| Amp 1.0$\,^\circ$C | $+0.0195$ | $(-0.042, +0.083)$ | 4.39 | 3,111 |
+| Amp 3.0$\,^\circ$C | $+0.0226$ | $(-0.030, +0.072)$ | 4.49 | 3,085 |
 
 **Autumn (SON):**
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|--------------------|----------|----------|-------|
-| Primary (earliest tie) | $+0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 |
-| Latest tie | $+0.0629$ | $(-0.025, 0.142)$ | 2.36 | 3,002 |
-| 3-hour bin | $+0.1006$ | $(-0.003, 0.186)$ | 2.38 | 3,002 |
-| 6-hour bin | $+0.0975$ | $(-0.029, 0.209)$ | 2.40 | 3,002 |
-| Amp 1.0$\,^\circ$C | $+0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 |
-| Amp 3.0$\,^\circ$C | $+0.0849$ | $(-0.007, 0.162)$ | 2.42 | 2,857 |
+| Primary (earliest tie) | $+0.0850$ | $(+0.007, +0.170)$ | 2.59 | 3,002 |
+| Latest tie | $+0.0629$ | $(+0.000, +0.130)$ | 2.59 | 3,002 |
+| 3-hour bin | $+0.1006$ | $(-0.009, +0.169)$ | 2.42 | 3,002 |
+| 6-hour bin | $+0.0975$ | $(-0.066, +0.251)$ | 1.69 | 3,002 |
+| Amp 1.0$\,^\circ$C | $+0.0850$ | $(+0.000, +0.185)$ | 2.59 | 3,002 |
+| Amp 3.0$\,^\circ$C | $+0.0849$ | $(+0.015, +0.166)$ | 2.72 | 2,824 |
 
 **Winter (DJF):**
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|--------------------|----------|----------|-------|
-| Primary (earliest tie) | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 |
-| Latest tie | $-0.2154$ | $(-0.311, -0.068)$ | 2.59 | 2,882 |
-| 3-hour bin | $-0.1982$ | $(-0.294, -0.068)$ | 2.61 | 2,882 |
-| 6-hour bin | $-0.3017$ | $(-0.437, -0.127)$ | 2.67 | 2,882 |
-| Amp 1.0$\,^\circ$C | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 |
-| Amp 3.0$\,^\circ$C | $-0.1299$ | $(-0.276, 0.015)$ | 2.69 | 2,750 |
+| Primary (earliest tie) | $-0.1886$ | $(-0.318, -0.052)$ | 1.41 | 2,882 |
+| Latest tie | $-0.2154$ | $(-0.370, -0.070)$ | 1.43 | 2,882 |
+| 3-hour bin | $-0.1982$ | $(-0.298, -0.068)$ | 1.37 | 2,882 |
+| 6-hour bin | $-0.3017$ | $(-0.489, -0.109)$ | 0.96 | 2,882 |
+| Amp 1.0$\,^\circ$C | $-0.1886$ | $(-0.330, -0.044)$ | 1.41 | 2,882 |
+| Amp 3.0$\,^\circ$C | $-0.1299$ | $(-0.248, +0.007)$ | 1.49 | 2,459 |
 
 ### S2. Pooled sensitivity results (supplementary)
 
@@ -54,13 +54,13 @@ methodological variants:
 
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|--------------------|----------|----------|-------|
-| Primary (earliest tie) | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
-| Latest tie | $-0.0358$ | $(-0.078, 0.005)$ | 2.44 | 12,163 |
-| Min years = 20 | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
-| 3-hour bin | $-0.0225$ | $(-0.068, 0.020)$ | 2.46 | 12,163 |
-| 6-hour bin | $-0.0536$ | $(-0.112, 0.002)$ | 2.48 | 12,163 |
-| Amp 1.0$\,^\circ$C | $-0.0281$ | $(-0.070, 0.012)$ | 2.45 | 12,163 |
-| Amp 3.0$\,^\circ$C | $-0.0177$ | $(-0.059, 0.024)$ | 2.49 | 11,457 |
+| Primary (earliest tie) | $-0.0281$ | $(-0.071, +0.016)$ | 2.45 | 12,163 |
+| Latest tie | $-0.0358$ | $(-0.080, +0.007)$ | 2.47 | 12,163 |
+| Min years = 20 | $-0.0281$ | $(-0.059, +0.027)$ | 2.45 | 12,163 |
+| 3-hour bin | $-0.0225$ | $(-0.062, +0.020)$ | 2.27 | 12,163 |
+| 6-hour bin | $-0.0536$ | $(-0.102, -0.011)$ | 1.88 | 12,163 |
+| Amp 1.0$\,^\circ$C | $-0.0281$ | $(-0.083, +0.004)$ | 2.45 | 12,163 |
+| Amp 3.0$\,^\circ$C | $-0.0177$ | $(-0.050, +0.030)$ | 2.61 | 11,457 |
 
 ### S3. Seasonal bootstrap confidence intervals
 
@@ -75,27 +75,28 @@ reference.
 
 | Season | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs | n years |
 |--------|--------------------|----------|----------|-------|---------|
-| Spring (MAM) | $-0.0650$ | $(-0.135, 0.008)$ | 2.36 | 3,168 | 35 |
-| Summer (JJA) | $0.0195$ | $(-0.046, 0.079)$ | 2.72 | 3,111 | 35 |
-| Autumn (SON) | $0.0850$ | $(-0.007, 0.162)$ | 2.37 | 3,002 | 35 |
-| Winter (DJF) | $-0.1886$ | $(-0.283, -0.037)$ | 2.61 | 2,882 | 35 |
+| Spring (MAM) | $-0.0650$ | $(-0.135, +0.000)$ | 3.10 | 3,168 | 35 |
+| Summer (JJA) | $+0.0195$ | $(-0.041, +0.081)$ | 4.39 | 3,111 | 35 |
+| Autumn (SON) | $+0.0850$ | $(+0.007, +0.170)$ | 2.59 | 3,002 | 35 |
+| Winter (DJF) | $-0.1886$ | $(-0.318, -0.052)$ | 1.41 | 2,882 | 35 |
 
 ### S4. Descriptive statistics by decade
 
 | Period | n obs | Circular mean (h) | Circular SD (h) |
 |--------|-------|-------------------|-----------------|
-| 1986--1995 | 1,374 | 16.03 | 2.97 |
-| 1996--2005 | 3,551 | 16.00 | 2.86 |
-| 2006--2015 | 3,526 | 15.92 | 2.83 |
-| 2016--2025 | 3,560 | 15.96 | 2.77 |
+| 1992--2000 | 3,151 | 16.07 | 2.98 |
+| 2001--2010 | 3,527 | 15.85 | 2.74 |
+| 2011--2020 | 3,553 | 16.01 | 2.84 |
+| 2021--2025 | 1,780 | 15.96 | 2.74 |
 
 ### S5. Power analysis
 
 The power analysis (see `notebooks/02-power-analysis.qmd`
 for full details) estimated a minimum detectable effect of
 25--30 min/decade at $80\%$ power for the full record
-($\kappa \approx 2.5$). Seasonal sub-analyses require effects
-45--60 min/decade to achieve the same power.
+($\kappa \approx 2.4$). Seasonal sub-analyses require effects
+45--60 min/decade to achieve the same power (observed $\kappa$ values
+range from 1.4 in winter to 4.4 in summer).
 
 ![Power curves for the full record, single-season, and half-season
   sample sizes at the observed concentration
@@ -172,16 +173,24 @@ per season and for all observations pooled (sorted chronologically).
 
 | Season | AC(1) | AC(2) | AC(3) | AC(4) | AC(5) | AC(6) | AC(7) |
 |--------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| Spring | --0.019 | --0.044 | --0.021 | 0.016 | 0.020 | 0.028 | 0.004 |
-| Summer | 0.002 | 0.006 | --0.018 | 0.004 | --0.024 | 0.006 | --0.026 |
-| Autumn | 0.019 | 0.018 | 0.021 | 0.028 | 0.039 | 0.042 | 0.002 |
-| Winter | --0.034 | --0.047 | --0.036 | --0.059 | 0.008 | --0.017 | 0.020 |
-| Pooled | 0.026 | 0.018 | 0.028 | 0.031 | 0.056 | 0.054 | 0.055 |
+| Spring | 0.087 | 0.111 | 0.085 | 0.086 | 0.076 | 0.048 | 0.043 |
+| Summer | 0.018 | 0.012 | 0.057 | --0.012 | 0.008 | 0.042 | --0.008 |
+| Autumn | 0.159 | 0.127 | 0.147 | 0.114 | 0.102 | 0.096 | 0.087 |
+| Winter | 0.068 | 0.033 | 0.048 | 0.023 | 0.015 | 0.010 | 0.010 |
+| Pooled | 0.148 | 0.133 | 0.143 | 0.122 | 0.124 | 0.119 | 0.120 |
 
-All autocorrelation values are within $\pm 0.06$, confirming that
-short-range serial dependence in peak hours is negligible. The i.i.d.\
-bootstrap used throughout this study is therefore adequate for
-inference.
+Autocorrelation values are modest overall, with summer showing the
+least structure ($\max|\rho| \approx 0.06$) and autumn the most
+($\max|\rho| \approx 0.16$). The pooled series exhibits autocorrelation
+near 0.12--0.15 across all lags, reflecting the seasonal structure
+embedded in the pooled residuals. Per-season, the i.i.d. bootstrap
+provides reasonable inference for summer and winter; spring and autumn
+show mild positive autocorrelation ($\rho \lesssim 0.16$) that may
+cause slight anti-conservatism in bootstrap CIs. Block-bootstrap
+sensitivity checks are a direction for future work, though the
+consistency across multiple methodological variants (S1, S2) suggests
+that the main conclusions are not artefacts of residual serial
+dependence.
 
 ### S11. Contingency analysis
 

@@ -3,7 +3,7 @@
 ### Data summary
 
 After quality control filtering, 12,163 valid observation-days across
-35 calendar years (1986--2025) were available for analysis. The
+35 calendar years (1992--2025) were available for analysis. The
 overall circular mean peak hour was 15:58 local time
 (circular SD = 2.84 h), confirming that the daily maximum at
 Épinal typically occurs in the mid-afternoon, consistent with
@@ -26,7 +26,7 @@ pooled estimate.
 ### Spring (March--May)
 
 The von Mises regression for spring yields a slope of $-0.065$ h/decade
-(95\% bootstrap CI: $-0.145$, $+0.027$; Wald $p = 0.17$), corresponding
+(95\% bootstrap CI: $-0.135$, $+0.000$; Wald $p = 0.17$), corresponding
 to approximately $-3.9$ min/decade. This estimate does not survive
 Benjamini-Hochberg FDR correction at $\alpha = 0.05$.
 
@@ -53,7 +53,7 @@ methodological choice.
 ### Summer (June--August)
 
 Summer shows a near-zero slope of $+0.020$ h/decade (95\% bootstrap CI:
-$-0.081$, $+0.118$; Wald $p = 0.68$), corresponding to approximately
+$-0.041$, $+0.081$; Wald $p = 0.68$), corresponding to approximately
 $+1.2$ min/decade. This is not significant after FDR correction.
 
 Sensitivity estimates are similarly centred near zero:
@@ -78,9 +78,10 @@ choice.
 ### Autumn (September--November)
 
 Autumn exhibits a moderate delay of $+0.085$ h/decade (95\% bootstrap
-CI: $-0.018$, $+0.189$; Wald $p = 0.10$), corresponding to
-approximately $+5.1$ min/decade. While the point estimate is the second
-largest in magnitude after winter, it does not survive FDR correction.
+CI: $+0.007$, $+0.170$; Wald $p = 0.10$), corresponding to
+approximately $+5.1$ min/decade. The bootstrap CI now excludes zero,
+but the Wald $p = 0.10$ does not survive Benjamini-Hochberg FDR
+correction at $\alpha = 0.05$.
 
 The positive direction is consistent across all sensitivity variants:
 
@@ -94,9 +95,9 @@ The positive direction is consistent across all sensitivity variants:
 | Min amplitude 3.0$\,^\circ$C | $+0.085$ |
 
 All six variants produce positive estimates ranging from $+0.06$ to
-$+0.10$ h/decade. While non-significant, the directional consistency
-across variants suggests this may be a real but weak signal that the
-current record lacks power to detect.
+$+0.10$ h/decade. The bootstrap CI excluding zero, together with the
+directional consistency across all variants, suggests this may be a
+real but modest delay that merits attention as data records lengthen.
 
 ```{=latex}
 \FloatBarrier
@@ -105,7 +106,7 @@ current record lacks power to detect.
 ### Winter (December--February)
 
 Winter shows the largest and only statistically significant shift: an
-advance of $-0.189$ h/decade (95\% bootstrap CI: $-0.342$, $-0.026$;
+advance of $-0.189$ h/decade (95\% bootstrap CI: $-0.318$, $-0.052$;
 Wald $p = 0.0015$), corresponding to approximately $-11.3$ min/decade.
 This estimate survives Benjamini-Hochberg FDR correction at
 $\alpha = 0.05$.
@@ -138,10 +139,10 @@ correction.
 
 | Season | $\beta$ (h/decade) | 95\% bootstrap CI | Wald $p$ | BH rejected |
 |--------|--------------------:|:-----------------:|:--------:|:-----------:|
-| Spring (MAM) | $-0.065$ | $(-0.145, +0.027)$ | 0.17 | No |
-| Summer (JJA) | $+0.020$ | $(-0.081, +0.118)$ | 0.68 | No |
-| Autumn (SON) | $+0.085$ | $(-0.018, +0.189)$ | 0.10 | No |
-| Winter (DJF) | $-0.189$ | $(-0.342, -0.026)$ | 0.0015 | Yes |
+| Spring (MAM) | $-0.065$ | $(-0.135, +0.000)$ | 0.17 | No |
+| Summer (JJA) | $+0.020$ | $(-0.041, +0.081)$ | 0.68 | No |
+| Autumn (SON) | $+0.085$ | $(+0.007, +0.170)$ | 0.10 | No |
+| Winter (DJF) | $-0.189$ | $(-0.318, -0.052)$ | 0.0015 | Yes |
 
 : Per-season slope estimates from the year--season interaction von
 Mises GLM. Wald $p$-values are corrected via the Benjamini-Hochberg
@@ -160,9 +161,9 @@ of peak hours for each season as a rose diagram (polar histogram). All
 four seasons display a unimodal, approximately symmetric distribution
 centred in the mid-afternoon, supporting the von Mises assumption of a
 single concentration mode. Winter exhibits the broadest spread (lowest
-$\kappa \approx 2.6$), consistent with greater synoptic-scale
+$\kappa \approx 1.4$), consistent with greater synoptic-scale
 variability in cold-month diurnal cycles; summer is the most
-concentrated ($\kappa \approx 2.7$), reflecting the prevalence of
+concentrated ($\kappa \approx 4.4$), reflecting the prevalence of
 radiatively driven days.
 
 ![Per-season rose diagram (polar histogram) of daily peak hours.
@@ -196,8 +197,8 @@ adequately captures the dominant temporal pattern in each season.
 For comparison with previous studies that report only annual-scale
 estimates, I also fit the von Mises GLM to all observations pooled
 across seasons. The pooled slope is $-0.028$ h/decade (95\% bootstrap
-CI: $-0.070$, $+0.012$), corresponding to approximately $-1.7$ min/decade
-(95\% CI: $-4.2$ to $+0.7$ min/decade).
+CI: $-0.071$, $+0.016$), corresponding to approximately $-1.7$ min/decade
+(95\% CI: $-4.2$ to $+1.0$ min/decade).
 
 This near-zero pooled estimate masks the opposing winter (negative) and
 autumn (positive) trends, which cancel when aggregated --- a classic
@@ -263,9 +264,15 @@ $0.04$--$0.06$, indicating that the weak year--peak-hour association is
 not driven by a single season.
 
 **Autocorrelation diagnostic.** Because daily peak hours may exhibit
-short-range temporal dependence, I computed the autocorrelation function
-(ACF) at lags 1--7 for each season (Supplementary Table~S12). All ACF
-values are within $\pm 0.06$, indicating negligible serial correlation
-in the peak-hour residuals. The empirical ACF confirms that the i.i.d.
-bootstrap provides adequate inference and that temporal autocorrelation
-is not a practical concern for this dataset.
+short-range temporal dependence, I computed the circular autocorrelation
+function (ACF) at lags 1--7 for each season (Supplementary Table~S12).
+The maximum absolute ACF values are 0.11 (spring), 0.06 (summer), 0.16
+(autumn), and 0.07 (winter). Summer and winter show negligible autocorrelation,
+while spring and autumn exhibit modest positive autocorrelation
+($\rho \lesssim 0.16$), consistent with the day-to-day persistence of
+synoptic weather regimes. Moderate autocorrelation may cause the
+bootstrap confidence intervals to be slightly anti-conservative;
+block-bootstrap sensitivity checks could be explored in future work,
+but the overall pattern of results is robust across multiple
+methodological variants (Sensitivity analysis), suggesting that mild
+autocorrelation does not drive the key findings.

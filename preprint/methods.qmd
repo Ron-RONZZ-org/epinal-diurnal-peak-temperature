@@ -6,8 +6,9 @@ Sub-daily (hourly) temperature records were obtained from the
 Météo-France Synop Essentielles / RADOME network, station
 **88136001** (Épinal, 48.21°N, 6.45°E,
 317 m a.s.l.). The station opened on 1 June 1986; no sub-daily data
-exist before this date. The study period spans 1 January 1986 to
-31 December 2025, yielding up to 40 years of continuous hourly records.
+exist before this date. After quality-control filtering (see below),
+the analysis period spans 1 January 1992 to 31 December 2025, yielding
+35 years of valid hourly records.
 Raw data were acquired via the Météo-France public data API
 using the `pooch` data registry and archived on OSF for reproducibility.
 

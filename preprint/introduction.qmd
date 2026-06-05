@@ -42,7 +42,7 @@ continental scales. This study aims to explore the validity of this global trend
 
 This study seeks to answer a simple question: *Has the clock hour of
 the daily maximum temperature at Épinal, France, changed over the
-past four decades?* Using 40 years of hourly temperature records from a
+past three and a half decades?* Using 35 years of hourly temperature records from a
 single well-instrumented Météo-France RADOME station, I apply a
 von Mises circular regression model -- the appropriate statistical
 framework for a circular response variable (0--23 hours) -- to estimate

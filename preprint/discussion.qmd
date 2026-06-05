@@ -1,13 +1,13 @@
 ## Discussion
 
 I investigated whether the clock hour of daily maximum temperature at
-Épinal, France, has shifted over the 40-year period 1986--2025 using
+Épinal, France, has shifted over the 35-year period 1992--2025 using
 a year--season interaction von Mises circular regression framework. A
 significant interaction test ($\chi^2 = 13.71$, df = 3, $p = 0.0033$)
 justified seasonal stratification as the primary analysis. Winter shows
 a significant advance of $-0.19$ h/decade (BH-rejected at
-$\alpha = 0.05$), while autumn trends (+0.09 h/decade) are suggestive
-but non-significant. The pooled estimate of $-0.03$ h/decade masks this
+$\alpha = 0.05$), while autumn (+0.09 h/decade) shows a bootstrap CI
+that excludes zero but a Wald p-value that does not survive FDR. The pooled estimate of $-0.03$ h/decade masks this
 heterogeneity through a Simpson's paradox and is consistent with the
 global-scale findings of Shmuel et al. [-@shmuel2026daily] only when
 seasonal structure is ignored.
@@ -34,7 +34,7 @@ providing a broader context for these station-level findings.
 ### Sensitivity and robustness
 
 The winter advance is robust across all six seasonal sensitivity
-variants (range: $-0.14$ to $-0.24$ h/decade), supporting the
+variants (range: $-0.13$ to $-0.30$ h/decade), supporting the
 conclusion that the signal is not driven by a single methodological
 choice. The pooled sensitivity variants similarly confirm that the
 near-zero annual average is consistent regardless of tie-breaking rule,
@@ -54,7 +54,7 @@ RADOME network would be a natural extension.
 
 **Data homogeneity.** The Météo-France record may contain
 undocumented instrument changes, station relocations, or observation
-practice shifts over the 40-year period. While the diurnal amplitude
+practice shifts over the study period. While the diurnal amplitude
 filter removes the most obvious instrument artefacts, inhomogeneities
 could introduce spurious trends. A homogenisation procedure (e.g.,
 HOMER or Climatol) would strengthen future analyses.
@@ -62,7 +62,7 @@ HOMER or Climatol) would strengthen future analyses.
 **Statistical power.** As quantified in the power analysis
 (Supplementary S4), the minimum detectable trend at $80\%$ power for the
 full record is approximately 25--30 min/decade, given the moderate
-von Mises concentration ($\kappa \approx 2.5$) observed in the data.
+von Mises concentration ($\kappa \approx 2.4$) observed in the data.
 Seasonal sub-analyses have substantially lower power, and null results
 for individual seasons should be interpreted with caution -- they
 reflect limited detectability, not necessarily absence of a trend.

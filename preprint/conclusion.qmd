@@ -1,9 +1,9 @@
 ## Conclusion
 
 Using a year--season interaction framework with von Mises circular
-regression and 40 years of hourly temperature data from Épinal, France,
+regression and 35 years of hourly temperature data from Épinal, France,
 I find that the clock hour of daily maximum temperature has shifted
-heterogeneously across meteorological seasons over the 1986--2025
+heterogeneously across meteorological seasons over the 1992--2025
 period. A likelihood-ratio test confirmed that the four seasons do not
 share a common trend ($\chi^2 = 13.71$, df = 3, $p = 0.0033$),
 justifying seasonal stratification as the primary analytical framework.
@@ -12,9 +12,9 @@ Winter (DJF) shows a significant advance of $-0.19$ h/decade (Wald
 $p = 0.0015$, BH-rejected at $\alpha = 0.05$), meaning midwinter
 afternoons at Épinal reach their daily maximum approximately 11 min
 earlier per decade. This signal is directionally robust across six
-methodological sensitivity variants. Autumn shows a moderate but
-non-significant delay ($+0.09$ h/decade), while spring and summer
-estimates are near zero.
+methodological sensitivity variants. Autumn shows a moderate delay ($+0.09$ h/decade) with a bootstrap CI
+that excludes zero, though the Wald p-value does not survive FDR
+correction; spring and summer estimates are near zero.
 
 The pooled (all-season) estimate of $-0.03$ h/decade, while consistent
 with global phase shifts reported by Shmuel et al. [-@shmuel2026daily]

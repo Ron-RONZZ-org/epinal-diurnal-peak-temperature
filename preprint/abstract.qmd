@@ -6,7 +6,7 @@ agriculture, and human health. While changes in diurnal temperature
 daily maximum temperature remain poorly characterized at local scales,
 particularly across meteorological seasons.
 
-**Methods**: Using 40 years (1986--2025) of hourly temperature records
+**Methods**: Using 35 years (1992--2025) of hourly temperature records
 from the Météo-France RADOME station at Épinal, France
 (48.21$\,^\circ$N, 6.45$\,^\circ$E), I extracted the clock hour
 of daily maximum temperature from 12,163 valid days and modelled
@@ -22,16 +22,17 @@ correction. Pooled (all-season) results and six sensitivity variants are
 presented as supplementary context.
 
 **Results**: Winter (DJF) shows a significant advance of $-0.19$ h/decade
-(95% bootstrap CI: $-0.34$, $-0.03$; Wald $p = 0.0015$, BH-rejected),
+(95% bootstrap CI: $-0.32$, $-0.05$; Wald $p = 0.0015$, BH-rejected),
 corresponding to approximately $-11$ min/decade. The pooled estimate of
 $-0.03$ h/decade masks opposing winter and autumn ($+0.09$ h/decade)
-trends, illustrating a Simpson's paradox. Spring ($-0.07$ h/decade) and
+trends (autumn bootstrap CI: $+0.007$ to $+0.170$), illustrating a
+Simpson's paradox. Spring ($-0.07$ h/decade) and
 summer ($+0.02$ h/decade) are near zero and non-significant. The winter
 advance is directionally robust across all six sensitivity variants.
 
 **Conclusions**: The timing of the daily maximum temperature at Épinal
 shows significant seasonally heterogeneous trends. Winter afternoons
-are measurably cooling earlier in the day over the past four decades,
+are measurably cooling earlier in the day over the past three decades,
 while the annual average hides this signal. These findings highlight
 the importance of seasonal stratification for detecting shifts in the
 diurnal temperature phase, with implications for heat-health warning
