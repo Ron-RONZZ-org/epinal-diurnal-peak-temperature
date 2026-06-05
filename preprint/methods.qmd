@@ -2,7 +2,7 @@
 
 ### Data source
 
-I obtained sub-daily (hourly) temperature records from the
+Sub-daily (hourly) temperature records were obtained from the
 Météo-France Synop Essentielles / RADOME network, station
 **88136001** (Épinal, 48.21°N, 6.45°E,
 317 m a.s.l.). The station opened on 1 June 1986; no sub-daily data
@@ -11,10 +11,14 @@ exist before this date. The study period spans 1 January 1986 to
 Raw data were acquired via the Météo-France public data API
 using the `pooch` data registry and archived on OSF for reproducibility.
 
-### Preprocessing and quality control
+### Software
 
-All processing was performed in Python $\geq$ 3.10 using `numpy`,
-`pandas`, and native `zoneinfo` for timezone handling (no `pytz`).
+All processing was performed in Python 3.12. The data acquisition employed the `pooch` library.
+The data processing employed the `numpy`, `pandas`, `scipy`, and `statsmodels` libraries. The graphing was performed with  `matplotlib` and `seaborn`.
+Reproducibility is ensured via `pyproject.toml`-pinned dependencies and
+the pipeline `Makefile`. Timezone was handled by native `zoneinfo`.
+
+### Preprocessing and quality control
 
 **UTC to local time conversion.** Raw UTC timestamps were converted to
 local time (CET/CEST) via `zoneinfo.ZoneInfo("Europe/Paris")`,
@@ -99,9 +103,9 @@ bootstrap (10\,000 resamples).
 
 ### Year--season interaction test
 
-Before examining seasonal trends, I formally tested whether the
-year-slope differs across meteorological seasons using a
-likelihood-ratio (LR) test comparing two nested von Mises GLMs:
+To determine whether season impacts the diurnal peak trend, I performed a
+likelihood-ratio (LR) test comparing two nested von Mises GLMs testing whether the
+year-slope differs across meteorological seasons:
 
 1. A **reduced (additive)** model with season-specific intercepts
    and a common year slope (6 parameters: 4 intercepts + 1 slope
@@ -124,12 +128,11 @@ observed Fisher information.
 
 ### Seasonal stratification (primary analysis)
 
-Because the interaction test is significant, per-season estimates from
+If interaction test is significant, per-season estimates from
 the full interaction model constitute the **primary analysis**.
 For each meteorological season (spring: MAM, summer: JJA, autumn: SON,
-winter: DJF), I report the season-specific slope $\beta_s$ together
-with its Wald $p$-value (from the inverse observed Fisher information)
-and bootstrap percentile confidence intervals.
+winter: DJF), the season-specific slope $\beta_s$ together with its Wald $p$-value (from the inverse observed Fisher information)
+and bootstrap percentile confidence intervals should be calculated.
 
 Benjamini-Hochberg false discovery rate (FDR) control is applied across
 the four Wald $p$-values at $\alpha = 0.05$. A season is considered
@@ -147,9 +150,3 @@ minimum record length (20 years) --- yielding six variants per season
 (24 models total). The pooled (all-season) estimate is also evaluated
 under the same variants for completeness.
 
-### Software
-
-All analyses used Python $\geq$ 3.10 with `numpy`, `pandas`, `scipy`,
-`statsmodels`, `matplotlib`, `seaborn`, and `pooch`. Complete
-reproducibility is ensured via `pyproject.toml`-pinned dependencies and
-the pipeline `Makefile`.

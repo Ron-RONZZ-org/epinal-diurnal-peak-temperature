@@ -65,7 +65,13 @@ methodological variants:
 ### S3. Seasonal bootstrap confidence intervals
 
 Per-season von Mises regression estimates with 95% bootstrap
-percentile intervals (reference for Table~1 in main text).
+percentile intervals, computed from **season-stratified** (independent
+per-season) models.  These CIs differ slightly from those reported in
+Table~1 of the main text, which are derived from the **year × season
+interaction model** (full model with season-specific slopes from a
+single joint fit).  The interaction-model CIs account for the
+cross-season covariance structure and are therefore the primary
+reference.
 
 | Season | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs | n years |
 |--------|--------------------|----------|----------|-------|---------|
