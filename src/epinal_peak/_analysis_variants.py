@@ -16,20 +16,12 @@ from epinal_peak._analysis_bootstrap import _bootstrap_engine
 
 _logger = logging.getLogger(__name__)
 
-# ── Local conversion helpers (avoid circular import with analysis.py) ──
-
-_HOURS_TO_RAD = 2.0 * np.pi / 24.0
-_RAD_TO_HOURS = 24.0 / (2.0 * np.pi)
-
-
-def _hours_to_radians(hours: np.ndarray) -> np.ndarray:
-    """Convert hour-of-day values to radians."""
-    return hours * _HOURS_TO_RAD
-
-
-def _radians_to_hours(radians: np.ndarray | float) -> np.ndarray | float:
-    """Convert radians to hour-of-day values, normalised to [0, 24)."""
-    return (radians * _RAD_TO_HOURS) % 24.0
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _RAD_TO_HOURS,
+    _SEASON_ORDER,
+)
 
 
 def _apply_subsampling(hours: np.ndarray, bin_size: int) -> np.ndarray:
@@ -226,7 +218,7 @@ def seasonal_sensitivity_analysis(
     """
     at = amplitude_thresholds or (1.0, 3.0)
     sb = subsampling_bins or (3, 6)
-    seasons = {"spring": "MAM", "summer": "JJA", "autumn": "SON", "winter": "DJF"}
+    seasons = {s: s.upper()[:3] for s in _SEASON_ORDER}
     results: dict[str, dict[str, Any]] = {}
 
     for season_name, season_label in seasons.items():
@@ -299,7 +291,7 @@ def seasonal_stratification(
     Returns:
         Dict with keys ``spring``, ``summer``, ``autumn``, ``winter``.
     """
-    seasons = {"spring": "MAM", "summer": "JJA", "autumn": "SON", "winter": "DJF"}
+    seasons = {s: s.upper()[:3] for s in _SEASON_ORDER}
     results: dict[str, Any] = {}
 
     for season_name, season_label in seasons.items():

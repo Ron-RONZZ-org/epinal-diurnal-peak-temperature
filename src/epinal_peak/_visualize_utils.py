@@ -25,8 +25,7 @@ _logger = logging.getLogger(__name__)
 
 # ── Constants ──────────────────────────────────────────────────────────
 
-_HOURS_TO_RAD: float = 2.0 * np.pi / 24.0
-_RAD_TO_HOURS: float = 24.0 / (2.0 * np.pi)
+from epinal_peak._circular_utils import _HOURS_TO_RAD, _RAD_TO_HOURS
 
 # Seasonal definitions shared across all multi-panel functions.
 # Each entry: (dict_key, axis_label, month_range_or_"djf")

@@ -16,18 +16,11 @@ from scipy.special import i0
 
 _logger = logging.getLogger(__name__)
 
-_HOURS_TO_RAD = 2.0 * np.pi / 24.0
-_RAD_TO_HOURS = 24.0 / (2.0 * np.pi)
-
-
-def _hours_to_radians(hours: np.ndarray) -> np.ndarray:
-    """Convert hour-of-day values to radians."""
-    return hours * _HOURS_TO_RAD
-
-
-def _radians_to_hours(radians: np.ndarray | float) -> np.ndarray | float:
-    """Convert radians to hour-of-day values, normalised to [0, 24)."""
-    return (radians * _RAD_TO_HOURS) % 24.0
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _RAD_TO_HOURS,
+)
 
 
 def _weighted_neg_log_likelihood(
@@ -107,7 +100,7 @@ def temperature_weighted_regression(
 
     beta_0, beta_1, log_kappa = opt_result.x
     kappa = np.exp(log_kappa)
-    beta_1_hpd = beta_1 * _radians_to_hours(np.array([1.0]))[0] * 10.0
+    beta_1_hpd = beta_1 * _RAD_TO_HOURS * 10.0
 
     weighted_df = df.iloc[valid].copy()
     weighted_df["_weight"] = weights
@@ -148,12 +141,13 @@ def _bootstrap_weighted_engine(
 
     estimates: list[float] = []
     n = len(df)
+    rng = np.random.default_rng()
 
     for i in range(n_iter):
         if (i + 1) % 100 == 0:
             _logger.info("Weighted bootstrap iteration %d / %d", i + 1, n_iter)
 
-        resample = df.sample(n=n, replace=True, random_state=i)
+        resample = df.sample(n=n, replace=True, random_state=int(rng.integers(2**31)))
         try:
             result = _run_weighted(resample)
         except (ValueError, RuntimeError):
@@ -224,7 +218,7 @@ def _run_weighted(df: pd.DataFrame) -> dict[str, Any]:
 
     beta_0, beta_1, log_kappa = opt_result.x
     kappa = np.exp(log_kappa)
-    beta_1_hpd = beta_1 * _radians_to_hours(np.array([1.0]))[0] * 10.0
+    beta_1_hpd = beta_1 * _RAD_TO_HOURS * 10.0
 
     return {
         "status": "ok" if opt_result.success else "mle_did_not_converge",

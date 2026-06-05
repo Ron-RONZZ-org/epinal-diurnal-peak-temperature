@@ -437,17 +437,19 @@ class TestSeasonalSupplementary:
         for s in ("spring", "summer", "autumn", "winter"):
             assert "status" in result[s], f"{s} missing status"
 
+    @pytest.mark.slow
     def test_seasonal_correlation_returns_all_seasons(self) -> None:
         """_seasonal_circular_linear_correlation returns 4 seasons + pooled."""
-        config = EpinalPeakConfig()
+        config = EpinalPeakConfig(n_bootstrap_fallback=50)
         df = self._four_season_df()
         result = analysis._seasonal_circular_linear_correlation(df, config)
         for s in ("spring", "summer", "autumn", "winter", "pooled"):
             assert s in result, f"Missing key: {s}"
 
+    @pytest.mark.slow
     def test_seasonal_correlation_each_has_rho_c(self) -> None:
         """Each season entry has a rho_c or status key."""
-        config = EpinalPeakConfig()
+        config = EpinalPeakConfig(n_bootstrap_fallback=50)
         df = self._four_season_df()
         result = analysis._seasonal_circular_linear_correlation(df, config)
         for s in ("spring", "summer", "autumn", "winter"):

@@ -12,24 +12,14 @@ import logging
 import numpy as np
 import pandas as pd
 
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _HOURS_IN_DAY,
+)
 from epinal_peak.config import EpinalPeakConfig
 
 _logger = logging.getLogger(__name__)
-
-_HOURS_IN_DAY = 24
-
-
-# ── Circular helpers (private) ──────────────────────────────────────────
-
-
-def _hours_to_radians(hours: np.ndarray) -> np.ndarray:
-    """Convert hour-of-day (0--23) to radians on [0, 2π)."""
-    return 2.0 * np.pi * hours / _HOURS_IN_DAY
-
-
-def _radians_to_hours(rad: np.ndarray) -> np.ndarray:
-    """Convert radians back to hour-of-day (0--23)."""
-    return np.mod(rad * _HOURS_IN_DAY / (2.0 * np.pi), _HOURS_IN_DAY)
 
 
 def _circular_distance_rad(a: np.ndarray, b: float) -> np.ndarray:

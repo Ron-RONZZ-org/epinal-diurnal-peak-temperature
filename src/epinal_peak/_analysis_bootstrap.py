@@ -44,6 +44,7 @@ def _bootstrap_engine(
 
     estimates: list[float] = []
     n = len(df)
+    rng = np.random.default_rng()
 
     from epinal_peak._analysis_regression import von_mises_regression as _vm_reg
 
@@ -51,7 +52,7 @@ def _bootstrap_engine(
         if (i + 1) % 100 == 0:
             _logger.info("Bootstrap iteration %d / %d", i + 1, n_iter)
 
-        resample = df.sample(n=n, replace=True, random_state=i)
+        resample = df.sample(n=n, replace=True, random_state=int(rng.integers(2**31)))
         try:
             result = _vm_reg(resample)
         except (ValueError, RuntimeError):

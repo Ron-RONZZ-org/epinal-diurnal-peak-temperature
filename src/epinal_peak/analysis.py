@@ -22,17 +22,21 @@ from epinal_peak import _analysis_variants as _variants
 from epinal_peak._analysis_bootstrap import _bootstrap_engine
 from epinal_peak._analysis_corr import circular_linear_correlation, _mardia_correlation
 from epinal_peak._analysis_regression import (
-    _hours_to_radians,
-    _radians_to_hours,
-    _HOURS_TO_RAD,
-    _RAD_TO_HOURS,
-    circular_mean,
-    circular_std,
     von_mises_regression,
     bootstrap_trend,
 )
 from epinal_peak._analysis_interaction import (
     interaction_lr_test,
+)
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _HOURS_TO_RAD,
+    _RAD_TO_HOURS,
+    _SEASON_ORDER,
+    circular_mean,
+    circular_std,
+    circular_autocorr,
 )
 from epinal_peak.config import EpinalPeakConfig
 
@@ -220,7 +224,7 @@ def _seasonal_temperature_weighted(
     from epinal_peak._analysis_weighted import temperature_weighted_regression as _twr
 
     results: dict[str, Any] = {}
-    for season_name in ["spring", "summer", "autumn", "winter"]:
+    for season_name in _SEASON_ORDER:
         subset = df[df["season"] == season_name]
         if subset.empty:
             results[season_name] = {"status": "no_data"}
@@ -252,7 +256,7 @@ def _seasonal_circular_linear_correlation(
         Includes a ``pooled`` key for the all-season reference.
     """
     results: dict[str, Any] = {}
-    for season_name in ["spring", "summer", "autumn", "winter"]:
+    for season_name in _SEASON_ORDER:
         subset = df[df["season"] == season_name]
         if subset.empty:
             results[season_name] = {"status": "no_data"}
@@ -273,6 +277,11 @@ def _seasonal_circular_linear_correlation(
 def _seasonal_autocorrelation(df: pd.DataFrame) -> dict[str, Any]:
     """Compute lag-1 through lag-7 autocorrelation per season.
 
+    Uses the circular autocorrelation function (Fisher 1993,
+    section 6.3.4) which is appropriate for circular data (hour-of-day).
+    Linear Pearson correlation is inappropriate for circular data because
+    values near 0/24 wrap around.
+
     Args:
         df: DataFrame with ``season``, ``date``, ``peak_hour`` columns.
 
@@ -281,23 +290,18 @@ def _seasonal_autocorrelation(df: pd.DataFrame) -> dict[str, Any]:
         Includes a ``pooled`` entry.
     """
     results: dict[str, Any] = {}
-    for season_name in ["spring", "summer", "autumn", "winter"]:
+    for season_name in _SEASON_ORDER:
         subset = df[df["season"] == season_name].sort_values("date")
         ph = subset["peak_hour"].values
         if len(ph) < 8:
             results[season_name] = None
             continue
-        acf = []
-        for lag in range(1, 8):
-            acf.append(float(np.corrcoef(ph[:-lag], ph[lag:])[0, 1]))
-        results[season_name] = acf
+        theta = _hours_to_radians(ph)
+        results[season_name] = [circular_autocorr(theta, lag=lag) for lag in range(1, 8)]
     # Pooled
     df_sorted = df.sort_values("date")
-    ph = df_sorted["peak_hour"].values
-    acf = []
-    for lag in range(1, 8):
-        acf.append(float(np.corrcoef(ph[:-lag], ph[lag:])[0, 1]))
-    results["pooled"] = acf
+    theta = _hours_to_radians(df_sorted["peak_hour"].values)
+    results["pooled"] = [circular_autocorr(theta, lag=lag) for lag in range(1, 8)]
     return results
 
 
@@ -510,30 +514,54 @@ def main() -> None:
     results_dir.mkdir(parents=True, exist_ok=True)
     output_path = results_dir / config.analysis_results_filename
 
-    class _NanEncoder(json.JSONEncoder):
-        def default(self, o: Any) -> Any:
-            return super().default(o)
-
-        def encode(self, o: Any) -> str:
-            return super().encode(self._replace_nan(o))
-
-        @staticmethod
-        def _replace_nan(obj: Any) -> Any:
-            if isinstance(obj, float):
-                if np.isnan(obj):
-                    return None
-                return obj
-            if isinstance(obj, dict):
-                return {k: _NanEncoder._replace_nan(v) for k, v in obj.items()}
-            if isinstance(obj, (list, tuple)):
-                return [_NanEncoder._replace_nan(v) for v in obj]
-            return obj
-
     with open(output_path, "w") as f:
         json.dump(output, f, indent=2, cls=_NanEncoder)
     _logger.info("Results written to %s", output_path)
 
     _logger.info("Completed analysis stage")
+
+
+# ── Module-level JSON encoder ──────────────────────────────────────────
+
+
+class _NanEncoder(json.JSONEncoder):
+    """JSON encoder that replaces NaN floats with ``null``.
+
+    Python's built-in ``json`` module does not handle NaN values; this
+    encoder pre-processes the output tree before serialisation.
+    """
+
+    def encode(self, o: Any) -> str:
+        return super().encode(self._replace_nan(o))
+
+    @staticmethod
+    def _replace_nan(obj: Any) -> Any:
+        if isinstance(obj, float):
+            if np.isnan(obj):
+                return None
+            return obj
+        if isinstance(obj, dict):
+            return {k: _NanEncoder._replace_nan(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [_NanEncoder._replace_nan(v) for v in obj]
+        return obj
+
+
+# ── Public API exports ─────────────────────────────────────────────────
+
+__all__: list[str] = [
+    "circular_mean",
+    "circular_std",
+    "von_mises_regression",
+    "bootstrap_trend",
+    "circular_linear_correlation",
+    "interaction_lr_test",
+    "sensitivity_analysis",
+    "seasonal_stratification",
+    "temperature_weighted_regression",
+    "seasonal_sensitivity_analysis",
+    "main",
+]
 
 
 if __name__ == "__main__":

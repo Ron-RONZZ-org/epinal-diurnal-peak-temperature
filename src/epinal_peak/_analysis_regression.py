@@ -1,12 +1,9 @@
 """Core regression math for von Mises circular statistics and GLM.
 
-This module contains the low-level math extracted from ``analysis.py``:
-conversion helpers, circular mean / std, the von Mises negative
-log-likelihood, the regression fitter, and bootstrap wrapper.
-
-It exists to keep individual files below 500 lines and to break
-the circular-import pattern between ``analysis.py`` and the
-private ``_analysis_*.py`` modules.
+This module contains the low-level math for the von Mises negative
+log-likelihood, the regression fitter, and a thin bootstrap wrapper.
+Conversion helpers, circular mean/std, and shared constants live in
+:mod:`_circular_utils`.
 """
 
 from __future__ import annotations
@@ -19,99 +16,16 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.special import i0
 
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _HOURS_TO_RAD,
+    _RAD_TO_HOURS,
+    circular_mean,
+    circular_std,
+)
+
 _logger = logging.getLogger(__name__)
-
-_HOURS_TO_RAD = 2.0 * np.pi / 24.0
-_RAD_TO_HOURS = 24.0 / (2.0 * np.pi)
-
-
-def _hours_to_radians(hours: np.ndarray) -> np.ndarray:
-    """Convert hour-of-day values to radians."""
-    return hours * _HOURS_TO_RAD
-
-
-def _radians_to_hours(radians: np.ndarray | float) -> np.ndarray | float:
-    """Convert radians to hour-of-day values, normalised to [0, 24)."""
-    return (radians * _RAD_TO_HOURS) % 24.0
-
-
-def circular_mean(hours: np.ndarray) -> float:
-    """Compute the circular mean of hourly data (0-23 range).
-
-    Converts hours to radians, computes the mean direction from the
-    summed unit vectors, and converts back to hours.
-
-    Args:
-        hours: Array of hour-of-day values (0--23).  NaNs are ignored.
-
-    Returns:
-        Circular mean in hours (0--23).  Returns NaN if all values are
-        NaN or if the resultant vector length is zero (uniform circular
-        distribution).
-
-    Examples:
-        >>> circular_mean(np.array([0.0, 0.0]))
-        0.0
-        >>> circular_mean(np.array([23.0, 1.0]))
-        0.0
-    """
-    hours = np.asarray(hours, dtype=float)
-    valid = ~np.isnan(hours)
-    if not valid.any():
-        return np.nan
-
-    radians = _hours_to_radians(hours[valid])
-    sin_sum = np.sin(radians).sum()
-    cos_sum = np.cos(radians).sum()
-    mean_rad = np.arctan2(sin_sum, cos_sum)
-    if mean_rad < 0.0:
-        mean_rad += 2.0 * np.pi
-    hours_out = mean_rad * _RAD_TO_HOURS
-    return float(hours_out % 24.0)
-
-
-def circular_std(hours: np.ndarray) -> float:
-    """Compute the circular standard deviation of hourly data (0-23 range).
-
-    Uses the mean resultant length *R*:
-
-    .. math::
-
-        \\sigma = \\sqrt{-2 \\ln(R)} \\times \\frac{24}{2\\pi}
-
-    where *R* = :math:`\\sqrt{(\\sum \\cos \\theta)^2 + (\\sum \\sin \\theta)^2} / n`.
-
-    Args:
-        hours: Array of hour-of-day values (0--23).  NaNs are ignored.
-
-    Returns:
-        Circular standard deviation in hours (0--23).  Returns NaN if all
-        values are NaN or R = 0 (uniform circular distribution).
-
-    Examples:
-        >>> np.round(circular_std(np.array([0.0, 0.0])), 6)
-        0.0
-    """
-    hours = np.asarray(hours, dtype=float)
-    valid = ~np.isnan(hours)
-    if not valid.any():
-        return np.nan
-
-    radians = _hours_to_radians(hours[valid])
-    n = float(len(radians))
-    sin_sum = np.sin(radians).sum()
-    cos_sum = np.cos(radians).sum()
-    r = np.sqrt(sin_sum**2 + cos_sum**2) / n
-
-    if r <= 0.0:
-        return np.nan
-
-    if r > 1.0:
-        r = 1.0
-    elif 1.0 - r < 1e-12:
-        r = 1.0
-    circular_std_rad = np.sqrt(-2.0 * np.log(r))
-    return float(circular_std_rad * _RAD_TO_HOURS)
 
 
 def _neg_log_likelihood(
@@ -274,80 +188,7 @@ def bootstrap_trend(
     Returns:
         Tuple ``(lower_ci, median_coefficient, upper_ci)`` in hours/decade.
     """
+    from epinal_peak._analysis_bootstrap import _bootstrap_engine
+
     result = _bootstrap_engine(df, n_iter=n_iter, ci_level=ci_level)
     return (result["ci_lower"], result["median"], result["ci_upper"])
-
-
-def _bootstrap_engine(
-    df: pd.DataFrame,
-    n_iter: int = 1000,
-    ci_level: float = 0.95,
-) -> dict[str, Any]:
-    """Resample with replacement, refit, return percentile CIs.
-
-    Args:
-        df: DataFrame with ``year`` and ``peak_hour`` columns.
-        n_iter: Number of bootstrap resamples.
-        ci_level: Confidence level (e.g., 0.95 for 95 %).
-
-    Returns:
-        Dict with keys:
-
-        - ``n_iter``: Number of successful resamples.
-        - ``ci_level``: Requested confidence level.
-        - ``ci_lower``: Lower percentile bound (hours/decade).
-        - ``ci_upper``: Upper percentile bound (hours/decade).
-        - ``median``: Median of bootstrap distribution (hours/decade).
-        - ``std_error``: Bootstrap standard error (hours/decade).
-        - ``status``: ``"ok"`` or ``"too_few_valid_resamples"``.
-        - ``dist_sample``: Full bootstrap distribution (list, for diagnostics).
-    """
-    alpha = 1.0 - ci_level
-    lower_pct = 100.0 * alpha / 2.0
-    upper_pct = 100.0 * (1.0 - alpha / 2.0)
-
-    estimates: list[float] = []
-    n = len(df)
-
-    for i in range(n_iter):
-        if (i + 1) % 100 == 0:
-            _logger.info("Bootstrap iteration %d / %d", i + 1, n_iter)
-
-        resample = df.sample(n=n, replace=True, random_state=i)
-        try:
-            result = von_mises_regression(resample)
-        except (ValueError, RuntimeError):
-            continue
-
-        if result.get("status") not in ("ok", "all_peak_hours_identical"):
-            continue
-        estimates.append(result["beta_1_hours_per_decade"])
-
-    if len(estimates) < 2:
-        return {
-            "n_iter": n_iter,
-            "ci_level": ci_level,
-            "ci_lower": np.nan,
-            "ci_upper": np.nan,
-            "median": np.nan,
-            "std_error": np.nan,
-            "dist_sample": estimates,
-            "status": "too_few_valid_resamples",
-        }
-
-    arr = np.array(estimates)
-    ci_lower = float(np.nanpercentile(arr, lower_pct))
-    ci_upper = float(np.nanpercentile(arr, upper_pct))
-    median = float(np.nanmedian(arr))
-    std_error = float(np.nanstd(arr, ddof=1))
-
-    return {
-        "n_iter": len(estimates),
-        "ci_level": ci_level,
-        "ci_lower": ci_lower,
-        "ci_upper": ci_upper,
-        "median": median,
-        "std_error": std_error,
-        "dist_sample": [float(v) for v in estimates],
-        "status": "ok",
-    }

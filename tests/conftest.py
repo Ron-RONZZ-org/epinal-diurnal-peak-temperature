@@ -56,7 +56,7 @@ def sample_temperature_data() -> pd.DataFrame:
             "hour_utc": utc_hours,
             "temperature": [
                 5.0 + (i % 12) * 0.5 for i in range(48)
-            ],  # sinusoidal-ish
+            ],  # sawtooth pattern (not sinusoidal — linear rise then reset per 12h block)
         }
     )
 

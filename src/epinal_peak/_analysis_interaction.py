@@ -27,30 +27,19 @@ from scipy.stats import chi2, norm
 
 _logger = logging.getLogger(__name__)
 
-_HOURS_TO_RAD = 2.0 * np.pi / 24.0
-_RAD_TO_HOURS = 24.0 / (2.0 * np.pi)
-
-_SEASON_ORDER = ["spring", "summer", "autumn", "winter"]
-"""Canonical season order — must match values in the ``season`` column."""
+from epinal_peak._circular_utils import (
+    _hours_to_radians,
+    _radians_to_hours,
+    _HOURS_TO_RAD,
+    _RAD_TO_HOURS,
+    _SEASON_ORDER,
+)
 
 _INTERACTION_ALPHA = 0.05
 """Gatekeeper significance level for the interaction LR test."""
 
 _FDR_ALPHA = 0.05
 """Target FDR for Benjamini-Hochberg correction on per-season p-values."""
-
-# ── Low-level helpers ─────────────────────────────────────────────────
-
-
-def _hours_to_radians(hours: np.ndarray) -> np.ndarray:
-    """Convert hour-of-day values to radians."""
-    return hours * _HOURS_TO_RAD
-
-
-def _radians_to_hours(radians: np.ndarray | float) -> np.ndarray | float:
-    """Convert radians to hour-of-day values, normalised to [0, 24)."""
-    return (radians * _RAD_TO_HOURS) % 24.0
-
 
 def _build_design_matrix(
     season: pd.Series,
