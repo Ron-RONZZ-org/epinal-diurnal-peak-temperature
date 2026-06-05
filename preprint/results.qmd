@@ -148,11 +148,44 @@ Mises GLM. Wald $p$-values are corrected via the Benjamini-Hochberg
 procedure ($\alpha = 0.05$, $m = 4$). Bootstrap CIs are 2.5th and 97.5th
 percentiles from 1,000 resamples. {#tbl-seasonal-primary}
 
-Figure~\ref{fig-seasonal} presents the per-season trend panels.
+Figure~\ref{fig-seasonal} presents the per-season trend panels with
+the fitted von Mises GLM trend lines.
 
 ![Seasonal von Mises regression trends. Each panel shows hexbin density
   of daily peak hours and the fitted trend line with 95% CI band.
   ](../results/figures/seasonal_trend.pdf){#fig-seasonal}
+
+Figure~\ref{fig-seasonal-rose} shows the marginal circular distribution
+of peak hours for each season as a rose diagram (polar histogram). All
+four seasons display a unimodal, approximately symmetric distribution
+centred in the mid-afternoon, supporting the von Mises assumption of a
+single concentration mode. Winter exhibits the broadest spread (lowest
+$\kappa \approx 2.6$), consistent with greater synoptic-scale
+variability in cold-month diurnal cycles; summer is the most
+concentrated ($\kappa \approx 2.7$), reflecting the prevalence of
+radiatively driven days.
+
+![Per-season rose diagram (polar histogram) of daily peak hours.
+  Each panel shows the circular distribution for one meteorological
+  season.  The radial axis represents the fraction of observations in
+  each 1-hour bin.
+  ](../results/figures/seasonal_rose.pdf){#fig-seasonal-rose}
+
+Figure~\ref{fig-seasonal-ma} shows the 5-year moving circular mean of
+peak hours for each season. This non-parametric view relaxes the
+linearity assumption of the von Mises GLM and provides a visual check
+on whether the estimated linear trends are a reasonable approximation.
+The moving means track the regression slopes closely: winter shows a
+clear downward trajectory, autumn a gradual upward drift, and
+spring/summer remain near their respective baselines. No strong
+non-linear deviations (e.g., abrupt shifts or U-shaped trajectories)
+are evident, confirming that the linear year-effect in the circular GLM
+adequately captures the dominant temporal pattern in each season.
+
+![Five-year moving circular mean of daily peak hours per season.
+  Each point represents the circular mean of peak hours within a
+  $\pm$2-year window centred on that year.
+  ](../results/figures/seasonal_moving_average.pdf){#fig-seasonal-ma}
 
 ```{=latex}
 \FloatBarrier
