@@ -240,14 +240,3 @@ src/epinal_peak/           # Python package
 └── report.py                # Summary tables
 ```
 
----
-
-## 6. Deviations from Original Pre-Registration
-
-The OSF pre-registration for this project was drafted but **never
-submitted**.  There are therefore no binding pre-registration constraints.
-All analysis decisions documented here reflect the final, peer-review-ready
-pipeline and may differ from earlier drafts.  The hierarchical interaction
-framework (year × season LR test as gatekeeper) was adopted after
-exploratory analysis revealed seasonal heterogeneity; it is the primary
-analysis framework.
