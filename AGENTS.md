@@ -226,5 +226,6 @@ The project plan is maintained on GitHub:
 - **Issues #2–#9**: Actionable work items (M0–M7 milestones)
 - **Issue #11**: Year × season interaction test — completed and merged to main
 - **Issue #12**: Code quality improvements — shared circular utils, bootstrap seeding, circular ACF, manuscript fixes — completed and merged to main
+- **Issue #13**: Literature-claim corrections — tempered overstated consistency claims with Shmuel et al. (2026) and Wang & Dillon (2014) across introduction, discussion, and conclusion — completed and merged to main
 
 All work should reference these issues in commit messages and PRs.
