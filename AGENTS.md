@@ -137,6 +137,10 @@ Install: `pip install -e ".[dev]"`
 
 ## Quarto Manuscript Conventions
 
+- **Recompile with** `./preprint/recompile.sh` — renders both PDF and HTML and verifies outputs.
+
+(This replaces `make preprint`; the shell script gives clearer error reporting.)
+
 - **No bare `~` outside math mode**: In pandoc/Quarto markdown, `~text~` is subscript syntax (e.g., `H~2~O` → H₂O). Use `$\mathrm{...}$` for units in text, or a regular space. `Figure~\ref{...}` and `Table~\ref{...}` (Quarto cross-references) are exempt.
 - **Use `\mathrm{}` not `\text{}`** for multi-letter identifiers in math mode: `\mathrm{log\_kappa}` renders reliably in both HTML (MathJax) and PDF (xelatex).
 - **BibTeX year field**: Use `year = {YYYY}` in `.bib` entries (the `date` field is not recognized by BibTeX/natbib for extracting the year).

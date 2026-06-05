@@ -32,6 +32,16 @@ Whereas existing research has predominantly examined *regional warming trends*, 
 - **M6**: Publication-quality figures
 - **M7**: Manuscript
 
+## Manuscript
+
+The manuscript is written in Quarto (`preprint/*.qmd`). To recompile:
+
+```bash
+./preprint/recompile.sh
+```
+
+This renders both `preprint/main.pdf` and `preprint/main.html` and verifies the outputs.
+
 ## Expected Outputs
 
 - Curated and validated dataset
