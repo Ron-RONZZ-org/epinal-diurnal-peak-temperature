@@ -12,6 +12,21 @@ the analysis period spans 1 January 1992 to 31 December 2025, yielding
 Raw data were acquired via the Météo-France public data API
 using the `pooch` data registry and archived on OSF for reproducibility.
 
+### Study area
+
+Épinal (48.21°N, 6.45°E) is situated in the Moselle River valley
+at the western foothills of the Vosges Mountains, at the transition
+between the Lorraine plain and the Vosges massif (elevation 317 m
+a.s.l.). The local climate is temperate oceanic (Köppen: *Cfb*),
+characterised by mild temperatures and precipitation distributed
+throughout the year [-@sorel2022normales]. The Vosges orographic
+barrier produces a pronounced west--east precipitation gradient,
+with the western slopes receiving substantially more precipitation
+than the rain-shadowed Alsatian plain to the east via the föhn effect
+[-@minarova2013climatology]. Valley topography and forest cover
+may influence local boundary-layer development and, consequently,
+the timing of the diurnal temperature maximum.
+
 ### Software
 
 All processing was performed in Python 3.12. The data acquisition employed the `pooch` library.

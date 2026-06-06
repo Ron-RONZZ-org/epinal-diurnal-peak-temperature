@@ -23,9 +23,24 @@ end of their global range. Several factors may explain the discrepancy.
 First, this study examines the specific clock hour of *maximum*
 temperature, whereas Shmuel et al. analysed the timing of
 fixed-temperature thresholds; these are related but distinct metrics.
-Second, local factors such as topography, land-use change, and proximity
-to the Vosges mountains may modulate the diurnal cycle at Épinal
-differently than the global mean. Third, this single-station design
+Second, local topography may modulate the
+diurnal cycle at Épinal differently than the global mean. Épinal lies
+in the Moselle River valley at the western foot of the Vosges massif,
+where valley geometry and forest cover influence boundary-layer
+development and local radiation balance. The temperature-weighted
+regression (Supplementary S5) reveals that the winter advance is
+concentrated on days with below-median diurnal amplitude ($\beta
+= -0.28$ h/decade, 95\%~CI $-$0.43 to $-$0.13$), while high-amplitude
+days show a negligible trend ($\beta = -0.08$ h/decade,
+95\%~CI $-$0.23 to $+0.06$). One mechanistic hypothesis is that
+valley cold-air pooling and radiative fog on quiescent winter nights
+delay the morning temperature recovery, and that this effect has
+weakened under regional warming, producing an earlier peak. However,
+this mechanism is speculative and would require high-resolution
+boundary-layer modelling or detailed vertical profile observations to
+test. Land-use change and urbanisation may also contribute
+[-@wang2014recent], but their influence cannot be disentangled from
+topographic effects at a single station. Third, this single-station design
 eliminates spatial aggregation biases but captures only local signals.
 The peer-reviewed analysis of Wang and Dillon [-@wang2014recent]
 identified France as a region of notable diurnal temperature range
