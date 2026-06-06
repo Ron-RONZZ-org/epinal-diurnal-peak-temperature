@@ -36,4 +36,6 @@ are measurably cooling earlier in the day over the past three decades,
 while the annual average hides this signal. These findings highlight
 the importance of seasonal stratification for detecting shifts in the
 diurnal temperature phase, with implications for heat-health warning
-systems, crop modelling, and building energy demand forecasting.
+systems and winter heating demand forecasting, where a cumulative shift
+of $\approx 40$~min over the study period affects the assumed timing of
+peak solar gain and the diurnal load profile.

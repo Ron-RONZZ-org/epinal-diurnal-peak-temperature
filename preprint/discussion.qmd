@@ -101,10 +101,11 @@ intervals.
 ### Implications
 
 If confirmed at broader spatial scales, a systematic shift in the
-timing of daily maximum temperature has implications for heat-health
-early warning systems, which typically assume a stationary diurnal cycle
-when issuing alerts. Building energy demand modelling, crop heat-stress
-scheduling, and ecological phenology models likewise rely on the
-assumption of a fixed diurnal phase. A shifting peak would require these
-applied sectors to incorporate time-varying diurnal temperature
-characteristics into their planning tools.
+timing of daily maximum temperature has implications for applied sectors
+that assume a stationary diurnal cycle. For winter heating demand
+modelling, the $-0.19$ h/decade advance represents a cumulative shift
+of approximately 40~minutes over the study period, materially affecting
+the timing of peak solar gain and therefore the diurnal heating load
+profile. Heat-health early warning systems, which rely on the timing of
+peak temperature for alert issuance, would also need to account for a
+shifting diurnal phase.
