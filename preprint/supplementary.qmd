@@ -58,7 +58,7 @@ methodological variants:
 
 | Variant | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs |
 |---------|----------|---------------------|------|---------|
-| Primary (earliest tie) | $-0.0281$ | $(-0.071, +0.016)$ | 2.45 | 12,163 |
+| Primary (earliest tie) | $-0.0:281$ | $(-0.071, +0.016)$ | 2.45 | 12,163 |
 | Latest tie | $-0.0358$ | $(-0.080, +0.007)$ | 2.47 | 12,163 |
 | Min years = 20 | $-0.0281$ | $(-0.059, +0.027)$ | 2.45 | 12,163 |
 | 3-hour bin | $-0.0225$ | $(-0.062, +0.020)$ | 2.27 | 12,163 |
@@ -78,7 +78,7 @@ cross-season covariance structure and are therefore the primary
 reference.
 
 | Season | $\beta$ (h/decade) | 95% CI | $\kappa$ | n obs | n years |
-|--------|--------------------|----------|----------|-------|---------|
+|--------|------------------|:----------:|----------|-------|---------|
 | Spring (MAM) | $-0.0650$ | $(-0.135, +0.000)$ | 3.10 | 3,168 | 35 |
 | Summer (JJA) | $+0.0195$ | $(-0.041, +0.081)$ | 4.39 | 3,111 | 35 |
 | Autumn (SON) | $+0.0850$ | $(+0.007, +0.170)$ | 2.59 | 3,002 | 35 |
@@ -159,7 +159,7 @@ Non-parametric rank correlation (Mardia 1976) between peak hour and
 year, computed per season.
 
 | Season | $\rho_c$ | n obs |
-|--------|---------:|:-----:|
+|--------|---------|:-----:|
 | Spring (MAM) | 0.0447 | 3,168 |
 | Summer (JJA) | 0.0395 | 3,111 |
 | Autumn (SON) | 0.0579 | 3,002 |
