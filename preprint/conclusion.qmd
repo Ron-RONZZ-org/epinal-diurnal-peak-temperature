@@ -30,9 +30,13 @@ seasonally divergent changes in the diurnal temperature phase.
 Replication across the broader Météo-France RADOME network and
 extension to other regions with long sub-daily temperature records are
 natural next steps. If the winter advance is confirmed more broadly, it
-would warrant re-evaluation of applied models --- from heat-health
-warning systems to building energy and crop modelling --- that currently
-assume a stationary diurnal cycle.
+would warrant re-evaluation of applied models that currently assume a
+stationary diurnal cycle --- particularly winter heating demand
+forecasting, where the $-0.19$ h/decade shift (cumulatively $\approx
+40$~min over the study period) materially affects the assumed timing of
+peak solar gain and thus the diurnal heating load profile, and
+heat-health early warning systems that rely on the timing of peak
+temperature for alert issuance.
 
 **Data and code availability.** All analysis code is available at
 [https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature](
