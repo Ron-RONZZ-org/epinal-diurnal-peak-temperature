@@ -24,9 +24,8 @@ preprint/*.aux
 preprint/*.log
 preprint/*.tex
 preprint/*.toc
-preprint/main.html
-preprint/main.pdf
 preprint/*_files/
+!preprint/main_files/
 preprint/image/
 
 # Build artifacts

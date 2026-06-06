@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rong Martin-Siebler ZHOU">
+<meta name="dcterms.date" content="2026-06-05">
+
+<title>The Shifting Peak: Analyzing Diurnal Maximum Temperature Trends in Épinal (Grand Est, France)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="main_files/libs/clipboard/clipboard.min.js"></script>
+<script src="main_files/libs/quarto-html/quarto.js"></script>
+<script src="main_files/libs/quarto-html/popper.min.js"></script>
+<script src="main_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="main_files/libs/quarto-html/anchor.min.js"></script>
+<link href="main_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="main_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="main_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="main_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="main_files/libs/bootstrap/bootstrap-d96cf76179625e1dddce1d78ce76a6dc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#present-study" id="toc-present-study" class="nav-link" data-scroll-target="#present-study">Present study</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data source</a></li>
+  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software">Software</a></li>
+  <li><a href="#preprocessing-and-quality-control" id="toc-preprocessing-and-quality-control" class="nav-link" data-scroll-target="#preprocessing-and-quality-control">Preprocessing and quality control</a></li>
+  <li><a href="#von-mises-circular-regression" id="toc-von-mises-circular-regression" class="nav-link" data-scroll-target="#von-mises-circular-regression">Von Mises circular regression</a></li>
+  <li><a href="#contingency-circularlinear-correlation" id="toc-contingency-circularlinear-correlation" class="nav-link" data-scroll-target="#contingency-circularlinear-correlation">Contingency: circular–linear correlation</a></li>
+  <li><a href="#yearseason-interaction-test" id="toc-yearseason-interaction-test" class="nav-link" data-scroll-target="#yearseason-interaction-test">Year–season interaction test</a></li>
+  <li><a href="#seasonal-stratification-primary-analysis" id="toc-seasonal-stratification-primary-analysis" class="nav-link" data-scroll-target="#seasonal-stratification-primary-analysis">Seasonal stratification (primary analysis)</a></li>
+  <li><a href="#sensitivity-analysis-per-season" id="toc-sensitivity-analysis-per-season" class="nav-link" data-scroll-target="#sensitivity-analysis-per-season">Sensitivity analysis (per season)</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#data-summary" id="toc-data-summary" class="nav-link" data-scroll-target="#data-summary">Data summary</a></li>
+  <li><a href="#yearseason-interaction-test-1" id="toc-yearseason-interaction-test-1" class="nav-link" data-scroll-target="#yearseason-interaction-test-1">Year–season interaction test</a></li>
+  <li><a href="#spring-marchmay" id="toc-spring-marchmay" class="nav-link" data-scroll-target="#spring-marchmay">Spring (March–May)</a></li>
+  <li><a href="#summer-juneaugust" id="toc-summer-juneaugust" class="nav-link" data-scroll-target="#summer-juneaugust">Summer (June–August)</a></li>
+  <li><a href="#autumn-septembernovember" id="toc-autumn-septembernovember" class="nav-link" data-scroll-target="#autumn-septembernovember">Autumn (September–November)</a></li>
+  <li><a href="#winter-decemberfebruary" id="toc-winter-decemberfebruary" class="nav-link" data-scroll-target="#winter-decemberfebruary">Winter (December–February)</a></li>
+  <li><a href="#seasonal-summary" id="toc-seasonal-summary" class="nav-link" data-scroll-target="#seasonal-summary">Seasonal summary</a></li>
+  <li><a href="#supplementary-pooled-all-season-estimate" id="toc-supplementary-pooled-all-season-estimate" class="nav-link" data-scroll-target="#supplementary-pooled-all-season-estimate">Supplementary: pooled (all-season) estimate</a></li>
+  <li><a href="#supplementary-analyses" id="toc-supplementary-analyses" class="nav-link" data-scroll-target="#supplementary-analyses">Supplementary analyses</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
+  <ul class="collapse">
+  <li><a href="#comparison-with-prior-work" id="toc-comparison-with-prior-work" class="nav-link" data-scroll-target="#comparison-with-prior-work">Comparison with prior work</a></li>
+  <li><a href="#sensitivity-and-robustness" id="toc-sensitivity-and-robustness" class="nav-link" data-scroll-target="#sensitivity-and-robustness">Sensitivity and robustness</a></li>
+  <li><a href="#limitations-and-threats-to-validity" id="toc-limitations-and-threats-to-validity" class="nav-link" data-scroll-target="#limitations-and-threats-to-validity">Limitations and threats to validity</a></li>
+  <li><a href="#implications" id="toc-implications" class="nav-link" data-scroll-target="#implications">Implications</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#supplementary-material" id="toc-supplementary-material" class="nav-link" data-scroll-target="#supplementary-material">Supplementary Material</a>
+  <ul class="collapse">
+  <li><a href="#s1.-per-season-sensitivity-analysis-results" id="toc-s1.-per-season-sensitivity-analysis-results" class="nav-link" data-scroll-target="#s1.-per-season-sensitivity-analysis-results">S1. Per-season sensitivity analysis results</a></li>
+  <li><a href="#s2.-pooled-sensitivity-results-supplementary" id="toc-s2.-pooled-sensitivity-results-supplementary" class="nav-link" data-scroll-target="#s2.-pooled-sensitivity-results-supplementary">S2. Pooled sensitivity results (supplementary)</a></li>
+  <li><a href="#s3.-seasonal-bootstrap-confidence-intervals" id="toc-s3.-seasonal-bootstrap-confidence-intervals" class="nav-link" data-scroll-target="#s3.-seasonal-bootstrap-confidence-intervals">S3. Seasonal bootstrap confidence intervals</a></li>
+  <li><a href="#s4.-descriptive-statistics-by-decade" id="toc-s4.-descriptive-statistics-by-decade" class="nav-link" data-scroll-target="#s4.-descriptive-statistics-by-decade">S4. Descriptive statistics by decade</a></li>
+  <li><a href="#s5.-power-analysis" id="toc-s5.-power-analysis" class="nav-link" data-scroll-target="#s5.-power-analysis">S5. Power analysis</a></li>
+  <li><a href="#s6.-supplementary-analysis-temperature-weighted-regression" id="toc-s6.-supplementary-analysis-temperature-weighted-regression" class="nav-link" data-scroll-target="#s6.-supplementary-analysis-temperature-weighted-regression">S6. Supplementary analysis: temperature-weighted regression</a></li>
+  <li><a href="#s7.-mardia-circularlinear-rank-correlation" id="toc-s7.-mardia-circularlinear-rank-correlation" class="nav-link" data-scroll-target="#s7.-mardia-circularlinear-rank-correlation">S7. Mardia circular–linear rank correlation</a></li>
+  <li><a href="#s8.-per-season-temperature-weighted-regression" id="toc-s8.-per-season-temperature-weighted-regression" class="nav-link" data-scroll-target="#s8.-per-season-temperature-weighted-regression">S8. Per-season temperature-weighted regression</a></li>
+  <li><a href="#s9.-per-season-mardia-circularlinear-rank-correlation" id="toc-s9.-per-season-mardia-circularlinear-rank-correlation" class="nav-link" data-scroll-target="#s9.-per-season-mardia-circularlinear-rank-correlation">S9. Per-season Mardia circular–linear rank correlation</a></li>
+  <li><a href="#s10.-autocorrelation-diagnostic" id="toc-s10.-autocorrelation-diagnostic" class="nav-link" data-scroll-target="#s10.-autocorrelation-diagnostic">S10. Autocorrelation diagnostic</a></li>
+  <li><a href="#s11.-contingency-analysis" id="toc-s11.-contingency-analysis" class="nav-link" data-scroll-target="#s11.-contingency-analysis">S11. Contingency analysis</a></li>
+  <li><a href="#s12.-annual-mean-daily-maximum-temperature" id="toc-s12.-annual-mean-daily-maximum-temperature" class="nav-link" data-scroll-target="#s12.-annual-mean-daily-maximum-temperature">S12. Annual mean daily maximum temperature</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="main.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Shifting Peak: Analyzing Diurnal Maximum Temperature Trends in Épinal (Grand Est, France)</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Rong Martin-Siebler ZHOU <a href="mailto:rong.zhou6@univ-lorraine.fr" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Université de Lorraine, UFR Mathématiques, Informatique, Mécanique, Automatique, Rue Augustin Fresnel, Metz, France métropolitaine, France FR-57050
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 5, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p><strong>Background</strong>: The diurnal temperature cycle is fundamental to ecology, agriculture, and human health. While changes in diurnal temperature <em>range</em> (DTR) are well documented, shifts in the <em>timing</em> (phase) of the daily maximum temperature remain poorly characterized at local scales, particularly across meteorological seasons.</p>
+<p><strong>Methods</strong>: Using 35 years (1992–2025) of hourly temperature records from the Météo-France RADOME station at Épinal, France (48.21<span class="math inline">\(\,^\circ\)</span>N, 6.45<span class="math inline">\(\,^\circ\)</span>E), I extracted the clock hour of daily maximum temperature from 12,163 valid days and modelled its long-term trend using a von Mises circular regression by direct maximum likelihood (Fisher &amp; Lee 1992). Confidence intervals were obtained from 1,000 bootstrap resamples. A year–season interaction likelihood-ratio test formally tested whether trends differ across meteorological seasons; because it was significant (<span class="math inline">\(\chi^2 = 13.71\)</span>, df = 3, <span class="math inline">\(p = 0.0033\)</span>), seasonal stratification is the primary analysis framework. Per-season estimates from the interaction model are reported with Benjamini-Hochberg FDR correction. Pooled (all-season) results and six sensitivity variants are presented as supplementary context.</p>
+<p><strong>Results</strong>: Winter (DJF) shows a significant advance of <span class="math inline">\(-0.19\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(-0.32\)</span>, <span class="math inline">\(-0.05\)</span>; Wald <span class="math inline">\(p = 0.0015\)</span>, BH-rejected), corresponding to approximately <span class="math inline">\(-11\)</span> min/decade. The pooled estimate of <span class="math inline">\(-0.03\)</span> h/decade masks opposing winter and autumn (<span class="math inline">\(+0.09\)</span> h/decade) trends (autumn bootstrap CI: <span class="math inline">\(+0.007\)</span> to <span class="math inline">\(+0.170\)</span>), illustrating a Simpson’s paradox. Spring (<span class="math inline">\(-0.07\)</span> h/decade) and summer (<span class="math inline">\(+0.02\)</span> h/decade) are near zero and non-significant. The winter advance is directionally robust across all six sensitivity variants.</p>
+<p><strong>Conclusions</strong>: The timing of the daily maximum temperature at Épinal shows significant seasonally heterogeneous trends. Winter afternoons are measurably cooling earlier in the day over the past three decades, while the annual average hides this signal. These findings highlight the importance of seasonal stratification for detecting shifts in the diurnal temperature phase, with implications for heat-health warning systems, crop modelling, and building energy demand forecasting.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The diurnal temperature cycle – the rise from daily minimum to daily maximum and subsequent decline – is a fundamental climatic rhythm that shapes ecological processes, agricultural productivity, human health outcomes, and energy demand<span class="citation" data-cites="wang2014recent"><sup><a href="#ref-wang2014recent" role="doc-biblioref">1</a></sup></span>. Most research on changes in the diurnal cycle has focused on the diurnal temperature range (DTR), documenting a narrowing of the range in many regions as minimum temperatures have risen faster than maximum temperatures<span class="citation" data-cites="easterling1997maximum"><sup><a href="#ref-easterling1997maximum" role="doc-biblioref">2</a></sup></span>. Far less attention has been paid to whether the <em>phasing</em> (timing) of the diurnal cycle is changing – that is, whether the clock hour at which the daily maximum temperature occurs has shifted over time.</p>
+<p>Recent evidence suggests that the phase of the diurnal temperature cycle may indeed be shifting at global scales. In a conference presentation, Shmuel et al.<span class="citation" data-cites="shmuel2026daily"><sup><a href="#ref-shmuel2026daily" role="doc-biblioref">3</a></sup></span> analysed historical hourly temperature records spanning the 1980s to the near present and documented systematic shifts in the timing of both morning warming and afternoon cooling periods. Their key findings include morning warming-period temperatures occurring approximately 15 minutes earlier per decade globally, and afternoon cooling-period temperatures occurring more than 20 minutes later per decade. Under a moderate emissions scenario (SSP2-4.5), they project that equivalent temperatures could shift by over three hours by 2100 relative to late-20th-century baselines.</p>
+<p>In a complementary peer-reviewed global analysis, Wang and Dillon<span class="citation" data-cites="wang2014recent"><sup><a href="#ref-wang2014recent" role="doc-biblioref">1</a></sup></span> used over 1.4 billion hourly measurements from 7,906 weather stations worldwide covering the period 1975–2013. They reported that diurnal temperature variation increased by approximately 1.0,°C in temperate regions, with this increase particularly pronounced in Europe, including France. They further documented coherent changes in the phase of the <em>annual</em> temperature cycle, suggesting that both diurnal and seasonal timing shifts are occurring in response to radiative forcing.</p>
+<p>Together, these findings suggest that the diurnal temperature cycle is undergoing systematic changes in both magnitude and phase at global and continental scales. This study aims to explore the validity of this global trend at the local level, namely, in the city of Épinal (48° 10’ 28” N, 6° 27’ 04” E), Grand Est region, France.</p>
+<section id="present-study" class="level3">
+<h3 class="anchored" data-anchor-id="present-study">Present study</h3>
+<p>This study seeks to answer a simple question: <em>Has the timing of the diurnal temperature peak in city of Épinal changed over the past three and a half decades? </em> Using 35 years of hourly temperature records from a single well-instrumented Météo-France RADOME station, I apply a von Mises circular regression model – the appropriate statistical framework for a circular response variable (0–23 hours) – to estimate the trend in peak temperature timing. A year–season interaction likelihood-ratio test determines whether seasonal stratification is warranted; per-season estimates with false discovery rate control constitute the primary analysis, while the pooled (all-season) estimate and sensitivity variants are presented as supplementary context.</p>
+<p>This study thus compares the local-scale evidence from a single station in eastern France with the global phase shifts provisionally identified by Shmuel et al.<span class="citation" data-cites="shmuel2026daily"><sup><a href="#ref-shmuel2026daily" role="doc-biblioref">3</a></sup></span>, at the resolution of the daily temperature peak.</p>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="data-source" class="level3">
+<h3 class="anchored" data-anchor-id="data-source">Data source</h3>
+<p>Sub-daily (hourly) temperature records were obtained from the Météo-France Synop Essentielles / RADOME network, station <strong>88136001</strong> (Épinal, 48.21°N, 6.45°E, 317 m a.s.l.). The station opened on 1 June 1986; no sub-daily data exist before this date. After quality-control filtering (see below), the analysis period spans 1 January 1992 to 31 December 2025, yielding 35 years of valid hourly records. Raw data were acquired via the Météo-France public data API using the <code>pooch</code> data registry and archived on OSF for reproducibility.</p>
+</section>
+<section id="software" class="level3">
+<h3 class="anchored" data-anchor-id="software">Software</h3>
+<p>All processing was performed in Python 3.12. The data acquisition employed the <code>pooch</code> library. The data processing employed the <code>numpy</code>, <code>pandas</code>, <code>scipy</code>, and <code>statsmodels</code> libraries. The graphing was performed with <code>matplotlib</code> and <code>seaborn</code>. Reproducibility is ensured via <code>pyproject.toml</code>-pinned dependencies and the pipeline <code>Makefile</code>. Timezone was handled by native <code>zoneinfo</code>.</p>
+</section>
+<section id="preprocessing-and-quality-control" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing-and-quality-control">Preprocessing and quality control</h3>
+<p><strong>UTC to local time conversion.</strong> Raw UTC timestamps were converted to local time (CET/CEST) via <code>zoneinfo.ZoneInfo("Europe/Paris")</code>, with correct handling of 23-hour (spring-forward) and 25-hour (autumn-back) daylight saving transition days via the <code>fold</code> attribute.</p>
+<p><strong>Missing data filter.</strong> A calendar day was retained only if at least <span class="math inline">\(75\%\)</span> of hourly observations were non-null (i.e., <span class="math inline">\(\leq\)</span> 6 missing hours out of 24).</p>
+<p><strong>Diurnal amplitude filter.</strong> Days with a diurnal temperature range <span class="math inline">\(T_{\max} - T_{\min} &lt; 2.0\,^\circ\mathrm{C}\)</span> were excluded as likely flat-trace instrument artefacts or radiation-error events.</p>
+<p><strong>Physical range check.</strong> Hourly temperatures outside <span class="math inline">\([-30, 50]\,^\circ\mathrm{C}\)</span> were dropped as instrument errors.</p>
+<p><strong>Outlier flagging.</strong> Observations exceeding 5.0 median absolute deviations (MAD) from the series median were flagged and the corresponding day excluded from the primary analysis.</p>
+<p><strong>Peak hour extraction.</strong> For each valid calendar day, the clock hour(s) of the maximum recorded temperature were identified. When multiple hours shared the same maximum temperature, the <em>earliest</em> hour was selected as the primary analysis variable; the <em>latest</em> hour was retained for a sensitivity analysis. This tie-breaking rule is critical: a linear average of two peak hours straddling midnight (e.g., 23:00 and 00:00) would give 11:30 — a physically meaningless result. The proper circular mean of 23:00 (345°) and 00:00 (0°/360°) is 23:30, confirming that simple arithmetic averaging is inappropriate for circular data.</p>
+</section>
+<section id="von-mises-circular-regression" class="level3">
+<h3 class="anchored" data-anchor-id="von-mises-circular-regression">Von Mises circular regression</h3>
+<p>The peak hour <span class="math inline">\(\theta_i\)</span> (converted to radians as <span class="math inline">\(\theta_i = 2\pi \times \mathrm{peak\_hour}_i / 24\)</span>) is a circular response variable for which linear regression is inappropriate. I therefore model the trend using a von Mises GLM fitted by direct maximum likelihood estimation (MLE) via <code>scipy.optimize.minimize</code>, following Fisher and Lee<span class="citation" data-cites="fisher1992regression"><sup><a href="#ref-fisher1992regression" role="doc-biblioref">4</a></sup></span>.</p>
+<p>The model maximises the log-likelihood:</p>
+<p><span class="math display">\[
+\log L = \sum_{i=1}^{n} \kappa \cos(\theta_i - \mu_i)
+         - n \log\bigl(2\pi I_0(\kappa)\bigr)
+\]</span></p>
+<p>where: - <span class="math inline">\(\mu_i = \beta_0 + \beta_1 \, x_i\)</span> - <span class="math inline">\(x_i = \mathrm{year}_i - \mathrm{year\_midpoint}\)</span> (centred year) - <span class="math inline">\(\kappa = \exp(\mathrm{log\_kappa}) &gt; 0\)</span> is the concentration parameter - <span class="math inline">\(I_0(\kappa)\)</span> is the modified Bessel function of order 0</p>
+<p>Year centring at the midpoint of the data range reduces correlation between the intercept <span class="math inline">\(\beta_0\)</span> and slope <span class="math inline">\(\beta_1\)</span> estimates.</p>
+<p>The primary endpoint is <span class="math inline">\(\beta_1\)</span> converted to <strong>hours per decade</strong>:</p>
+<p><span class="math display">\[
+\beta\ (\mathrm{h/decade}) = \beta_1 \times \frac{24}{2\pi} \times 10
+\]</span></p>
+<p>Confidence intervals were obtained from 1,000 bootstrap resamples: daily observations were resampled with replacement, the model refit on each resample, and the 2.5th and 97.5th percentiles of the bootstrap distribution extracted.</p>
+</section>
+<section id="contingency-circularlinear-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="contingency-circularlinear-correlation">Contingency: circular–linear correlation</h3>
+<p>If the MLE fails to converge (e.g., all peak hours identical, flat likelihood), I fall back to the nonparametric circular–linear rank correlation of Mardia<span class="citation" data-cites="mardia1976linearcircular"><sup><a href="#ref-mardia1976linearcircular" role="doc-biblioref">5</a></sup></span>:</p>
+<p><span class="math display">\[
+\rho_c^2 = \frac{r_{cx}^2 + r_{sx}^2 - 2\, r_{cx}\, r_{sx}\, r_{cs}}
+               {1 - r_{cs}^2}
+\]</span></p>
+<p>where <span class="math inline">\(r_{cx}\)</span>, <span class="math inline">\(r_{sx}\)</span>, and <span class="math inline">\(r_{cs}\)</span> are rank correlations among <span class="math inline">\(\cos\theta\)</span>, <span class="math inline">\(\sin\theta\)</span>, and year <span class="math inline">\(x\)</span>. Significance is assessed by bootstrap (10,000 resamples).</p>
+</section>
+<section id="yearseason-interaction-test" class="level3">
+<h3 class="anchored" data-anchor-id="yearseason-interaction-test">Year–season interaction test</h3>
+<p>To determine whether season impacts the diurnal peak trend, I performed a likelihood-ratio (LR) test comparing two nested von Mises GLMs testing whether the year-slope differs across meteorological seasons:</p>
+<ol type="1">
+<li>A <strong>reduced (additive)</strong> model with season-specific intercepts and a common year slope (6 parameters: 4 intercepts + 1 slope
+<ul>
+<li><span class="math inline">\(\log\kappa\)</span>).</li>
+</ul></li>
+<li>A <strong>full (interaction)</strong> model with season-specific intercepts and season-specific slopes (9 parameters: 4 intercepts + 4 slopes
+<ul>
+<li><span class="math inline">\(\log\kappa\)</span>).</li>
+</ul></li>
+</ol>
+<p>The LR statistic <span class="math inline">\(= 2 \times (\log L_{\mathrm{full}} - \log
+L_{\mathrm{reduced}})\)</span> follows a <span class="math inline">\(\chi^2\)</span> distribution with 3 degrees of freedom under the null hypothesis of no interaction.</p>
+<p>If the interaction test is insignificant at <span class="math inline">\(\alpha = 0.05\)</span>, the season-blind pooled estimate would be sufficient to identify long-term trends. Otherwise, per-season analysis under the full interaction model would be more appropriate, with Benjamini-Hochberg false discovery rate (FDR) control across the four seasons computed from Wald <span class="math inline">\(p\)</span>-values using the inverse observed Fisher information.</p>
+</section>
+<section id="seasonal-stratification-primary-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="seasonal-stratification-primary-analysis">Seasonal stratification (primary analysis)</h3>
+<p>If interaction test is significant, per-season estimates from the full interaction model constitute the <strong>primary analysis</strong>. For each meteorological season (spring: MAM, summer: JJA, autumn: SON, winter: DJF), the season-specific slope <span class="math inline">\(\beta_s\)</span> together with its Wald <span class="math inline">\(p\)</span>-value (from the inverse observed Fisher information) and bootstrap percentile confidence intervals should be calculated.</p>
+<p>Benjamini-Hochberg false discovery rate (FDR) control is applied across the four Wald <span class="math inline">\(p\)</span>-values at <span class="math inline">\(\alpha = 0.05\)</span>. A season is considered significant only if its <span class="math inline">\(p\)</span>-value survives the FDR threshold. The pooled (all-season) estimate is reported as supplementary context.</p>
+</section>
+<section id="sensitivity-analysis-per-season" class="level3">
+<h3 class="anchored" data-anchor-id="sensitivity-analysis-per-season">Sensitivity analysis (per season)</h3>
+<p>To assess whether each season’s trend estimate is robust to methodological choices, I re-ran the analysis independently within each season under six sensitivity variants: (1) latest-peak tie-breaking; (2)–(3) subsampling to 3-hour and 6-hour bins; (4)–(5) alternative diurnal amplitude thresholds (1.0 and 3.0<span class="math inline">\(\,^\circ\)</span>C); (6) reduced minimum record length (20 years) — yielding six variants per season (24 models total). The pooled (all-season) estimate is also evaluated under the same variants for completeness.</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="data-summary" class="level3">
+<h3 class="anchored" data-anchor-id="data-summary">Data summary</h3>
+<p>After quality control filtering, 12,163 valid observation-days across 35 calendar years (1992–2025) were available for analysis. The overall circular mean peak hour was 15:58 local time (circular SD = 2.84 h), confirming that the daily maximum at Épinal typically occurs in the mid-afternoon, consistent with boundary-layer heating dynamics (Supplementary Figure~<span class="math inline">\(\ref{fig-context}\)</span>).</p>
+</section>
+<section id="yearseason-interaction-test-1" class="level3">
+<h3 class="anchored" data-anchor-id="yearseason-interaction-test-1">Year–season interaction test</h3>
+<p>I first tested whether the year-slope differs across meteorological seasons using a likelihood-ratio (LR) test comparing nested von Mises GLMs (Methods). The interaction was significant (<span class="math inline">\(\chi^2 = 13.71\)</span>, df = 3, <span class="math inline">\(p = 0.0033\)</span>), rejecting the null hypothesis that all four seasons share a common trend. This result justifies examining seasonal estimates as the primary analytical framework rather than a single pooled estimate.</p>
+</section>
+<section id="spring-marchmay" class="level3">
+<h3 class="anchored" data-anchor-id="spring-marchmay">Spring (March–May)</h3>
+<p>The von Mises regression for spring yields a slope of <span class="math inline">\(-0.065\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(-0.135\)</span>, <span class="math inline">\(+0.000\)</span>; Wald <span class="math inline">\(p = 0.17\)</span>), corresponding to approximately <span class="math inline">\(-3.9\)</span> min/decade. This estimate does not survive Benjamini-Hochberg FDR correction at <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<p>Sensitivity analysis confirms the near-zero nature of the spring estimate across methodological choices:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.065\)</span></td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td style="text-align: right;"><span class="math inline">\(-0.070\)</span></td>
+</tr>
+<tr class="odd">
+<td>3-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(-0.059\)</span></td>
+</tr>
+<tr class="even">
+<td>6-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(-0.079\)</span></td>
+</tr>
+<tr class="odd">
+<td>Min amplitude 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(-0.065\)</span></td>
+</tr>
+<tr class="even">
+<td>Min amplitude 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(-0.070\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>All spring sensitivity variants remain within <span class="math inline">\(\pm 0.015\)</span> h/decade of the primary estimate, indicating no evidence of a trend regardless of methodological choice.</p>
+</section>
+<section id="summer-juneaugust" class="level3">
+<h3 class="anchored" data-anchor-id="summer-juneaugust">Summer (June–August)</h3>
+<p>Summer shows a near-zero slope of <span class="math inline">\(+0.020\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(-0.041\)</span>, <span class="math inline">\(+0.081\)</span>; Wald <span class="math inline">\(p = 0.68\)</span>), corresponding to approximately <span class="math inline">\(+1.2\)</span> min/decade. This is not significant after FDR correction.</p>
+<p>Sensitivity estimates are similarly centred near zero:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.020\)</span></td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td style="text-align: right;"><span class="math inline">\(+0.037\)</span></td>
+</tr>
+<tr class="odd">
+<td>3-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(+0.028\)</span></td>
+</tr>
+<tr class="even">
+<td>6-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(-0.017\)</span></td>
+</tr>
+<tr class="odd">
+<td>Min amplitude 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(+0.020\)</span></td>
+</tr>
+<tr class="even">
+<td>Min amplitude 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(+0.023\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The 6-hour subsampling variant flips sign, confirming that the summer estimate is indistinguishable from zero and sensitive to discretisation choice.</p>
+</section>
+<section id="autumn-septembernovember" class="level3">
+<h3 class="anchored" data-anchor-id="autumn-septembernovember">Autumn (September–November)</h3>
+<p>Autumn exhibits a moderate delay of <span class="math inline">\(+0.085\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(+0.007\)</span>, <span class="math inline">\(+0.170\)</span>; Wald <span class="math inline">\(p = 0.10\)</span>), corresponding to approximately <span class="math inline">\(+5.1\)</span> min/decade. The bootstrap CI now excludes zero, but the Wald <span class="math inline">\(p = 0.10\)</span> does not survive Benjamini-Hochberg FDR correction at <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<p>The positive direction is consistent across all sensitivity variants:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.085\)</span></td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td style="text-align: right;"><span class="math inline">\(+0.063\)</span></td>
+</tr>
+<tr class="odd">
+<td>3-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(+0.101\)</span></td>
+</tr>
+<tr class="even">
+<td>6-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(+0.098\)</span></td>
+</tr>
+<tr class="odd">
+<td>Min amplitude 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(+0.085\)</span></td>
+</tr>
+<tr class="even">
+<td>Min amplitude 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(+0.085\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>All six variants produce positive estimates ranging from <span class="math inline">\(+0.06\)</span> to <span class="math inline">\(+0.10\)</span> h/decade. The bootstrap CI excluding zero, together with the directional consistency across all variants, suggests this may be a real but modest delay that merits attention as data records lengthen.</p>
+</section>
+<section id="winter-decemberfebruary" class="level3">
+<h3 class="anchored" data-anchor-id="winter-decemberfebruary">Winter (December–February)</h3>
+<p>Winter shows the largest and only statistically significant shift: an advance of <span class="math inline">\(-0.189\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(-0.318\)</span>, <span class="math inline">\(-0.052\)</span>; Wald <span class="math inline">\(p = 0.0015\)</span>), corresponding to approximately <span class="math inline">\(-11.3\)</span> min/decade. This estimate survives Benjamini-Hochberg FDR correction at <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<p>The advance is directionally robust across all sensitivity variants:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.189\)</span></td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td style="text-align: right;"><span class="math inline">\(-0.215\)</span></td>
+</tr>
+<tr class="odd">
+<td>3-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(-0.198\)</span></td>
+</tr>
+<tr class="even">
+<td>6-hour subsampling</td>
+<td style="text-align: right;"><span class="math inline">\(-0.302\)</span></td>
+</tr>
+<tr class="odd">
+<td>Min amplitude 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(-0.189\)</span></td>
+</tr>
+<tr class="even">
+<td>Min amplitude 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td style="text-align: right;"><span class="math inline">\(-0.130\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Every sensitivity variant yields a negative estimate (range: <span class="math inline">\(-0.13\)</span> to <span class="math inline">\(-0.30\)</span> h/decade), confirming the winter advance is not an artefact of parameter choice. The amplitude and magnitude are consistently greater than the other three seasons.</p>
+</section>
+<section id="seasonal-summary" class="level3">
+<h3 class="anchored" data-anchor-id="seasonal-summary">Seasonal summary</h3>
+<p>All four seasonal estimates are summarised in Table~<span class="math inline">\(\ref{tbl-seasonal-primary}\)</span>. Only winter is significant after FDR correction.</p>
+<div id="tbl-seasonal-primary" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-seasonal-primary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Per-season slope estimates from the year–season interaction von Mises GLM. Wald <span class="math inline">\(p\)</span>-values are corrected via the Benjamini-Hochberg procedure (<span class="math inline">\(\alpha = 0.05\)</span>, <span class="math inline">\(m = 4\)</span>). Bootstrap CIs are 2.5th and 97.5th percentiles from 1,000 resamples.
+</figcaption>
+<div aria-describedby="tbl-seasonal-primary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 29%">
+<col style="width: 26%">
+<col style="width: 14%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Season</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th style="text-align: center;">95% bootstrap CI</th>
+<th style="text-align: center;">Wald <span class="math inline">\(p\)</span></th>
+<th style="text-align: center;">BH rejected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring (MAM)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.065\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.135, +0.000)\)</span></td>
+<td style="text-align: center;">0.17</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td>Summer (JJA)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.020\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.041, +0.081)\)</span></td>
+<td style="text-align: center;">0.68</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="odd">
+<td>Autumn (SON)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.085\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((+0.007, +0.170)\)</span></td>
+<td style="text-align: center;">0.10</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td>Winter (DJF)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.189\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.318, -0.052)\)</span></td>
+<td style="text-align: center;">0.0015</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Figure~<span class="math inline">\(\ref{fig-seasonal}\)</span> presents the per-season trend panels with the fitted von Mises GLM trend lines.</p>
+<div id="fig-seasonal" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seasonal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/seasonal_trend.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seasonal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Seasonal von Mises regression trends. Each panel shows hexbin density of daily peak hours and the fitted trend line with 95% CI band.
+</figcaption>
+</figure>
+</div>
+<p>Figure~<span class="math inline">\(\ref{fig-seasonal-rose}\)</span> shows the marginal circular distribution of peak hours for each season as a rose diagram (polar histogram). All four seasons display a unimodal, approximately symmetric distribution centred in the mid-afternoon, supporting the von Mises assumption of a single concentration mode. Winter exhibits the broadest spread (lowest <span class="math inline">\(\kappa \approx 1.4\)</span>), consistent with greater synoptic-scale variability in cold-month diurnal cycles; summer is the most concentrated (<span class="math inline">\(\kappa \approx 4.4\)</span>), reflecting the prevalence of radiatively driven days.</p>
+<div id="fig-seasonal-rose" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seasonal-rose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/seasonal_rose.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seasonal-rose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Per-season rose diagram (polar histogram) of daily peak hours. Each panel shows the circular distribution for one meteorological season. The radial axis represents the fraction of observations in each 1-hour bin.
+</figcaption>
+</figure>
+</div>
+<p>Figure~<span class="math inline">\(\ref{fig-seasonal-ma}\)</span> shows the 5-year moving circular mean of peak hours for each season. This non-parametric view relaxes the linearity assumption of the von Mises GLM and provides a visual check on whether the estimated linear trends are a reasonable approximation. The moving means track the regression slopes closely: winter shows a clear downward trajectory, autumn a gradual upward drift, and spring/summer remain near their respective baselines. No strong non-linear deviations (e.g., abrupt shifts or U-shaped trajectories) are evident, confirming that the linear year-effect in the circular GLM adequately captures the dominant temporal pattern in each season.</p>
+<div id="fig-seasonal-ma" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seasonal-ma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/seasonal_moving_average.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seasonal-ma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Five-year moving circular mean of daily peak hours per season. Each point represents the circular mean of peak hours within a $$2-year window centred on that year.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="supplementary-pooled-all-season-estimate" class="level3">
+<h3 class="anchored" data-anchor-id="supplementary-pooled-all-season-estimate">Supplementary: pooled (all-season) estimate</h3>
+<p>For comparison with previous studies that report only annual-scale estimates, I also fit the von Mises GLM to all observations pooled across seasons. The pooled slope is <span class="math inline">\(-0.028\)</span> h/decade (95% bootstrap CI: <span class="math inline">\(-0.071\)</span>, <span class="math inline">\(+0.016\)</span>), corresponding to approximately <span class="math inline">\(-1.7\)</span> min/decade (95% CI: <span class="math inline">\(-4.2\)</span> to <span class="math inline">\(+1.0\)</span> min/decade).</p>
+<p>This near-zero pooled estimate masks the opposing winter (negative) and autumn (positive) trends, which cancel when aggregated — a classic Simpson’s paradox. The pooled result should therefore be interpreted as the annual average of heterogeneous seasonal signals rather than as a primary finding.</p>
+<p>Six methodological variants applied to the pooled data all remain consistent with the null (full results in Supplementary S2).</p>
+<p>Figure~<span class="math inline">\(\ref{fig-wrapped-scatter}\)</span> shows the daily peak-hour observations with the fitted pooled trend line and 95% confidence band.</p>
+<div id="fig-wrapped-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wrapped-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/wrapped_scatter.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wrapped-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Daily peak-hour observations (hexbin density) with von Mises regression trend line and 95% bootstrap confidence band. The circular y-axis (0h$$24h) is shown zoomed to 8–22h for readability.
+</figcaption>
+</figure>
+</div>
+<p>Figure~<span class="math inline">\(\ref{fig-rose-diagram}\)</span> compares the circular distribution of peak hours in the early and late halves of the record, and Figure~<span class="math inline">\(\ref{fig-moving-average}\)</span> shows the 5-year moving circular mean.</p>
+<div id="fig-rose-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rose-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/rose_diagram.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rose-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Rose diagram comparing the circular distribution of peak hours between the early (left) and late (right) halves of the study period.
+</figcaption>
+</figure>
+</div>
+<div id="fig-moving-average" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moving-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/moving_average.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moving-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Five-year moving circular mean of daily peak hour, with each point representing the circular mean of peak hours in a $$2-year window.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="supplementary-analyses" class="level3">
+<h3 class="anchored" data-anchor-id="supplementary-analyses">Supplementary analyses</h3>
+<p>Temperature-weighted von Mises regression (weighting each day by its diurnal amplitude) probes whether the trend is driven primarily by high-amplitude (clear-sky, convectively active) or low-amplitude (cloudy, advection-dominated) days. A larger (more positive or less negative) temperature-weighted estimate indicates the trend is stronger on high-amplitude days; a smaller estimate indicates it is stronger on low-amplitude days (Supplementary Table~S10).</p>
+<p>Per season, the temperature-weighted estimates deviate from the unweighted primary in a revealing pattern. The winter advance shrinks from <span class="math inline">\(-0.19\)</span> to <span class="math inline">\(-0.09\)</span> h/decade (<span class="math inline">\(\Delta = +0.10\)</span>), indicating that the winter peak-hour advance is concentrated on low-amplitude days — cloudy, overcast winter days where the diurnal cycle is governed primarily by synoptic advection rather than solar geometry. Autumn and summer shift modestly more positive (<span class="math inline">\(\Delta \approx +0.03\)</span> each), suggesting the weak delay is slightly enhanced on high-amplitude days. The pooled estimate flips sign (<span class="math inline">\(-0.028 \rightarrow +0.021\)</span>), but both values are near zero and well within each other’s confidence intervals, confirming this is noise around a null result, not a meaningful discrepancy.</p>
+<p>The circular–linear rank correlation (Mardia 1976) yielded <span class="math inline">\(\rho_c = 0.025\)</span> (<span class="math inline">\(p = 0.021\)</span>), suggesting a very weak but statistically detectable association across all observations. Per season (Supplementary Table~S11), <span class="math inline">\(\rho_c\)</span> values lie in a narrow range <span class="math inline">\(0.04\)</span>–<span class="math inline">\(0.06\)</span>, indicating that the weak year–peak-hour association is not driven by a single season.</p>
+<p><strong>Autocorrelation diagnostic.</strong> Because daily peak hours may exhibit short-range temporal dependence, I computed the circular autocorrelation function (ACF) at lags 1–7 for each season (Supplementary Table~S12). The maximum absolute ACF values are 0.11 (spring), 0.06 (summer), 0.16 (autumn), and 0.07 (winter). Summer and winter show negligible autocorrelation, while spring and autumn exhibit modest positive autocorrelation (<span class="math inline">\(\rho \lesssim 0.16\)</span>), consistent with the day-to-day persistence of synoptic weather regimes. Moderate autocorrelation may cause the bootstrap confidence intervals to be slightly anti-conservative; block-bootstrap sensitivity checks could be explored in future work, but the overall pattern of results is robust across multiple methodological variants (Sensitivity analysis), suggesting that mild autocorrelation does not drive the key findings.</p>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>I investigated whether the clock hour of daily maximum temperature at Épinal, France, has shifted over the 35-year period 1992–2025 using a year–season interaction von Mises circular regression framework. A significant interaction test (<span class="math inline">\(\chi^2 = 13.71\)</span>, df = 3, <span class="math inline">\(p = 0.0033\)</span>) justified seasonal stratification as the primary analysis. Winter shows a significant advance of <span class="math inline">\(-0.19\)</span> h/decade (BH-rejected at <span class="math inline">\(\alpha = 0.05\)</span>), while autumn (+0.09 h/decade) shows a bootstrap CI that excludes zero but a Wald p-value that does not survive FDR. The pooled estimate of <span class="math inline">\(-0.03\)</span> h/decade masks this heterogeneity through a Simpson’s paradox and is substantially weaker than the global-scale shifts reported by Shmuel et al.<span class="citation" data-cites="shmuel2026daily"><sup><a href="#ref-shmuel2026daily" role="doc-biblioref">3</a></sup></span> (&gt;20 min/decade in afternoon cooling periods).</p>
+<section id="comparison-with-prior-work" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-with-prior-work">Comparison with prior work</h3>
+<p>The pooled estimate of <span class="math inline">\(-0.0281\)</span> h/decade is substantively smaller than the global average shift reported by Shmuel et al.<span class="citation" data-cites="shmuel2026daily"><sup><a href="#ref-shmuel2026daily" role="doc-biblioref">3</a></sup></span> for afternoon cooling-period temperatures (&gt;20 minutes per decade). However, the winter seasonal advance of <span class="math inline">\(-0.19\)</span> h/decade (approximately <span class="math inline">\(-11\)</span> min/decade) approaches the lower end of their global range. Several factors may explain the discrepancy. First, this study examines the specific clock hour of <em>maximum</em> temperature, whereas Shmuel et al.&nbsp;analysed the timing of fixed-temperature thresholds; these are related but distinct metrics. Second, local factors such as topography, land-use change, and proximity to the Vosges mountains may modulate the diurnal cycle at Épinal differently than the global mean. Third, this single-station design eliminates spatial aggregation biases but captures only local signals. The peer-reviewed analysis of Wang and Dillon<span class="citation" data-cites="wang2014recent"><sup><a href="#ref-wang2014recent" role="doc-biblioref">1</a></sup></span> identified France as a region of notable diurnal temperature range change — which captures magnitude rather than phase — providing geographic context for these station-level findings.</p>
+</section>
+<section id="sensitivity-and-robustness" class="level3">
+<h3 class="anchored" data-anchor-id="sensitivity-and-robustness">Sensitivity and robustness</h3>
+<p>The winter advance is robust across all six seasonal sensitivity variants (range: <span class="math inline">\(-0.13\)</span> to <span class="math inline">\(-0.30\)</span> h/decade), supporting the conclusion that the signal is not driven by a single methodological choice. The pooled sensitivity variants similarly confirm that the near-zero annual average is consistent regardless of tie-breaking rule, subsampling scheme, or amplitude threshold. In particular, the alternative tie-breaking rule (latest vs.&nbsp;earliest peak hour) does not materially change any seasonal estimate, indicating that ties – which occur on roughly 14.7% of days – do not drive the results.</p>
+</section>
+<section id="limitations-and-threats-to-validity" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-and-threats-to-validity">Limitations and threats to validity</h3>
+<p>Several limitations should be acknowledged.</p>
+<p><strong>Single-station generalisability.</strong> This study examines one station in eastern France. The results cannot be extrapolated to other regions without caution. Spatial replication across the Météo-France RADOME network would be a natural extension.</p>
+<p><strong>Data homogeneity.</strong> The Météo-France record may contain undocumented instrument changes, station relocations, or observation practice shifts over the study period. While the diurnal amplitude filter removes the most obvious instrument artefacts, inhomogeneities could introduce spurious trends. A homogenisation procedure (e.g., HOMER or Climatol) would strengthen future analyses.</p>
+<p><strong>Statistical power.</strong> As quantified in the power analysis (Supplementary S4), the minimum detectable trend at <span class="math inline">\(80\%\)</span> power for the full record is approximately 25–30 min/decade, given the moderate von Mises concentration (<span class="math inline">\(\kappa \approx 2.4\)</span>) observed in the data. Seasonal sub-analyses have substantially lower power, and null results for individual seasons should be interpreted with caution – they reflect limited detectability, not necessarily absence of a trend.</p>
+<p><strong>Circular model assumptions.</strong> The von Mises distribution is symmetric and unimodal, which is a reasonable approximation for peak-hour data but may not capture multi-modal daily temperature cycles that occur during certain meteorological conditions (e.g., frontal passages).</p>
+<p><strong>Temporal autocorrelation.</strong> Daily peak hours might be expected to exhibit short-range serial dependence because weather regimes persist for days to weeks. However, the empirical autocorrelation function at lags 1–7 for each season (Supplementary Table~S12) reveals negligible autocorrelation, with all values within <span class="math inline">\(\pm 0.06\)</span>. This implies that the i.i.d.&nbsp;bootstrap employed here provides adequate inference and that temporal autocorrelation is not a practical concern for this dataset. A block-bootstrap analysis would likely produce identical confidence intervals.</p>
+</section>
+<section id="implications" class="level3">
+<h3 class="anchored" data-anchor-id="implications">Implications</h3>
+<p>If confirmed at broader spatial scales, a systematic shift in the timing of daily maximum temperature has implications for heat-health early warning systems, which typically assume a stationary diurnal cycle when issuing alerts. Building energy demand modelling, crop heat-stress scheduling, and ecological phenology models likewise rely on the assumption of a fixed diurnal phase. A shifting peak would require these applied sectors to incorporate time-varying diurnal temperature characteristics into their planning tools.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Using a year–season interaction framework with von Mises circular regression and 35 years of hourly temperature data from Épinal, France, I find that the clock hour of daily maximum temperature has shifted heterogeneously across meteorological seasons over the 1992–2025 period. A likelihood-ratio test confirmed that the four seasons do not share a common trend (<span class="math inline">\(\chi^2 = 13.71\)</span>, df = 3, <span class="math inline">\(p = 0.0033\)</span>), justifying seasonal stratification as the primary analytical framework.</p>
+<p>Winter (DJF) shows a significant advance of <span class="math inline">\(-0.19\)</span> h/decade (Wald <span class="math inline">\(p = 0.0015\)</span>, BH-rejected at <span class="math inline">\(\alpha = 0.05\)</span>), meaning midwinter afternoons at Épinal reach their daily maximum approximately 11 min earlier per decade. This signal is directionally robust across six methodological sensitivity variants. Autumn shows a moderate delay (<span class="math inline">\(+0.09\)</span> h/decade) with a bootstrap CI that excludes zero, though the Wald p-value does not survive FDR correction; spring and summer estimates are near zero.</p>
+<p>The pooled (all-season) estimate of <span class="math inline">\(-0.03\)</span> h/decade is substantially smaller than the global afternoon-cooling shifts reported by Shmuel et al.<span class="citation" data-cites="shmuel2026daily"><sup><a href="#ref-shmuel2026daily" role="doc-biblioref">3</a></sup></span> (&gt;20 min/decade); only the winter seasonal advance of <span class="math inline">\(-0.19\)</span> h/decade approaches the lower end of their reported range. The pooled estimate also obscures this seasonal heterogeneity through a Simpson’s paradox in which winter advance and autumn delay cancel at the annual scale, and is presented as supplementary context rather than the primary finding.</p>
+<p>These findings contribute local-scale, station-level evidence of seasonally divergent changes in the diurnal temperature phase. Replication across the broader Météo-France RADOME network and extension to other regions with long sub-daily temperature records are natural next steps. If the winter advance is confirmed more broadly, it would warrant re-evaluation of applied models — from heat-health warning systems to building energy and crop modelling — that currently assume a stationary diurnal cycle.</p>
+<p><strong>Data and code availability.</strong> All analysis code is available at <a href="https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature">https://github.com/Ron-RONZZ-org/epinal-diurnal-peak-temperature</a>. Raw temperature data were obtained from the Météo-France public API. Processed data and analysis outputs are archived on OSF (DOI to be assigned upon submission).</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-wang2014recent" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Wang, G. &amp; Dillon, M. E. <a href="https://doi.org/10.1038/nclimate2378">Recent geographic convergence in diurnal and annual temperature cycling flattens global thermal profiles</a>. <em>Nature Climate Change</em> <strong>4</strong>, 988–992 (2014).</div>
+</div>
+<div id="ref-easterling1997maximum" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Easterling, D. R. <em>et al.</em> <a href="https://doi.org/10.1126/science.277.5324.364">Maximum and minimum temperature trends for the globe</a>. <em>Science</em> <strong>277</strong>, 364–367 (1997).</div>
+</div>
+<div id="ref-shmuel2026daily" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Shmuel, A., Greenspoon, L., Mankin, J. &amp; Milo, R. The daily timing of a given temperature has shifted by over an hour since 1980. (2026) doi:<a href="https://doi.org/10.5194/egusphere-egu26-16985">10.5194/egusphere-egu26-16985</a>.</div>
+</div>
+<div id="ref-fisher1992regression" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Fisher, N. I. &amp; Lee, A. J. <a href="https://doi.org/10.2307/2532334">Regression models for an angular response</a>. <em>Biometrics</em> <strong>48</strong>, 665–677 (1992).</div>
+</div>
+<div id="ref-mardia1976linearcircular" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Mardia, K. V. <a href="https://doi.org/10.2307/2335637">Linear-circular correlation coefficients and rhythmometry</a>. <em>Biometrika</em> <strong>63</strong>, 403–405 (1976).</div>
+</div>
+</div>
+</section>
+<section id="supplementary-material" class="level2">
+<h2 class="anchored" data-anchor-id="supplementary-material">Supplementary Material</h2>
+<section id="s1.-per-season-sensitivity-analysis-results" class="level3">
+<h3 class="anchored" data-anchor-id="s1.-per-season-sensitivity-analysis-results">S1. Per-season sensitivity analysis results</h3>
+<p>Full numerical results for all seasonal sensitivity variants, grouped by season. Each season’s primary estimate is listed for reference.</p>
+<p><strong>Spring (MAM):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 10%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th>95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td><span class="math inline">\(-0.0650\)</span></td>
+<td><span class="math inline">\((-0.135, +0.000)\)</span></td>
+<td>3.10</td>
+<td>3,168</td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td><span class="math inline">\(-0.0704\)</span></td>
+<td><span class="math inline">\((-0.129, -0.013)\)</span></td>
+<td>3.18</td>
+<td>3,168</td>
+</tr>
+<tr class="odd">
+<td>3-hour bin</td>
+<td><span class="math inline">\(-0.0585\)</span></td>
+<td><span class="math inline">\((-0.132, +0.019)\)</span></td>
+<td>2.76</td>
+<td>3,168</td>
+</tr>
+<tr class="even">
+<td>6-hour bin</td>
+<td><span class="math inline">\(-0.0793\)</span></td>
+<td><span class="math inline">\((-0.190, -0.001)\)</span></td>
+<td>2.58</td>
+<td>3,168</td>
+</tr>
+<tr class="odd">
+<td>Amp 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.0650\)</span></td>
+<td><span class="math inline">\((-0.136, +0.011)\)</span></td>
+<td>3.10</td>
+<td>3,168</td>
+</tr>
+<tr class="even">
+<td>Amp 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.0701\)</span></td>
+<td><span class="math inline">\((-0.141, -0.010)\)</span></td>
+<td>3.24</td>
+<td>3,089</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summer (JJA):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 10%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th>95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td><span class="math inline">\(+0.0195\)</span></td>
+<td><span class="math inline">\((-0.041, +0.081)\)</span></td>
+<td>4.39</td>
+<td>3,111</td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td><span class="math inline">\(+0.0370\)</span></td>
+<td><span class="math inline">\((-0.036, +0.089)\)</span></td>
+<td>4.36</td>
+<td>3,111</td>
+</tr>
+<tr class="odd">
+<td>3-hour bin</td>
+<td><span class="math inline">\(+0.0282\)</span></td>
+<td><span class="math inline">\((-0.023, +0.107)\)</span></td>
+<td>3.68</td>
+<td>3,111</td>
+</tr>
+<tr class="even">
+<td>6-hour bin</td>
+<td><span class="math inline">\(-0.0165\)</span></td>
+<td><span class="math inline">\((-0.066, +0.037)\)</span></td>
+<td>3.77</td>
+<td>3,111</td>
+</tr>
+<tr class="odd">
+<td>Amp 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(+0.0195\)</span></td>
+<td><span class="math inline">\((-0.042, +0.083)\)</span></td>
+<td>4.39</td>
+<td>3,111</td>
+</tr>
+<tr class="even">
+<td>Amp 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(+0.0226\)</span></td>
+<td><span class="math inline">\((-0.030, +0.072)\)</span></td>
+<td>4.49</td>
+<td>3,085</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Autumn (SON):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 10%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th>95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td><span class="math inline">\(+0.0850\)</span></td>
+<td><span class="math inline">\((+0.007, +0.170)\)</span></td>
+<td>2.59</td>
+<td>3,002</td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td><span class="math inline">\(+0.0629\)</span></td>
+<td><span class="math inline">\((+0.000, +0.130)\)</span></td>
+<td>2.59</td>
+<td>3,002</td>
+</tr>
+<tr class="odd">
+<td>3-hour bin</td>
+<td><span class="math inline">\(+0.1006\)</span></td>
+<td><span class="math inline">\((-0.009, +0.169)\)</span></td>
+<td>2.42</td>
+<td>3,002</td>
+</tr>
+<tr class="even">
+<td>6-hour bin</td>
+<td><span class="math inline">\(+0.0975\)</span></td>
+<td><span class="math inline">\((-0.066, +0.251)\)</span></td>
+<td>1.69</td>
+<td>3,002</td>
+</tr>
+<tr class="odd">
+<td>Amp 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(+0.0850\)</span></td>
+<td><span class="math inline">\((+0.000, +0.185)\)</span></td>
+<td>2.59</td>
+<td>3,002</td>
+</tr>
+<tr class="even">
+<td>Amp 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(+0.0849\)</span></td>
+<td><span class="math inline">\((+0.015, +0.166)\)</span></td>
+<td>2.72</td>
+<td>2,824</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Winter (DJF):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 10%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th>95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td><span class="math inline">\(-0.1886\)</span></td>
+<td><span class="math inline">\((-0.318, -0.052)\)</span></td>
+<td>1.41</td>
+<td>2,882</td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td><span class="math inline">\(-0.2154\)</span></td>
+<td><span class="math inline">\((-0.370, -0.070)\)</span></td>
+<td>1.43</td>
+<td>2,882</td>
+</tr>
+<tr class="odd">
+<td>3-hour bin</td>
+<td><span class="math inline">\(-0.1982\)</span></td>
+<td><span class="math inline">\((-0.298, -0.068)\)</span></td>
+<td>1.37</td>
+<td>2,882</td>
+</tr>
+<tr class="even">
+<td>6-hour bin</td>
+<td><span class="math inline">\(-0.3017\)</span></td>
+<td><span class="math inline">\((-0.489, -0.109)\)</span></td>
+<td>0.96</td>
+<td>2,882</td>
+</tr>
+<tr class="odd">
+<td>Amp 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.1886\)</span></td>
+<td><span class="math inline">\((-0.330, -0.044)\)</span></td>
+<td>1.41</td>
+<td>2,882</td>
+</tr>
+<tr class="even">
+<td>Amp 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.1299\)</span></td>
+<td><span class="math inline">\((-0.248, +0.007)\)</span></td>
+<td>1.49</td>
+<td>2,459</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s2.-pooled-sensitivity-results-supplementary" class="level3">
+<h3 class="anchored" data-anchor-id="s2.-pooled-sensitivity-results-supplementary">S2. Pooled sensitivity results (supplementary)</h3>
+<p>For completeness, the pooled (all-season) estimate under the same methodological variants:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 10%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th>95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Primary (earliest tie)</td>
+<td><span class="math inline">\(-0.0:281\)</span></td>
+<td><span class="math inline">\((-0.071, +0.016)\)</span></td>
+<td>2.45</td>
+<td>12,163</td>
+</tr>
+<tr class="even">
+<td>Latest tie</td>
+<td><span class="math inline">\(-0.0358\)</span></td>
+<td><span class="math inline">\((-0.080, +0.007)\)</span></td>
+<td>2.47</td>
+<td>12,163</td>
+</tr>
+<tr class="odd">
+<td>Min years = 20</td>
+<td><span class="math inline">\(-0.0281\)</span></td>
+<td><span class="math inline">\((-0.059, +0.027)\)</span></td>
+<td>2.45</td>
+<td>12,163</td>
+</tr>
+<tr class="even">
+<td>3-hour bin</td>
+<td><span class="math inline">\(-0.0225\)</span></td>
+<td><span class="math inline">\((-0.062, +0.020)\)</span></td>
+<td>2.27</td>
+<td>12,163</td>
+</tr>
+<tr class="odd">
+<td>6-hour bin</td>
+<td><span class="math inline">\(-0.0536\)</span></td>
+<td><span class="math inline">\((-0.102, -0.011)\)</span></td>
+<td>1.88</td>
+<td>12,163</td>
+</tr>
+<tr class="even">
+<td>Amp 1.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.0281\)</span></td>
+<td><span class="math inline">\((-0.083, +0.004)\)</span></td>
+<td>2.45</td>
+<td>12,163</td>
+</tr>
+<tr class="odd">
+<td>Amp 3.0<span class="math inline">\(\,^\circ\)</span>C</td>
+<td><span class="math inline">\(-0.0177\)</span></td>
+<td><span class="math inline">\((-0.050, +0.030)\)</span></td>
+<td>2.61</td>
+<td>11,457</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s3.-seasonal-bootstrap-confidence-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="s3.-seasonal-bootstrap-confidence-intervals">S3. Seasonal bootstrap confidence intervals</h3>
+<p>Per-season von Mises regression estimates with 95% bootstrap percentile intervals, computed from <strong>season-stratified</strong> (independent per-season) models. These CIs differ slightly from those reported in Table~1 of the main text, which are derived from the <strong>year × season interaction model</strong> (full model with season-specific slopes from a single joint fit). The interaction-model CIs account for the cross-season covariance structure and are therefore the primary reference.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Season</th>
+<th><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th style="text-align: center;">95% CI</th>
+<th><span class="math inline">\(\kappa\)</span></th>
+<th>n obs</th>
+<th>n years</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring (MAM)</td>
+<td><span class="math inline">\(-0.0650\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.135, +0.000)\)</span></td>
+<td>3.10</td>
+<td>3,168</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>Summer (JJA)</td>
+<td><span class="math inline">\(+0.0195\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.041, +0.081)\)</span></td>
+<td>4.39</td>
+<td>3,111</td>
+<td>35</td>
+</tr>
+<tr class="odd">
+<td>Autumn (SON)</td>
+<td><span class="math inline">\(+0.0850\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((+0.007, +0.170)\)</span></td>
+<td>2.59</td>
+<td>3,002</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>Winter (DJF)</td>
+<td><span class="math inline">\(-0.1886\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((-0.318, -0.052)\)</span></td>
+<td>1.41</td>
+<td>2,882</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s4.-descriptive-statistics-by-decade" class="level3">
+<h3 class="anchored" data-anchor-id="s4.-descriptive-statistics-by-decade">S4. Descriptive statistics by decade</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Period</th>
+<th style="text-align: center;">n obs</th>
+<th style="text-align: center;">Circular mean (h)</th>
+<th style="text-align: center;">Circular SD (h)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1992–2000</td>
+<td style="text-align: center;">3,151</td>
+<td style="text-align: center;">16.07</td>
+<td style="text-align: center;">2.98</td>
+</tr>
+<tr class="even">
+<td>2001–2010</td>
+<td style="text-align: center;">3,527</td>
+<td style="text-align: center;">15.85</td>
+<td style="text-align: center;">2.74</td>
+</tr>
+<tr class="odd">
+<td>2011–2020</td>
+<td style="text-align: center;">3,553</td>
+<td style="text-align: center;">16.01</td>
+<td style="text-align: center;">2.84</td>
+</tr>
+<tr class="even">
+<td>2021–2025</td>
+<td style="text-align: center;">1,780</td>
+<td style="text-align: center;">15.96</td>
+<td style="text-align: center;">2.74</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s5.-power-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="s5.-power-analysis">S5. Power analysis</h3>
+<p>The power analysis (see <code>notebooks/02-power-analysis.qmd</code> for full details) estimated a minimum detectable effect of 25–30 min/decade at <span class="math inline">\(80\%\)</span> power for the full record (<span class="math inline">\(\kappa \approx 2.4\)</span>). Seasonal sub-analyses require effects 45–60 min/decade to achieve the same power (observed <span class="math inline">\(\kappa\)</span> values range from 1.4 in winter to 4.4 in summer).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><embed src="../results/figures/power_curve.pdf" class="img-fluid"></p>
+<figcaption>Power curves for the full record, single-season, and half-season sample sizes at the observed concentration <span class="math inline">\(\kappa \approx 2.5\)</span>.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><embed src="../results/figures/power_curve_kappa_sensitivity.pdf" class="img-fluid"></p>
+<figcaption>Sensitivity of detection power to the concentration parameter <span class="math inline">\(\kappa\)</span>.</figcaption>
+</figure>
+</div>
+</section>
+<section id="s6.-supplementary-analysis-temperature-weighted-regression" class="level3">
+<h3 class="anchored" data-anchor-id="s6.-supplementary-analysis-temperature-weighted-regression">S6. Supplementary analysis: temperature-weighted regression</h3>
+<p>Temperature-weighted von Mises regression (weight = diurnal amplitude) yielded <span class="math inline">\(+0.0210\)</span> h/decade (95% CI: <span class="math inline">\(-0.0125\)</span>, <span class="math inline">\(+0.0528\)</span>). The sign differs from the unweighted pooled estimate (<span class="math inline">\(-0.0281\)</span>), but both values are near zero and well within each other’s confidence intervals, confirming this is sampling noise around a null result rather than a substantive discrepancy.</p>
+</section>
+<section id="s7.-mardia-circularlinear-rank-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="s7.-mardia-circularlinear-rank-correlation">S7. Mardia circular–linear rank correlation</h3>
+<p>Non-parametric test using all daily observations:</p>
+<ul>
+<li><span class="math inline">\(\rho_c\)</span> = 0.0252</li>
+<li>Bootstrap p-value = 0.0206</li>
+<li>n = 12,163</li>
+</ul>
+<p>The small but statistically significant correlation is consistent with a weak association between year and peak hour, in line with the small effect size estimated by the pooled MLE model.</p>
+</section>
+<section id="s8.-per-season-temperature-weighted-regression" class="level3">
+<h3 class="anchored" data-anchor-id="s8.-per-season-temperature-weighted-regression">S8. Per-season temperature-weighted regression</h3>
+<p>Temperature-weighted von Mises regression (weight = diurnal amplitude), estimated per season and for all observations pooled.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Season</th>
+<th style="text-align: right;"><span class="math inline">\(\beta\)</span> (h/decade)</th>
+<th style="text-align: center;"><span class="math inline">\(\kappa\)</span></th>
+<th style="text-align: center;">n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring (MAM)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.0278\)</span></td>
+<td style="text-align: center;">4.35</td>
+<td style="text-align: center;">3,168</td>
+</tr>
+<tr class="even">
+<td>Summer (JJA)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.0538\)</span></td>
+<td style="text-align: center;">5.79</td>
+<td style="text-align: center;">3,111</td>
+</tr>
+<tr class="odd">
+<td>Autumn (SON)</td>
+<td style="text-align: right;"><span class="math inline">\(+0.1134\)</span></td>
+<td style="text-align: center;">3.51</td>
+<td style="text-align: center;">3,002</td>
+</tr>
+<tr class="even">
+<td>Winter (DJF)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.0866\)</span></td>
+<td style="text-align: center;">1.77</td>
+<td style="text-align: center;">2,882</td>
+</tr>
+<tr class="odd">
+<td>Pooled</td>
+<td style="text-align: right;"><span class="math inline">\(+0.0210\)</span></td>
+<td style="text-align: center;">3.42</td>
+<td style="text-align: center;">12,163</td>
+</tr>
+</tbody>
+</table>
+<p>The seasonal pattern maintains the same directional sign as the unweighted primary analysis for all four seasons, but the magnitudes differ in a mechanistically informative way. The winter advance shrinks from <span class="math inline">\(-0.19\)</span> to <span class="math inline">\(-0.09\)</span> h/decade (<span class="math inline">\(\Delta = +0.10\)</span>) when high-amplitude days are up-weighted, indicating the winter peak-hour advance is concentrated on low-amplitude (cloudy, advection-dominated) days. Autumn and summer shift slightly more positive (<span class="math inline">\(\Delta \approx +0.03\)</span> each), suggesting the weak delay is subtly enhanced on high-amplitude days. Spring remains near zero under both schemes.</p>
+</section>
+<section id="s9.-per-season-mardia-circularlinear-rank-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="s9.-per-season-mardia-circularlinear-rank-correlation">S9. Per-season Mardia circular–linear rank correlation</h3>
+<p>Non-parametric rank correlation (Mardia 1976) between peak hour and year, computed per season.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Season</th>
+<th><span class="math inline">\(\rho_c\)</span></th>
+<th style="text-align: center;">n obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring (MAM)</td>
+<td>0.0447</td>
+<td style="text-align: center;">3,168</td>
+</tr>
+<tr class="even">
+<td>Summer (JJA)</td>
+<td>0.0395</td>
+<td style="text-align: center;">3,111</td>
+</tr>
+<tr class="odd">
+<td>Autumn (SON)</td>
+<td>0.0579</td>
+<td style="text-align: center;">3,002</td>
+</tr>
+<tr class="even">
+<td>Winter (DJF)</td>
+<td>0.0573</td>
+<td style="text-align: center;">2,882</td>
+</tr>
+<tr class="odd">
+<td>Pooled</td>
+<td><span class="math inline">\(0.0252\)</span></td>
+<td style="text-align: center;">12,163</td>
+</tr>
+</tbody>
+</table>
+<p>All four seasonal <span class="math inline">\(\rho_c\)</span> values are in a narrow range (0.04–0.06), indicating that the weak but statistically significant pooled correlation is not driven by any single season.</p>
+</section>
+<section id="s10.-autocorrelation-diagnostic" class="level3">
+<h3 class="anchored" data-anchor-id="s10.-autocorrelation-diagnostic">S10. Autocorrelation diagnostic</h3>
+<p>Lag-1 through lag-7 autocorrelation of daily peak-hour values, computed per season and for all observations pooled (sorted chronologically).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Season</th>
+<th style="text-align: center;">AC(1)</th>
+<th style="text-align: center;">AC(2)</th>
+<th style="text-align: center;">AC(3)</th>
+<th style="text-align: center;">AC(4)</th>
+<th style="text-align: center;">AC(5)</th>
+<th style="text-align: center;">AC(6)</th>
+<th style="text-align: center;">AC(7)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spring</td>
+<td style="text-align: center;">0.087</td>
+<td style="text-align: center;">0.111</td>
+<td style="text-align: center;">0.085</td>
+<td style="text-align: center;">0.086</td>
+<td style="text-align: center;">0.076</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.043</td>
+</tr>
+<tr class="even">
+<td>Summer</td>
+<td style="text-align: center;">0.018</td>
+<td style="text-align: center;">0.012</td>
+<td style="text-align: center;">0.057</td>
+<td style="text-align: center;">–0.012</td>
+<td style="text-align: center;">0.008</td>
+<td style="text-align: center;">0.042</td>
+<td style="text-align: center;">–0.008</td>
+</tr>
+<tr class="odd">
+<td>Autumn</td>
+<td style="text-align: center;">0.159</td>
+<td style="text-align: center;">0.127</td>
+<td style="text-align: center;">0.147</td>
+<td style="text-align: center;">0.114</td>
+<td style="text-align: center;">0.102</td>
+<td style="text-align: center;">0.096</td>
+<td style="text-align: center;">0.087</td>
+</tr>
+<tr class="even">
+<td>Winter</td>
+<td style="text-align: center;">0.068</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.048</td>
+<td style="text-align: center;">0.023</td>
+<td style="text-align: center;">0.015</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">0.010</td>
+</tr>
+<tr class="odd">
+<td>Pooled</td>
+<td style="text-align: center;">0.148</td>
+<td style="text-align: center;">0.133</td>
+<td style="text-align: center;">0.143</td>
+<td style="text-align: center;">0.122</td>
+<td style="text-align: center;">0.124</td>
+<td style="text-align: center;">0.119</td>
+<td style="text-align: center;">0.120</td>
+</tr>
+</tbody>
+</table>
+<p>Autocorrelation values are modest overall, with summer showing the least structure (<span class="math inline">\(\max|\rho| \approx 0.06\)</span>) and autumn the most (<span class="math inline">\(\max|\rho| \approx 0.16\)</span>). The pooled series exhibits autocorrelation near 0.12–0.15 across all lags, reflecting the seasonal structure embedded in the pooled residuals. Per-season, the i.i.d. bootstrap provides reasonable inference for summer and winter; spring and autumn show mild positive autocorrelation (<span class="math inline">\(\rho \lesssim 0.16\)</span>) that may cause slight anti-conservatism in bootstrap CIs. Block-bootstrap sensitivity checks are a direction for future work, though the consistency across multiple methodological variants (S1, S2) suggests that the main conclusions are not artefacts of residual serial dependence.</p>
+</section>
+<section id="s11.-contingency-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="s11.-contingency-analysis">S11. Contingency analysis</h3>
+<p>The primary MLE converged successfully; no fallback was required.</p>
+</section>
+<section id="s12.-annual-mean-daily-maximum-temperature" class="level3">
+<h3 class="anchored" data-anchor-id="s12.-annual-mean-daily-maximum-temperature">S12. Annual mean daily maximum temperature</h3>
+<div id="fig-context" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<embed src="../results/figures/context_timeseries.pdf" class="img-fluid">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Annual mean daily maximum temperature (solid line) with <span class="math inline">\(\pm 1\,\mathrm{SD}\)</span> band (medium shading) and full annual range (light shading).
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
